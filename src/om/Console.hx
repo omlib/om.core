@@ -1,8 +1,8 @@
 package om;
 
-#if macro
-//
-#elseif nodejs
+//#if macro
+//#elseif nodejs
+#if nodejs
 import js.Node.process;
 import js.node.ChildProcess;
 #elseif js
@@ -18,8 +18,11 @@ import om.term.TermColorTool;
     Console utilities.
 
     haxe/js     => js.Browser.console
-    haxe/node   => process.stdout.write
-    haxe/sys    => Sys.print
+    haxe/node   => stdout
+    haxe/sys    => stdout
+
+    Define -D no_console to remove all calls to this class.
+
 */
 class Console {
 
@@ -36,14 +39,14 @@ class Console {
 
     #if sys
 
-    public static inline function clear() Sys.print( '\033c' ); //Sys.command( 'clear' );
-
     public static inline function print( str : String, ?color : Int ) {
         #if (!no_console&&!doc_gen)
         Sys.print( (noColors || color == null) ? str : TermColorTool.color( str, color ) );
         #end
     }
     public static inline function println( str : String, ?color : Int ) print( '$str\n', color );
+    public static inline function clear() Sys.print( '\033c' ); //Sys.command( 'clear' );
+    public static inline function ln() Sys.print( '\n' );
 
     public static inline function log( o : Dynamic ) println( Std.string(o) );
     public static inline function info( o : Dynamic ) println( Std.string(o), color_info );
@@ -51,19 +54,20 @@ class Console {
     public static inline function warn( o : Dynamic ) println( Std.string(o), color_warn );
     public static inline function error( o : Dynamic ) println( Std.string(o), color_error );
 
+
     #elseif nodejs
 
-    static inline function __print( str : String, ?color : Int ) {
+    static function __print( str : String, ?color : Int ) {
         #if (!no_console&&!doc_gen)
         if( !noColors && color != null ) str = TermColorTool.color( str, color );
         process.stdout.write( str );
         #end
     }
 
-    public static inline function clear() process.stdout.write( '\033c' );
-
     public static inline function print( obj : Dynamic, ?color : Int ) __print( Std.string(obj), color );
     public static inline function println( obj : Dynamic, ?color : Int ) __print( Std.string(obj)+'\n', color );
+    public static inline function clear() process.stdout.write( '\033c' );
+    public static inline function ln() process.stdout.write( '\n' );
 
     public static inline function log( obj : Dynamic ) println( obj );
     public static inline function info( obj : Dynamic ) println( obj, color_info );
@@ -73,10 +77,10 @@ class Console {
 
     #elseif js
 
-	public static inline function clear() { #if (!no_console&&!doc_gen) console.clear(); #end }
-
     public static inline function print( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.log( obj ); #end }
     public static inline function println( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.log( obj ); #end }
+	public static inline function clear() { #if (!no_console&&!doc_gen) console.clear(); #end }
+    public static inline function ln() log( '' );
 
     public static inline function log( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.log( obj ); #end }
 	public static inline function info( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.info( obj ); #end }
@@ -84,7 +88,12 @@ class Console {
 	public static inline function warn( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.warn( obj ); #end }
 	public static inline function error( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.error( obj ); #end }
 
-	public static inline function assert( expression : Dynamic, obj : Dynamic ) { #if (!no_console&&!doc_gen) console.assert( expression, obj ); #end }
+	public static inline function table( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.table( obj ); #end }
+
+    //public static inline function trace( obj : Dynamic ) { #if (!no_console&&!doc_gen) untyped console.trace( obj ); #end }
+
+    public static inline function assert( expression : Dynamic, obj : Dynamic ) { #if (!no_console&&!doc_gen) console.assert( expression, obj ); #end }
+    public static inline function exception( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.exception( obj ); #end }
 
 	public static inline function count( label : String ) { #if (!no_console&&!doc_gen) console.count( label ); #end }
 
@@ -104,7 +113,6 @@ class Console {
 	public static inline function timeline( label : String ) { #if (!no_console&&!doc_gen) untyped console.timeline( label ); #end }
 	public static inline function timelineEnd( label : String ) { #if (!no_console&&!doc_gen)  untyped console.timelineEnd( label ); #end }
 	public static inline function timeStamp( label : String ) { #if (!no_console&&!doc_gen)  untyped console.timeStamp( label ); #end }
-
 
     #end
 }
