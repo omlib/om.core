@@ -1,8 +1,7 @@
 package om;
 
-//#if macro
-//#elseif nodejs
-#if nodejs
+#if macro
+#elseif nodejs
 import js.Node.process;
 import js.node.ChildProcess;
 #elseif js
@@ -53,7 +52,6 @@ class Console {
     public static inline function debug( o : Dynamic ) println( Std.string(o), color_debug );
     public static inline function warn( o : Dynamic ) println( Std.string(o), color_warn );
     public static inline function error( o : Dynamic ) println( Std.string(o), color_error );
-
 
     #elseif nodejs
 
