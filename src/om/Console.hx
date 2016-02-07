@@ -9,8 +9,8 @@ import js.Browser.console;
 #end
 
 #if (sys||nodejs)
-import om.term.TermColor;
-import om.term.TermColorTool;
+import om.term.Color;
+import om.term.ColorTool;
 #end
 
 /**
@@ -29,10 +29,10 @@ class Console {
 
     public static var noColors = false;
 
-    public static var color_info = TermColor.blue;
-    public static var color_debug = TermColor.yellow;
-    public static var color_warn = TermColor.magenta;
-    public static var color_error = TermColor.red;
+    public static var color_info = Color.blue;
+    public static var color_debug = Color.yellow;
+    public static var color_warn = Color.magenta;
+    public static var color_error = Color.red;
 
     #end
 
@@ -40,7 +40,7 @@ class Console {
 
     public static inline function print( str : String, ?color : Int ) {
         #if (!no_console&&!doc_gen)
-        Sys.print( (noColors || color == null) ? str : TermColorTool.color( str, color ) );
+        Sys.print( (noColors || color == null) ? str : ColorTool.color( str, color ) );
         #end
     }
     public static inline function println( str : String, ?color : Int ) print( '$str\n', color );
@@ -57,7 +57,7 @@ class Console {
 
     static function __print( str : String, ?color : Int ) {
         #if (!no_console&&!doc_gen)
-        if( !noColors && color != null ) str = TermColorTool.color( str, color );
+        if( !noColors && color != null ) str = ColorTool.color( str, color );
         process.stdout.write( str );
         #end
     }
