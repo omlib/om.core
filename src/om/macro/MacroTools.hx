@@ -51,18 +51,6 @@ class MacroTools {
 	    }
 	    return null;
 	}
-
-	public static function dateToExpr( ?date : Date ) : ExprOf<Date> {
-		if( date == null ) date = Date.now();
-		var year = toExpr( date.getFullYear() );
-		var month = toExpr( date.getMonth() );
-		var day = toExpr( date.getDate() );
-		var hours = toExpr( date.getHours() );
-		var mins = toExpr( date.getMinutes() );
-		var secs = toExpr( date.getSeconds() );
-		return macro new Date( $year, $month, $day, $hours, $mins, $secs );
-	}
-
 }
 
 #end
