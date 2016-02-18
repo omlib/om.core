@@ -40,7 +40,7 @@ class MacroTools {
 	}
 
 	public static function getModuleDirectory( type : String ) : String {
-		return getModulePath(type).split("/").slice(0,-1).join("/");
+		return getModulePath( type ).split( "/" ).slice( 0, -1 ).join( "/" );
 	}
 
 	public static function getFileInClassPath( file : String ) : String {

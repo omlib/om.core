@@ -50,6 +50,13 @@ class MacroFieldTools {
 		return null;
 	}
 
+	public static function findClassField( fields : Array<ClassField>, name : String ) : ClassField {
+		for( f in fields )
+			if( f.name == name )
+				return f;
+		return null;
+	}
+
 	public static inline function hasField( fields : Array<Field>, name : String ) : Bool
 		return findField( fields, name ) != null;
 
@@ -76,43 +83,6 @@ class MacroFieldTools {
 	    return false;
 	}
 
-
-	public static function makePublic( fields : Array<Field>, name : String ) {
-		var f = findField( fields, name );
-		if( null == f )
-			return;
-    	makeFieldPublic( f );
-	}
-
-	public static function makeFieldPublic( field : Field ) {
-	    if( isPublic( field ) )
-			return;
-		field.access.push( APublic );
-	}
-
-	public static function makeVarsPublic( fields : Array<Field> ) {
-		fields.map( function(f) switch f.kind {
-			case FVar(_,_) if( !isPublic( f ) ): f.access.push( APublic );
-			case _:
-		});
-	}
-
-	public static function findClassField( fields : Array<ClassField>, name : String ) : ClassField {
-		for( f in fields ) {
-			if( f.name == name )
-    			return f;
-		}
-		return null;
-	}
-
-	public static function createVarField( name : String, type : ComplexType ) : Field {
-    	return {
-			name: name,
-			kind: FVar(type,null),
-			pos: Context.currentPos()
-		};
-	}
-
 	public static function hasFunField( fields : Array<Field>, fieldName : String ) : Bool {
 		for( field in fields )
 			if( field.name == fieldName &&
@@ -124,21 +94,47 @@ class MacroFieldTools {
 		return false;
 	}
 
-	public static function hasFunArguments( field : Field ) : Bool {
-		switch field.kind {
-		case FFun(o): return o.args.length > 0;
-		case _: return false;
-		}
+	public static function makePublic( fields : Array<Field>, name : String ) {
+		var f = findField( fields, name );
+		if( f == null )
+			return;
+    	makeFieldPublic( f );
 	}
 
-	public static function getFunArguments( field : Field ) : Array<FunctionArg> {
+	public static function makeFieldPublic( field : Field ) : Field {
+	    if( isPublic( field ) )
+			return field;
+		field.access.push( APublic );
+		return field;
+	}
+
+	public static function makeVarsPublic( fields : Array<Field> ) {
+		fields.map( function(f) switch f.kind {
+			case FVar(_,_) if( !isPublic( f ) ): f.access.push( APublic );
+			case _:
+		});
+	}
+
+	public static function createVarField( name : String, type : ComplexType ) : Field {
+    	return {
+			name: name,
+			kind: FVar(type,null),
+			pos: Context.currentPos()
+		};
+	}
+
+	public static function hasFunctionArguments( field : Field ) : Bool {
+		return getFunctionArguments( field ).length > 0;
+	}
+
+	public static function getFunctionArguments( field : Field ) : Array<FunctionArg> {
 		switch field.kind {
 		case FFun(o): return o.args;
 		case _: return null;
 		}
 	}
 
-	public static function getVarAsFunArgs( fields : Array<Field> ) : Array<FunctionArg> {
+	public static function getVarAsFunctionArgs( fields : Array<Field> ) : Array<FunctionArg> {
 		return fields
 			.map(function(f) return switch f.kind {
 				case FVar(t,_) if( !isStatic(f) ):
@@ -149,7 +145,7 @@ class MacroFieldTools {
 	}
 
 
-	public static function createFunField( name : String, ?args : Array<FunctionArg>, ?ret : ComplexType, ?expr : Expr ) : Field {
+	public static function createFunctionField( name : String, ?args : Array<FunctionArg>, ?ret : ComplexType, ?expr : Expr ) : Field {
     	return {
 			name: name,
 			access: [APublic],
@@ -162,7 +158,7 @@ class MacroFieldTools {
 	    };
 	}
 
-	public static function appendExprToFieldFun( field : Field, expr : Expr ) {
+	public static function appendExprToFunctionField( field : Field, expr : Expr ) {
 		switch field.kind {
 		case FFun(o):
 			var exprs = [o.expr, expr];
