@@ -1,16 +1,18 @@
-package om;
+package om.util;
+
+#if js
 
 import js.Browser.navigator;
 
-class System {
+class SystemInfo {
 
     public static inline function getLanguage() : String {
 		return untyped window.navigator.language;
 	}
 
     public static function getOS() : String {
-        var expr = ~/(Android|CrOS|iP[ao]d|iPhone|Linux|Mac OS|windows)/i;
-        return expr.match( navigator.userAgent ) ? expr.matched(1) : "unknown";
+        var r = ~/(Android|CrOS|iP[ao]d|iPhone|Linux|Mac OS|windows)/i;
+        return r.match( navigator.userAgent ) ? r.matched(1) : "unknown";
     }
 
     public static function isMobile() : Bool {
@@ -80,3 +82,5 @@ class System {
 		return untyped __js__( '!! window.Worker' );
 	}
 }
+
+#end
