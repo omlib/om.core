@@ -50,4 +50,11 @@ class StringUtil {
 	public static inline function toArray( str : String ) : Array<String> {
 		return str.split( '' );
 	}
+
+	macro public static function repeat( str : String, times : Int ) : ExprOf<String> {
+        var buf = new StringBuf();
+        for( i in 0...times ) buf.add( str );
+        var s = buf.toString();
+        return macro $v{s};
+    }
 }
