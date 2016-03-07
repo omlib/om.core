@@ -1,6 +1,7 @@
 package om;
 
 #if macro
+//#
 #elseif nodejs
 import js.Node.process;
 import js.node.ChildProcess;
@@ -9,7 +10,7 @@ import js.Browser.console;
 #end
 
 #if (sys||nodejs)
-import om.term.Color;
+import om.term.ANSI;
 import om.term.ColorTool;
 #end
 
@@ -23,6 +24,7 @@ import om.term.ColorTool;
     Define -D no_console to remove all calls to this class.
 
 */
+@defines('no_console','Remove calls to om.Console')
 class Console {
 
     #if (sys||nodejs)
