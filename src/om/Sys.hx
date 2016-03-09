@@ -1,5 +1,11 @@
 package om;
 
+#if (js&&!nodejs)
+import js.Browser.document;
+import js.Browser.navigator;
+import js.Browser.window;
+#end
+
 using om.util.StringUtil;
 
 class Sys {
