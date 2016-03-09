@@ -8,7 +8,7 @@ import js.Browser.window;
 
 using om.util.StringUtil;
 
-class Sys {
+class System {
 
 	/**
 		Returns the name of the operating system (crossplatform).
