@@ -47,14 +47,13 @@ class StringUtil {
 
 	/**
 	*/
-	public static inline function toArray( str : String ) : Array<String> {
-		return str.split( '' );
+	public static inline function split( str : String, delimiter = '' ) : Array<String> {
+		return str.split( delimiter );
 	}
 
-	macro public static function repeat( str : String, times : Int ) : ExprOf<String> {
-        var buf = new StringBuf();
-        for( i in 0...times ) buf.add( str );
-        var s = buf.toString();
-        return macro $v{s};
-    }
+	/**
+	*/
+	public static inline function toArray( str : String, delimiter = '' ) : Array<String> {
+		return str.split( delimiter );
+	}
 }
