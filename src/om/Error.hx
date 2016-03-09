@@ -7,7 +7,6 @@ class Error
 #if js extends js.Error #end
 {
 	public var pos(default,null) : PosInfos;
-	public var items(default,null) : Array<StackItem>;
 
 	#if !js
     public var message(default,null) : String;
@@ -31,20 +30,32 @@ class Error
 		this.message = message;
 		this.pos = pos;
 
-		var className = Type.getClassName( Type.getClass(this) );
-		if( className.indexOf( '.' ) != -1 ) className = className.split('.').pop();
-		this.name = className;
-
-        items = try CallStack.exceptionStack() catch(e:Dynamic) [];
-        if( items.length == 0 ) items = try CallStack.callStack() catch(e:Dynamic) [];
+		var clName = Type.getClassName( Type.getClass(this) );
+		if( clName.indexOf( '.' ) != -1 ) clName = clName.split('.').pop();
+		this.name = clName;
 	}
 
-	public function toString() : String
-        return getPositionString() + ' : ' + message + getStackString();
+	public function toString() : String {
+		var items = getExceptionStack();
+		if( items.length == 0 ) items = getCallStack();
+		return getSourcePosition() + ' : ' + message + CallStack.toString( items );
+	}
 
-	public function getPositionString() : String
+	public inline function getSourcePosition() : String
 	    return pos.fileName + ':' + pos.lineNumber;
 
-	public function getStackString() : String
-	    return CallStack.toString( items );
+	public inline function getCallStack() : Array<StackItem>
+		return CallStack.callStack();
+
+	public inline function callStack() : String
+		return CallStack.toString( CallStack.callStack() );
+
+	public inline function getExceptionStack() : Array<StackItem>
+		return CallStack.exceptionStack();
+
+	public inline function exceptionStack() : String
+		return CallStack.toString( CallStack.exceptionStack() );
+
+	//public function getStackString() : String
+	//    return CallStack.toString( items );
 }

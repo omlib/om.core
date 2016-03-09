@@ -20,8 +20,8 @@ class System {
 		#if sys
 		return Sys.systemName().toLowerCase();
 
-		//#elseif nodejs
-		//return js.Node.process.platform;
+		#elseif nodejs
+		return js.Node.process.platform;
 
 		#elseif flash
 		return flash.system.Capabilities.os;
