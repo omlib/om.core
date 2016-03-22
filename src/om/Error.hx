@@ -20,7 +20,7 @@ class Error
 	inline function get_lineNumber() return pos.lineNumber;
 
 	public var methodName(get,null) : Int;
-	inline function get_methodName() return pos.lineNumber;
+	inline function get_methodName() return pos.methodName;
 
 	public function new( ?message : String, ?pos : PosInfos ) {
 
