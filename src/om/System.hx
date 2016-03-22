@@ -42,23 +42,27 @@ class System {
 
 	#if (js&&!nodejs)
 
-	public static function isMobile() : Bool {
-        return ~/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.match( navigator.userAgent );
+	public static var mobileUserAgents = ['Android','webOS','iPhone','iPad','iPod','BlackBerry','IEMobile','Opera Mini'];
+
+	public static function isMobile( ?userAgent : String, ?mobileUserAgents : Array<String> ) : Bool {
+		if( userAgent == null ) userAgent = navigator.userAgent;
+		if( mobileUserAgents == null ) mobileUserAgents = System.mobileUserAgents;
+		return new EReg( mobileUserAgents.join( '|' ), 'i' ).match( userAgent );
     }
 
-    public static inline function detectFile() : Bool {
+    public static inline function supportsFile() : Bool {
 		return untyped __js__( '!! window.File && !! window.FileReader && !! window.FileList && !! window.Blob' );
 	}
 
-	public static inline function detectFileSystem() : Bool {
+	public static inline function supportsFileSystem() : Bool {
 		return untyped __js__('!! window.File && !! window.FileReader && !! window.FileList && !! window.Blob');
 	}
 
-	public static inline function detectGamepad() : Bool {
+	public static inline function supportsGamepad() : Bool {
 		return untyped !!navigator.webkitGetGamepads || !!navigator.webkitGamepads || !!navigator.getGamepads;
 	}
 
-	public static function detectPointerlock() : Bool {
+	public static function supportsPointerlock() : Bool {
 		try {
 			return untyped __js__('"pointerLockElement" in document||"mozPointerLockElement" in document||"webkitPointerLockElement" in document');
 		} catch(e:Dynamic) {
@@ -67,11 +71,11 @@ class System {
 		return true;
 	}
 
-	public static inline function detectRequestAnimationFrame() : Bool {
+	public static inline function supportsRequestAnimationFrame() : Bool {
 		return untyped __js__('!! window.mozRequestAnimationFrame || !! window.webkitRequestAnimationFrame || !! window.oRequestAnimationFrame || !! window.msRequestAnimationFrame');
 	}
 
-	public static inline function detectSessionStorage() : Bool {
+	public static inline function supportsSessionStorage() : Bool {
 		try {
 			return window.sessionStorage.getItem != null;
 		} catch(e:Dynamic) {
@@ -79,12 +83,20 @@ class System {
 		}
 	}
 
-	public static inline function detectUserMedia() : Bool {
+	public static inline function supportsTouchInput() : Bool {
+		try {
+			document.createEvent( 'TouchEvent' );
+			return true;
+		} catch(e:Dynamic) {
+			return false;
+		}
+	}
+
+	public static inline function supportsUserMedia() : Bool {
 		return untyped __js__('!! window.navigator.getUserMedia || !! window.navigator.webkitGetUserMedia || !! window.navigator.mozGetUserMedia || !! window.navigator.msGetUserMedia');
 	}
 
-
-	public static function detectWebAudio() : Bool {
+	public static function supportsWebAudio() : Bool {
 		try {
 			if( untyped window.AudioContext == null ) //|| window.webkitAudioContext || window.mozAudioContext )
 				return false;
@@ -94,7 +106,7 @@ class System {
 		return true;
 	}
 
-	public static function detectWebGL() : Bool {
+	public static function supportsWebGL() : Bool {
 		try {
 			if( untyped window.WebGLRenderingContext == null )
 				return false;
@@ -106,7 +118,7 @@ class System {
 		return true;
 	}
 
-	public static inline function detectWorker() : Bool {
+	public static inline function supportsWorker() : Bool {
 		return untyped __js__( '!! window.Worker' );
 	}
 
