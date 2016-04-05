@@ -44,11 +44,21 @@ class System {
 
 	public static var mobileUserAgents = ['Android','webOS','iPhone','iPad','iPod','BlackBerry','IEMobile','Opera Mini'];
 
+	#if chrome_app //TODO macro
+
+	public static inline function isMobile( ?userAgent : String, ?mobileUserAgents : Array<String> ) : Bool {
+		return false;
+	}
+
+	#else
+
 	public static function isMobile( ?userAgent : String, ?mobileUserAgents : Array<String> ) : Bool {
 		if( userAgent == null ) userAgent = navigator.userAgent;
 		if( mobileUserAgents == null ) mobileUserAgents = System.mobileUserAgents;
 		return new EReg( mobileUserAgents.join( '|' ), 'i' ).match( userAgent );
     }
+
+	#end
 
     public static inline function supportsFile() : Bool {
 		return untyped __js__( '!! window.File && !! window.FileReader && !! window.FileList && !! window.Blob' );
