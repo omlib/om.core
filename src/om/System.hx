@@ -60,6 +60,10 @@ class System {
 
 	#end
 
+	public static inline function supportsCustomElements() : Bool {
+	    return untyped __js__( '"registerElement" in document' );
+	}
+
     public static inline function supportsFile() : Bool {
 		return untyped __js__( '!! window.File && !! window.FileReader && !! window.FileList && !! window.Blob' );
 	}
