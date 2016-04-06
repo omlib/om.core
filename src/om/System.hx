@@ -97,6 +97,10 @@ class System {
 		}
 	}
 
+	public static inline function supportsTemplate() : Bool {
+		return untyped __js__( '"content" in document.createElement("template")' );
+	}
+
 	public static inline function supportsTouchInput() : Bool {
 		try {
 			document.createEvent( 'TouchEvent' );
