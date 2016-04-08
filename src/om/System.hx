@@ -76,6 +76,10 @@ class System {
 		return untyped !!navigator.webkitGetGamepads || !!navigator.webkitGamepads || !!navigator.getGamepads;
 	}
 
+	public static inline function supportsPerformance() : Bool {
+		return untyped __js__( '"performance" in window' );
+	}
+
 	public static function supportsPointerlock() : Bool {
 		try {
 			return untyped __js__('"pointerLockElement" in document||"mozPointerLockElement" in document||"webkitPointerLockElement" in document');
