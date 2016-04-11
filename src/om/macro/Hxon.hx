@@ -1,4 +1,4 @@
-package om;
+package om.macro;
 
 #if macro
 
@@ -11,7 +11,7 @@ using haxe.macro.ExprTools;
 
 /**
     Syntax-tolerant, position-aware json parser.
-    
+
     See: http://nadako.tumblr.com/post/77106860013/using-haxe-macros-as-syntax-tolerant
 */
 class Hxon {
