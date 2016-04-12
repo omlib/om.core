@@ -2,12 +2,15 @@ package om;
 
 class Emitter<T> implements Disposable {
 
+    public var map(default,null) : Map<String,Array<T->Void>>;
     public var numHandlers(default,null) : Int;
-
-    var map : Map<String,Array<T->Void>>;
 
     public function new() {
         clear();
+    }
+
+    public inline function iterator() : Iterator<Array<T->Void>> {
+        return map.iterator();
     }
 
     /**
