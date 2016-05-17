@@ -1,21 +1,33 @@
 package om;
 
+typedef Console =
+	#if sys
+	om._sys.Console;
+	#elseif js
+		#if nodejs
+		om._node.Console;
+		#else
+		om._web.Console;
+		#end
+	#end
+
+/*
 #if macro
 //#
-#elseif nodejs
-import js.Node.process;
-import js.node.ChildProcess;
 #elseif js
-import js.Browser.console;
-#end
-
-#if (sys||nodejs)
-import om.term.ANSI;
-import om.term.ColorTool;
+	#if nodejs
+	import js.Node.process;
+	import js.node.ChildProcess;
+	import om.ANSI;
+	#else
+	import js.Browser.console;
+	#end
+#elseif sys
+import om.ANSI;
 #end
 
 /**
-    Console utilities.
+    Crossplatform console utilities.
 
     haxe/js     => js.Browser.console
     haxe/node   => stdout
@@ -23,7 +35,7 @@ import om.term.ColorTool;
 
     Define -D no_console to remove all calls to this class.
 
-*/
+* /
 @defines('no_console','Remove calls to om.Console')
 class Console {
 
@@ -42,7 +54,7 @@ class Console {
 
     public static inline function print( str : String, ?color : Int ) {
         #if (!no_console&&!doc_gen)
-        Sys.print( (noColors || color == null) ? str : ColorTool.color( str, color ) );
+        Sys.print( (noColors || color == null) ? str : ANSI.colorize( str, color ) );
         #end
     }
     public static inline function println( str : String, ?color : Int ) print( '$str\n', color );
@@ -59,7 +71,7 @@ class Console {
 
     static function __print( str : String, ?color : Int ) {
         #if (!no_console&&!doc_gen)
-        if( !noColors && color != null ) str = ColorTool.color( str, color );
+        if( !noColors && color != null ) str = ANSI.colorize( str, color );
         process.stdout.write( str );
         #end
     }
@@ -116,3 +128,4 @@ class Console {
 
     #end
 }
+*/

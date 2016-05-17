@@ -4,6 +4,8 @@ using om.util.ArrayUtil;
 
 class StringUtil {
 
+	public static var SPLIT_LINES = ~/\r\n|\n\r|\n|\r/g;
+
 	/**
 		Returns `true` if `source` contains one or more occurrences of `str`.
 	*/
@@ -24,6 +26,18 @@ class StringUtil {
 	public static inline function countLines( str : String ) : Int
 		return count( str, '\n' );
 
+	public static inline function isEmpty( str : String ) : Bool
+		return str == null || str == '';
+
+	public static inline function isLowerCase( str : String ) : Bool
+		return str.toLowerCase() == str;
+
+	public static inline function isUpperCase( str : String ) : Bool
+		return str.toUpperCase() == str;
+
+	public static inline function lines( str : String ) : Array<String>
+		return SPLIT_LINES.split( str );
+
 	public static function quote( str : String ) : String {
 		return
 			if( str.indexOf( '"' ) < 0 ) '"' + str + '"';
@@ -36,6 +50,13 @@ class StringUtil {
 
 	public static inline function repeat( str : String, times : Int ) : String
 		return [for(i in 0...times) str].join( '' );
+
+	/*
+	public static function replace( str : String, expr : String, newStr : String ) : String {
+		#if js
+		return untyped str.replace( expr, newStr );
+	}
+	*/
 
 	public static function reverse( str : String ) : String {
 		var a = toArray( str );

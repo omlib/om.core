@@ -1,17 +1,21 @@
 package om;
 
-class Signal<T> {
+class Signal<T> implements om.Disposable {
 
-	public var numHandlers(get,null) : Int;
+	public var stopped(default,null) = false;
+
+	public var numHandlers(get,never) : Int;
+	inline function get_numHandlers() : Int return handlers.length;
 
 	var handlers : Array<T->Void>;
-	var _stop = false;
 
 	public inline function new() {
-		handlers = new Array();
+		handlers = [];
 	}
 
-	inline function get_numHandlers() : Int return handlers.length;
+	public inline function iterator() : Iterator<T->Void> {
+		return handlers.iterator();
+	}
 
 	public function bind( h : T->Void ) : Signal<T> {
 		handlers.push( h );
@@ -50,8 +54,8 @@ class Signal<T> {
 	public function dispatch( e : T = null ) : Signal<T> {
 		var list = handlers.copy();
 		for( h in list ) {
-			if( _stop ) {
-				_stop = false;
+			if( stopped ) {
+				stopped = false;
 				break;
 			}
 			h( e );
@@ -71,12 +75,18 @@ class Signal<T> {
 	}
 	*/
 
-	public inline function stop() {
-		_stop = true;
+	public inline function stop() : Signal<T> {
+		stopped = true;
+		return this;
 	}
 
-	public inline function clear() {
-		handlers = new Array();
+	public inline function clear() : Signal<T> {
+		dispose();
+		return this;
 	}
 
+	public inline function dispose() {
+		stop();
+		handlers = [];
+	}
 }

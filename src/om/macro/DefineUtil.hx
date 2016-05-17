@@ -17,6 +17,7 @@ class DefineUtil {
 	    Compiler.define( name, value );
 		return value;
 	}
+
 }
 
 #end

@@ -16,8 +16,10 @@ class ArrayUtil {
 
 	/**
 	*/
-	public static function any<T>( arr : Array<T>, predicate : T->Bool ) {
-		for( e in arr ) if( predicate(e) ) return true;
+	public static function any<T>( arr : Array<T>, predicate : T->Bool ) : Bool {
+		for( e in arr )
+			if( predicate(e) )
+				return true;
 		return false;
 	}
 
@@ -42,8 +44,8 @@ class ArrayUtil {
 	/**
 		Returns the last value of given array.
 	*/
-	public static inline function last<T>( a : Array<T> ) : T
-		return a[a.length-1];
+	public static inline function last<T>( arr : Array<T> ) : T
+		return arr[arr.length-1];
 
 	/**
 		Shuffles given array in place.

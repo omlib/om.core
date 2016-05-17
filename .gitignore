@@ -1,5 +1,11 @@
 _*
+doc/*
+examples/*/*.jar
 examples/*/*.js*
 examples/*/*.n
-test/*.js*
+examples/*/*.py
+examples/*/java
+test/build/
+test/unit.*
 haxedoc.xml
+TODO.md

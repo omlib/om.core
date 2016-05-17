@@ -5,11 +5,11 @@ import om.Time;
 class Timer {
 
 	public var running(default,null) = false;
-	public var interval(default,null) : Float;
 	public var startTime(default,null) : Float;
+	public var interval(default,null) : Float;
 	public var elapsed(default,null) : Float;
 
-	public var onUpdate : Void->Void;
+	public var callback : Void->Void;
 
 	public inline function new( interval : Float ) {
 		this.interval = interval;
@@ -17,41 +17,41 @@ class Timer {
 
 	public function start( delay = 0 ) : Timer {
 		startTime = Time.now() + delay;
-		if( !running ) active.push( this );
+		if( !running ) list.push( this );
 		running = true;
 		return this;
 	}
 
-	public function update( callback : Void->Void ) : Timer {
-		onUpdate = callback;
+	public function onUpdate( callback : Void->Void ) : Timer {
+		this.callback = callback;
 		return this;
 	}
 
 	public function stop() : Timer {
-		active.remove( this );
+		list.remove( this );
 		elapsed = 0;
 		running = false;
 		return this;
 	}
 
-	static var active = new Array<Timer>();
+	static var list = new Array<Timer>();
 
 	public static function delay( callback : Void->Void, time : Float ) : Timer {
 		var t = new Timer( time );
-		return t.update(function(){
+		return t.onUpdate(function(){
 			callback();
 			t.stop();
 		}).start();
 	}
 
 	public static inline function stopAll()
-		for( t in active ) t.stop();
+		for( t in list ) t.stop();
 
 	public static inline function step( time : Float ) {
-		for( t in active ) {
+		for( t in list ) {
 			t.elapsed = time - t.startTime;
 			if( t.elapsed >= t.interval ) {
-				if( t.onUpdate != null ) t.onUpdate();
+				if( t.callback != null ) t.callback();
 				t.startTime = time;
 				t.elapsed = 0;
 			}

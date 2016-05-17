@@ -23,6 +23,8 @@ class IntUtil {
 	public static inline function max( a : Int, b : Int ) : Int
 		return a > b ? a : b;
 
+	//public static inline function random( min = 0, max : Int ) : Int
+
 	public static inline function sign( i : Int ) : Int
 	    return i < 0 ? -1 : 1;
 

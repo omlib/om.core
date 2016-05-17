@@ -1,5 +1,15 @@
 package om;
 
+#if atom
+typedef Emitter = atom.Emitter;
+/*
+abstract Emitter(atom.Emitter) {
+    public inline function new( e : atom.Emitter ) this = e;
+}
+*/
+
+#else
+
 class Emitter<T> implements Disposable {
 
     public var map(default,null) : Map<String,Array<T->Void>>;
@@ -68,3 +78,5 @@ class Emitter<T> implements Disposable {
     }
 
 }
+
+#end

@@ -1,0 +1,12 @@
+{
+    "name": "om.core",
+    "version": "0.1.0",
+    "description": "Om core library",
+    "tags": ["om","core"],
+    "url": "https://github.com/tong/om.core",
+    "license": "MIT",
+    "contributors": ["tong"],
+    "releasenote": "See CHANGELOG.md",
+    "classPath" : "src/",
+    "dependencies": {}
+}

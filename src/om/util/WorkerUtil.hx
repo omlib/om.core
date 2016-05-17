@@ -1,5 +1,7 @@
 package om.util;
 
+#if js
+
 class WorkerUtil {
 
     // http://www.html5rocks.com/en/tutorials/workers/basics/#toc-inlineworkers
@@ -13,3 +15,5 @@ class WorkerUtil {
     }
 
 }
+
+#end

@@ -17,8 +17,10 @@ abstract XML(Xml) from Xml to Xml {
 	public var type(get,never) : XmlType;
 	inline function get_type() : XmlType return cast this.nodeType;
 
-	public var name(get,never) : NodeName;
-	function get_name() : NodeName return switch type {
+	//public var name(get,never) : NodeName;
+	//function get_name() : NodeName return switch type {
+	public var name(get,never) : String;
+	function get_name() : String return switch type {
 		case Element: this.nodeName;
 		default: this.firstChild().nodeName;
 	}
@@ -32,8 +34,11 @@ abstract XML(Xml) from Xml to Xml {
 			null;
 	}
 
-	public var attributes(get,never) : AttributeMap;
-	@:access(Xml) inline function get_attributes() : AttributeMap return this.attributeMap;
+	//public var attributes(get,never) : AttributeMap;
+	//@:access(Xml) inline function get_attributes() : AttributeMap return this.attributeMap;
+
+	public var first(get,never) : XML;
+	inline function get_first() : XML return this.firstElement();
 
 	public var element(get,never) : ElementAccess;
 	inline function get_element() return new ElementAccess( this );
@@ -46,13 +51,16 @@ abstract XML(Xml) from Xml to Xml {
 
 	public inline function new( xml : Xml ) this = xml;
 
-	public inline function get( att : String ) : AttributeValue {
+	//public inline function get( att : String ) : AttributeValue {
+	public inline function get( att : String ) : String {
 		return this.get( att );
 	}
 
-	public inline function set( att : String, ?val : AttributeValue ) : XML {
+//	public inline function set( att : String, ?val : AttributeValue ) : XML {
+	public inline function set( att : String, ?val : String ) : XML {
 		this.set( att, val );
-		return cast (this,XML);
+	//	return cast (this,XML);
+		return this;
 	}
 
 	public inline function has( att : String ) : Bool {
@@ -77,7 +85,8 @@ abstract XML(Xml) from Xml to Xml {
 		return this;
 	}
 
-	public static inline function create( name : NodeName, ?content : String ) : XML {
+	//public static inline function create( name : NodeName, ?content : String ) : XML {
+	public static inline function create( name : String, ?content : String ) : XML {
 		var xml : XML = Xml.createElement( name );
 		return (content != null) ? xml.append( Xml.createPCData( content ) ) : xml;
 	}
@@ -87,11 +96,16 @@ abstract XML(Xml) from Xml to Xml {
 	}
 }
 
-private abstract NodeName(String) to String {
+/*
+private abstract NodeName(String) {
 
 	inline function new( s : String ) this = s;
 
-	@:from static inline function ofString( s : String )
+	@:to public function toString() : String {
+		return this;
+	}
+
+	@:from public static inline function fromString( s : String )
 		return new NodeName( s );
 
 	@:commutative @:op(a == b)
@@ -102,10 +116,12 @@ private abstract NodeName(String) to String {
 	public static inline function equalsName( a : NodeName, b : NodeName ) : Bool
 		return (a : String) == (b : String);
 }
+*/
 
-private abstract AttributeValue(String) to String from String {
+/*
+private abstract AttributeValue(String) from String to String {
 
-	inline function new( s : String ) this = s;
+	public inline function new( s : String ) this = s;
 
 	@:to function toBool() : Bool {
 		return switch this {
@@ -137,6 +153,7 @@ private abstract AttributeMap(Map<AttributeName,AttributeValue>) from Map<String
 
 	public inline function new( m : Map<String,String> ) this = m;
 }
+*/
 
 private abstract Text(String) from String to String {
 
@@ -176,7 +193,8 @@ private abstract ElementAccess(XML) {
 	}
 	*/
 
-	@:arrayAccess public inline function elementsNamed( name : NodeName ) : XMLIterator {
+	//@:arrayAccess public inline function elementsNamed( name : NodeName ) : XMLIterator {
+	@:arrayAccess public inline function elementsNamed( name : String ) : XMLIterator {
 		return this._toXml().elementsNamed( name );
 	}
 }

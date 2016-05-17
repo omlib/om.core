@@ -19,6 +19,7 @@ class ReflectUtil {
 	}
 
 	/**
+		Copy fields from x to y
 	*/
 	public static function copyFields<X,Y>( x : X, y : Y ) {
 		for( f in Reflect.fields( x ) )

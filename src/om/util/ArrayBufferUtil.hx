@@ -1,5 +1,7 @@
 package om.util;
 
+#if js
+
 import js.html.ArrayBuffer;
 
 class ArrayBufferUtil {
@@ -47,3 +49,5 @@ class ArrayBufferUtil {
 	*/
 
 }
+
+#end
