@@ -2,10 +2,10 @@ package om.error;
 
 class FileNotFound extends om.Error {
 
-	public var path(default,null) : String;
+	public var location(default,null) : String;
 
-	public function new( path : String, ?pos : haxe.PosInfos ) {
-        super( 'file not found: $path', pos );
-		this.path = path;
+	public function new( location : String, ?pos : haxe.PosInfos ) {
+        super( 'not found', pos );
+		this.location = location;
 	}
 }
