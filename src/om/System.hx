@@ -13,9 +13,7 @@ class System {
 	/**
 		Returns the name of the operating system (crossplatform).
 	*/
-	public static
-	#if (!js||nodejs) inline #end
-	function name() : String {
+	public static #if (!js||nodejs) inline #end function name() : String {
 
 		#if sys
 		return Sys.systemName().toLowerCase();
@@ -23,19 +21,21 @@ class System {
 		#elseif nodejs
 		return js.Node.process.platform;
 
-		#elseif flash
-		return flash.system.Capabilities.os;
-
 		#elseif js
 		var str = js.Browser.window.navigator.appVersion;
 		str = str.substr( str.indexOf("(")+1, str.indexOf(")")-3 );
-
 		return
 			if( str.contains( 'Linux' ) ) 'linux';
 			else if( str.contains( 'BSD' ) ) 'bsd';
 			else if( str.contains( 'Macintosh' ) ) 'macintosh';
 			else if( str.contains( 'Windows' ) ) 'windows';
 			else null;
+
+		#elseif flash
+		return flash.system.Capabilities.os;
+
+		#else
+		return throw new om.error.NotImplemented();
 
 		#end
 	}
@@ -44,18 +44,21 @@ class System {
 
 	public static var mobileUserAgents = ['Android','webOS','iPhone','iPad','iPod','BlackBerry','IEMobile','Opera Mini'];
 
-	#if chrome_app //TODO macro
-
-	public static inline function isMobile( ?userAgent : String, ?mobileUserAgents : Array<String> ) : Bool {
-		return false;
+	public static inline function getLanguage() : String {
+		return untyped window.navigator.language;
 	}
 
-	#else
+	public static #if chrome_app inline #end function isMobile( ?userAgent : String, ?mobileUserAgents : Array<String> ) : Bool {
 
-	public static function isMobile( ?userAgent : String, ?mobileUserAgents : Array<String> ) : Bool {
+		#if chrome_app
+		return false;
+
+		#else
 		if( userAgent == null ) userAgent = navigator.userAgent;
 		if( mobileUserAgents == null ) mobileUserAgents = System.mobileUserAgents;
 		return new EReg( mobileUserAgents.join( '|' ), 'i' ).match( userAgent );
+
+		#end
     }
 
 	#end
