@@ -26,6 +26,20 @@ class StringUtil {
 	public static inline function countLines( str : String ) : Int
 		return count( str, '\n' );
 
+	public static function parseFloat( f : Float, ?precision : UInt ) : String {
+	    var s = Std.string(f);
+	    if( precision == null )
+	        return s;
+	    //if( precision < 0 ) precision = 0;
+        //if( precision < 0 ) return s;
+        var i = s.indexOf( '.' );
+        if( i == -1 )
+            return s;
+        if( precision == 0 )
+            return s.substr( 0, i );
+        return s.substr( 0, i + 1 + precision );
+    }
+
 	public static inline function isEmpty( str : String ) : Bool
 		return str == null || str == '';
 
