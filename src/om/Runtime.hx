@@ -8,7 +8,7 @@ import js.Browser.window;
 
 using om.util.StringUtil;
 
-class System {
+class Runtime {
 
 	/**
 		Returns the name of the operating system (crossplatform).
@@ -55,13 +55,11 @@ class System {
 
 		#else
 		if( userAgent == null ) userAgent = navigator.userAgent;
-		if( mobileUserAgents == null ) mobileUserAgents = System.mobileUserAgents;
+		if( mobileUserAgents == null ) mobileUserAgents = Runtime.mobileUserAgents;
 		return new EReg( mobileUserAgents.join( '|' ), 'i' ).match( userAgent );
 
 		#end
     }
-
-	#end
 
 	public static inline function supportsCustomElements() : Bool {
 	    return untyped __js__( '"registerElement" in document' );
