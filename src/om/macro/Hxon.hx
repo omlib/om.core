@@ -8,6 +8,7 @@ import haxe.macro.Compiler;
 import haxe.macro.Expr;
 
 using haxe.macro.ExprTools;
+#end
 
 /**
     Syntax-tolerant, position-aware json parser.
@@ -15,6 +16,13 @@ using haxe.macro.ExprTools;
     See: http://nadako.tumblr.com/post/77106860013/using-haxe-macros-as-syntax-tolerant
 */
 class Hxon {
+
+    macro public static function fromFile<T>( path : String ) : haxe.macro.ExprOf<T> {
+        var obj = read( path );
+        return macro $v{obj};
+    }
+
+    #if macro
 
     public static function read<T>( path : String, validate = false ) : T {
         var str = File.getContent( path );
@@ -105,6 +113,5 @@ class Hxon {
         return (name.indexOf( QUOTE_PREFIX ) == 0) ? name.substr( QUOTE_PREFIX.length ) : name;
     }
 
+    #end
 }
-
-#end
