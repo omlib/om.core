@@ -77,6 +77,10 @@ class Runtime {
 		return untyped !!navigator.webkitGetGamepads || !!navigator.webkitGamepads || !!navigator.getGamepads;
 	}
 
+	public static inline function supportsGeolocation() : Bool {
+		return navigator.geolocation != null;
+	}
+
 	public static inline function supportsPerformance() : Bool {
 		return untyped __js__( '"performance" in window' );
 	}
