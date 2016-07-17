@@ -2,9 +2,10 @@ package om;
 
 #if js
 
+import js.Browser.window;
+
 @:forward(
     onmessage,onerror,
-    //postMessage,
     terminate
 )
 abstract Worker(js.html.Worker) {
@@ -12,18 +13,48 @@ abstract Worker(js.html.Worker) {
     public inline function new( scriptURL : String )
         this = new js.html.Worker( scriptURL );
 
-    public inline function postMessage( ?message : Dynamic, ?transfer : Array<Dynamic> )
-        this.postMessage( message, transfer );
+    public inline function post( ?msg : Dynamic, ?transfer : Array<Dynamic> )
+        this.postMessage( msg, transfer );
 
-    public inline function post( ?message : Dynamic, ?transfer : Array<Dynamic> )
-        this.postMessage( message, transfer );
+    public inline function postMessage( ?msg : Dynamic, ?transfer : Array<Dynamic> )
+        this.postMessage( msg, transfer );
 
-    public static inline function createInlineURL( script : String ) : String
-        return om.util.WorkerUtil.createInlineWorkerURL( script );
+    public static inline function fromScript( script : String ) : Worker {
+        return new Worker( createInlineURL( script ) );
+    }
 
-    public static inline function revokeInlineURL( url : String )
-        om.util.WorkerUtil.revokeInlineWorkerURL( url );
+    public static inline function createInlineURL( script : String ) : String {
+        return untyped window.URL.createObjectURL( new js.html.Blob( [ script ] ) );
+    }
 
+    public static inline function revokeInlineURL( url : String ) {
+        untyped window.URL.revokeObjectURL( url );
+    }
+}
+
+#elseif sys
+
+class Worker {
+
+    public var thread(default,null) : Thread;
+
+    public function new( f : Void->Void ) {
+        thread = Thread.create( f );
+        thread.sendMessage( Thread.current() );
+    }
+
+    public function post( msg : Dynamic ) : Worker {
+        thread.sendMessage( msg );
+        return this;
+    }
+
+    public function read<T>( block = true ) : T {
+        return Thread.readMessage( block );
+    }
+
+    public static inline function currentThread() : Thread {
+        return Thread.current();
+    }
 }
 
 #end
