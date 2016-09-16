@@ -1,12 +1,14 @@
 {
     "name": "om.core",
-    "version": "0.1.0",
-    "description": "Om core library",
+    "version": "0.2.0",
+    "description": "Core library",
     "tags": ["om","core"],
     "url": "https://github.com/tong/om.core",
-    "license": "MIT",
+    "license": "OM",
     "contributors": ["tong"],
-    "releasenote": "See CHANGELOG.md",
+    "releasenote": "See CHANGELOG",
     "classPath" : "src/",
-    "dependencies": {}
+    "dependencies": {
+        "thx.semver": ""
+    }
 }
