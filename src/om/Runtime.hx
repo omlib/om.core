@@ -40,26 +40,28 @@ class Runtime {
 		#end
 	}
 
+	public static var mobileUserAgents = ['Android','webOS','iPhone','iPad','iPod','BlackBerry','IEMobile','Opera Mini'];
+
+	public static inline function hasWindow() : Bool {
+		return untyped __js__( "typeof window != 'undefined'" );
+	}
+
 	#if (js&&!nodejs)
 
-	public static var mobileUserAgents = ['Android','webOS','iPhone','iPad','iPod','BlackBerry','IEMobile','Opera Mini'];
+	public static inline function isMobile( ?userAgent : String, ?mobileUserAgents : Array<String> ) : Bool {
+		if( userAgent == null ) userAgent = navigator.userAgent;
+		if( mobileUserAgents == null ) mobileUserAgents = Runtime.mobileUserAgents;
+		return new EReg( mobileUserAgents.join( '|' ), 'i' ).match( userAgent );
+		return null;
+	}
+
+	public static inline function supportsGeolocation() : Bool {
+		return navigator.geolocation != null;
+	}
 
 	public static inline function getLanguage() : String {
 		return untyped window.navigator.language;
 	}
-
-	public static #if chrome_app inline #end function isMobile( ?userAgent : String, ?mobileUserAgents : Array<String> ) : Bool {
-
-		#if chrome_app
-		return false;
-
-		#else
-		if( userAgent == null ) userAgent = navigator.userAgent;
-		if( mobileUserAgents == null ) mobileUserAgents = Runtime.mobileUserAgents;
-		return new EReg( mobileUserAgents.join( '|' ), 'i' ).match( userAgent );
-
-		#end
-    }
 
 	public static inline function supportsCustomElements() : Bool {
 	    return untyped __js__( '"registerElement" in document' );
@@ -75,10 +77,6 @@ class Runtime {
 
 	public static inline function supportsGamepad() : Bool {
 		return untyped !!navigator.webkitGetGamepads || !!navigator.webkitGamepads || !!navigator.getGamepads;
-	}
-
-	public static inline function supportsGeolocation() : Bool {
-		return navigator.geolocation != null;
 	}
 
 	public static inline function supportsPerformance() : Bool {
