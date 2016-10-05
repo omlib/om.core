@@ -1,6 +1,7 @@
 package om;
 
-#if (js&&!nodejs)
+#if nodejs
+#elseif js
 import js.Browser.document;
 import js.Browser.navigator;
 import js.Browser.window;
@@ -8,7 +9,9 @@ import js.Browser.window;
 
 using om.util.StringUtil;
 
-class Runtime {
+class System {
+
+	public static var mobileUserAgents = ['Android','webOS','iPhone','iPad','iPod','BlackBerry','IEMobile','Opera Mini'];
 
 	/**
 		Returns the name of the operating system (crossplatform).
@@ -40,19 +43,20 @@ class Runtime {
 		#end
 	}
 
-	public static var mobileUserAgents = ['Android','webOS','iPhone','iPad','iPod','BlackBerry','IEMobile','Opera Mini'];
+	#if js
 
 	public static inline function hasWindow() : Bool {
 		return untyped __js__( "typeof window != 'undefined'" );
 	}
 
-	#if (js&&!nodejs)
+	#if nodejs
+	/////
+	#else
 
-	public static inline function isMobile( ?userAgent : String, ?mobileUserAgents : Array<String> ) : Bool {
+	public static function isMobile( ?userAgent : String, ?mobileUserAgents : Array<String> ) : Bool {
 		if( userAgent == null ) userAgent = navigator.userAgent;
-		if( mobileUserAgents == null ) mobileUserAgents = Runtime.mobileUserAgents;
+		if( mobileUserAgents == null ) mobileUserAgents = System.mobileUserAgents;
 		return new EReg( mobileUserAgents.join( '|' ), 'i' ).match( userAgent );
-		return null;
 	}
 
 	public static inline function supportsGeolocation() : Bool {
@@ -147,6 +151,7 @@ class Runtime {
 		return untyped __js__( '!! window.Worker' );
 	}
 
+	#end
 	#end
 
 }
