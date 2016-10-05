@@ -1,0 +1,43 @@
+--no-output
+-lib thx.semver
+-cp src/
+--macro include('om',['om.unit'])
+-D doc
+-D doc-gen
+--each
+
+--next
+-cpp x
+-xml doc//cpp.xml
+
+--next
+-cs x
+-xml doc//cs.xml
+
+--next
+-java x
+-xml doc//java.xml
+
+--next
+-js x
+-xml doc//js.xml
+
+--next
+-js x
+-lib hxnodejs
+-xml doc//node.xml
+
+--next
+-neko x
+-xml doc//neko.xml
+
+--next
+-php x
+-xml doc//php.xml
+
+--next
+-python x
+-xml doc//python.xml
+
+#--next
+#-cmd haxelib run dox -i doc/ -o doc
