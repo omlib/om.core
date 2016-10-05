@@ -33,7 +33,9 @@ abstract Worker(js.html.Worker) {
 }
 
 #elseif sys
+//TODO
 
+/*
 class Worker {
 
     public var thread(default,null) : Thread;
@@ -56,5 +58,6 @@ class Worker {
         return Thread.current();
     }
 }
+*/
 
 #end

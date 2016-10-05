@@ -3,16 +3,6 @@ package om.util;
 class FloatUtil {
 
     /**
-        Returns the angular distance between 2 angles.
-    **/
-    public static function angleDifference( a : Float, b : Float, ?turn = 360.0 ) : Float {
-        var r = (b - a) % turn;
-        if( r < 0 ) r += turn;
-        if( r > turn/2 ) r -= turn;
-        return r;
-    }
-
-    /**
         Returns the comparison value (an integer number) between two `float` values
     */
     public static function compare( a : Float, b : Float ) : Int {
@@ -27,26 +17,22 @@ class FloatUtil {
     }
 
     /**
-        Interpolates values in a polar coordinate system looking for the narrowest delta angle.
-        It can be either clock-wise or counter-clock-wise.
-    **/
-    public static inline function interpolateAngle( f : Float, a : Float, b : Float, turn = 360.0 ) : Float {
-        return wrapCircular( interpolate( f, a, a + angleDifference( a, b, turn ) ), turn );
-    }
-
-    /***/
+        Returns the smaller of values a and b.
+    */
     public static inline function min<T:Float>( a : T, b : T ) : T {
         return a < b ? a : b;
     }
 
-    /***/
+    /**
+        Returns the greater of values a and b.
+    */
     public static inline function max<T:Float>( a : T, b : T ) : T {
         return a > b ? a : b;
     }
 
     /***/
     public static function nearEquals( a : Float, b : Float, ?tollerance = 1e-9 ) : Bool {
-        if( Math.isFinite(a) ) {
+        if( std.Math.isFinite(a) ) {
             #if (php || java)
             if( !Math.isFinite(b))
                 return false;

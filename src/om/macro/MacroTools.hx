@@ -17,11 +17,11 @@ class MacroTools {
 	public static inline function currentModulePath() : String
 		return Context.getPosInfos( (macro null).pos ).file;
 
+	public static inline function getLocalClass() : ClassType
+		return Context.getLocalClass().get();
+
 	public static inline function getLocalClassName() : String
 		return Context.getLocalClass().toString();
-
-	public static inline function getLocalClass() : ClassType
-	    return Context.getLocalClass().get();
 
 	public static function getFullClassName( cls : ClassType ) : String
 		return ((cls.pack.length > 0) ? cls.pack.join(".") + "." : "") + cls.name;

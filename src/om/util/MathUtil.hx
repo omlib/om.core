@@ -6,6 +6,8 @@ using om.util.MathUtil;
 
 class MathUtil {
 
+	public static inline var EPSILON = 0.000001;
+
 	public static inline var PI = 3.141592653589793;
 	public static inline var DEGREES_TO_RADIANS_FACTOR = 0.017453292519943295; //PI/180
 	public static inline var RADIANS_TO_DEGREES_FACTOR = 57.29577951308232; //180/PI
@@ -19,6 +21,24 @@ class MathUtil {
 		//return f * RADIANS_TO_DEGREES_FACTOR;
 		return f * 180 / PI;
 	}
+
+	/**
+		Returns the angular distance between 2 angles.
+	**/
+	public static function angleDifference( a : Float, b : Float, ?turn = 360.0 ) : Float {
+		var r = (b - a) % turn;
+		if( r < 0 ) r += turn;
+		if( r > turn/2 ) r -= turn;
+		return r;
+	}
+
+	/**
+        Interpolates values in a polar coordinate system looking for the narrowest delta angle.
+        It can be either clock-wise or counter-clock-wise.
+    **/
+    public static inline function interpolateAngle( f : Float, a : Float, b : Float, turn = 360.0 ) : Float {
+        return FloatUtil.wrapCircular( interpolate( f, a, a + angleDifference( a, b, turn ) ), turn );
+    }
 
 	public static function clamp( value : Float, minOrMax1 : Float, minOrMax2 : Float ) : Float {
 		var min = Math.min( minOrMax1, minOrMax2 );

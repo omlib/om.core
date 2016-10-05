@@ -2,6 +2,26 @@ package om;
 
 class Math {
 
+	/**
+		Max value, signed integer.
+	**/
+	public static inline var INT32_MAX = 0x7FFFFFFF;
+
+	/**
+		Min value, signed short.
+	**/
+	public static inline var INT16_MIN = -0x8000;
+
+	/**
+		Max value, signed short.
+	**/
+	public static inline var INT16_MAX = 0x7FFF;
+
+	/**
+		Max value, unsigned short.
+	**/
+	public static inline var UINT16_MAX = 0xFFFF;
+
 	public static inline var E = 2.718281828459045;
 	public static inline var EPSILON = 1e-10;
 	public static inline var LN10 = 2.302585092994046;

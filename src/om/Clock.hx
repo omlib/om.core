@@ -1,6 +1,6 @@
 package om;
 
-import om.Time.now;
+import om.Time;
 
 /**
 */
@@ -16,7 +16,7 @@ class Clock {
 	}
 
 	public function start() {
-		startTime = now();
+		startTime = Time.now();
 		oldTime = startTime;
 		running = true;
 	}
@@ -34,7 +34,7 @@ class Clock {
 	public function getDelta() : Float {
 		var diff = 0.0;
 		if( running ) {
-			var now = now();
+			var now = Time.now();
 			diff = (now - oldTime) * 0.001;
 			oldTime = now;
 			elapsedTime += diff;

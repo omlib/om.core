@@ -3,9 +3,8 @@ package om;
 import haxe.PosInfos;
 import haxe.CallStack;
 
-class Error
-#if js extends js.Error #end
-{
+class Error #if js extends js.Error #end {
+
 	public var pos(default,null) : PosInfos;
 
 	#if !js
@@ -27,6 +26,7 @@ class Error
 		#if js
 		super( message );
 		#end
+
 		this.message = message;
 		this.pos = pos;
 
@@ -59,3 +59,14 @@ class Error
 	//public function getStackString() : String
 	//    return CallStack.toString( items );
 }
+
+/*
+abstract Error(TError) to TError {
+
+	public inline function new( e : TError ) this = e;
+
+	@:From public static inline function fromString( str : String ) : Error {
+		return new Error( new TError( str ) );
+	}
+}
+*/

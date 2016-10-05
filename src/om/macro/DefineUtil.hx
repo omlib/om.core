@@ -5,6 +5,9 @@ package om.macro;
 import haxe.macro.Compiler;
 import haxe.macro.Context;
 
+/**
+	Tools for accessing haxe build flags at compile time.
+*/
 class DefineUtil {
 
 	public static inline function defined( key : String) : Bool

@@ -137,7 +137,7 @@ class FieldTools {
 	}
 
 	public static function getVarAsFunctionArgs( fields : Array<Field> ) : Array<FunctionArg> {
-		return fields
+		return cast fields
 			.map(function(f) return switch f.kind {
 				case FVar(t,_) if( !isStatic(f) ):
 					{ name : f.name, type : t, opt : null, value : null }

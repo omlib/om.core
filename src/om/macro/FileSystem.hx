@@ -10,6 +10,7 @@ import sys.io.File;
 using StringTools;
 using haxe.io.Path;
 using om.macro.MacroTools;
+using om.macro.ExprTools;
 using om.util.StringUtil;
 
 #end
@@ -50,9 +51,9 @@ class FileSystem {
 
 	macro public static function stat( path : String ) : ExprOf<FileStat> {
 		var s = sys.FileSystem.stat( path );
-		var atime = s.atime.dateToExpr();
-		var mtime = s.mtime.dateToExpr();
-		var ctime = s.ctime.dateToExpr();
+		var atime = s.atime.getDateExpr();
+		var mtime = s.mtime.getDateExpr();
+		var ctime = s.ctime.getDateExpr();
 		return macro {
 			gid: $v{s.gid},
 			uid: $v{s.uid},
