@@ -44,6 +44,15 @@ class MacroTools {
 	    }
 	    return null;
 	}
+
+	public static function getMainClass() : String {
+		var args = Sys.args();
+		return switch [args.indexOf('-main'), args.indexOf('-x')] {
+		    case [-1, -1]: null;
+		    case [v, -1] | [_, v]: args[v+1];
+		}
+	}
+
 }
 
 #end
