@@ -147,7 +147,8 @@ class Promise<T> {
 		*/
 	}
 
-	public function then<N>( ?onFulfilled : T->PromiseOrValue<N>, ?onRejected : Reason->PromiseOrValue<N> ) : Promise<N> {
+	//public function then<N>( ?onFulfilled : T->PromiseOrValue<N>, ?onRejected : Reason->PromiseOrValue<N> ) : Promise<N> {
+	public function then<N>( ?onFulfilled : T->Void, ?onRejected : Reason->Void ) : Promise<N> {
 		return new Promise( function( resNext : N->Void, rejNext : Reason->Void ) {
 			switch state {
 			case Pending:
@@ -214,7 +215,7 @@ class Promise<T> {
 		}
 	}
 
-	function setRejected( reason : Dynamic ) {
+	function setRejected( reason : Reason ) {
 		switch state {
 		case Pending:
 			this.reason = reason;
@@ -225,8 +226,9 @@ class Promise<T> {
 		}
 	}
 
-	function addFulfillHandler<N>(
-		?onFulfillment : T->PromiseOrValue<N>,
+	function addFulfillHandler<N,R>(
+		//onFulfillment : T->PromiseOrValue<N>,
+		?onFulfillment : T->R,
 		resolveNext : N->Void,
 		rejectNext : Reason->Void ) {
 
@@ -247,7 +249,8 @@ class Promise<T> {
 	}
 
 	function addRejectHandler<N>(
-        ?onRejection : Reason->PromiseOrValue<N>,
+        //?onRejection : Reason->PromiseOrValue<N>,
+        onRejection : Reason->Void,
         resolveNext : N->Void,
 		rejectNext : Reason->Void ) {
 
