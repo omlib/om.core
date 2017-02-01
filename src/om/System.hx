@@ -147,6 +147,10 @@ class System {
 		return true;
 	}
 
+	public static inline function supportsWebVR() : Bool {
+		return untyped navigator.getVRDisplays != null;
+	}
+
 	public static inline function supportsWorker() : Bool {
 		return untyped __js__( '!! window.Worker' );
 	}
