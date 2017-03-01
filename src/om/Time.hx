@@ -1,9 +1,12 @@
 package om;
 
-abstract Time(Float) {
+class Time {
 
-	public inline function new( v : Float ) this = v;
+	@:keep
+	public static inline function stamp() : Float
+		return now();
 
+	@:keep
 	public static inline function now() : Float {
 
 		#if sys
@@ -25,7 +28,15 @@ abstract Time(Float) {
 
 	public static var startTime(default,null) : Float = Sys.time();
 
-	#elseif nodejs
+	#elseif js
+
+	public static inline function asap( fn : Void->Void )
+		haxe.Timer.delay( fn, 0 );
+
+	public static inline function createNextTickProvider( ms = 0 ) : (Void->Void)->Void
+		return haxe.Timer.delay.bind( _, ms );
+
+	#if nodejs
 
 	public static var startTime(default,null) : Float = getNanoSeconds();
 
@@ -34,5 +45,8 @@ abstract Time(Float) {
 		return t[0] * 1e9 + t[1];
 	}
 
-	#end
+	#end // nodejs
+
+	#end // js
+
 }
