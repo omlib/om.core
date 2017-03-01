@@ -83,6 +83,10 @@ class System {
 		return untyped !!navigator.webkitGetGamepads || !!navigator.webkitGamepads || !!navigator.getGamepads;
 	}
 
+	public static inline function supportsMIDI() : Bool {
+		return untyped navigator.requestMIDIAccess != null;
+	}
+
 	public static inline function supportsPerformance() : Bool {
 		return untyped __js__( '"performance" in window' );
 	}
@@ -113,12 +117,10 @@ class System {
 	}
 
 	public static inline function supportsTouchInput() : Bool {
-		try {
-			document.createEvent( 'TouchEvent' );
-			return true;
-		} catch(e:Dynamic) {
+		try document.createEvent( 'TouchEvent' ) catch(e:Dynamic) {
 			return false;
 		}
+		return true;
 	}
 
 	public static inline function supportsUserMedia() : Bool {
