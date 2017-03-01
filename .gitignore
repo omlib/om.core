@@ -5,6 +5,5 @@ examples/*/*.js*
 examples/*/*.n
 examples/*/*.py
 examples/*/java
-test/build/
-test/unit*
+test/bin/
 haxedoc.xml
