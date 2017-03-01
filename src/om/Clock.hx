@@ -3,6 +3,7 @@ package om;
 import om.Time;
 
 /**
+	Object for keeping track of time.
 */
 class Clock {
 
@@ -18,6 +19,7 @@ class Clock {
 	public function start() {
 		startTime = Time.now();
 		oldTime = startTime;
+		elapsedTime = 0;
 		running = true;
 	}
 
@@ -35,7 +37,7 @@ class Clock {
 		var diff = 0.0;
 		if( running ) {
 			var now = Time.now();
-			diff = (now - oldTime) * 0.001;
+			diff = (now - oldTime) / 1000;
 			oldTime = now;
 			elapsedTime += diff;
 		}
