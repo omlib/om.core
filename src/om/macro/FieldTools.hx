@@ -31,7 +31,7 @@ class FieldTools {
 		};
 	}
 
-	public static function isFieldInHirarchy( type : ClassType, name : String ) : Bool {
+	public static function isFieldInHierarchy( type : ClassType, name : String ) : Bool {
 		if( name == "new" ) {
 			if( type.constructor != null )
 				return true;
@@ -42,7 +42,7 @@ class FieldTools {
 		var superClass = type.superClass;
 		if( superClass == null )
 			return false;
-		return isFieldInHirarchy( superClass.t.get(), name );
+		return isFieldInHierarchy( superClass.t.get(), name );
 	}
 
 	public static function findField( fields : Array<Field>, name : String ) : Field {
@@ -146,7 +146,6 @@ class FieldTools {
 		}).filter( function(f) return f != null );
 	}
 
-
 	public static function createFunctionField( name : String, ?args : Array<FunctionArg>, ?ret : ComplexType, ?expr : Expr ) : Field {
     	return {
 			name: name,
@@ -170,6 +169,18 @@ class FieldTools {
 		return fields;
 	}
 
+	public static function pushConstIntVar( fields : Array<Field>, name : String, value : Int ) : Array<Field> {
+		return pushConstVar( fields, name, macro:Int, value );
+	}
+
+	public static function pushConstFloatVar( fields : Array<Field>, name : String, value : Float ) : Array<Field> {
+		return pushConstVar( fields, name, macro:Float, value );
+	}
+
+	public static function pushConstStringVar( fields : Array<Field>, name : String, value : String ) : Array<Field> {
+		return pushConstVar( fields, name, macro:String, value );
+	}
+
 	public static function appendExprToFunctionField( field : Field, expr : Expr ) {
 		switch field.kind {
 		case FFun(o):
@@ -178,6 +189,7 @@ class FieldTools {
 		case _:
 		}
 	}
+
 }
 
 #end
