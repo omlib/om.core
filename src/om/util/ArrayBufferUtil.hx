@@ -25,4 +25,18 @@ class ArrayBufferUtil {
 		return s;
 	}
 
+	#if nodejs
+
+	/**
+		js.node.Buffer to js.html.ArrayBuffer.
+	*/
+	public static function buf2ab( buf : js.node.Buffer ) : ArrayBuffer {
+	    var ab = new ArrayBuffer( buf.length );
+	    var view = new Uint8Array(ab);
+		for( i in 0...buf.length ) view[i] = buf[i];
+	    return ab;
+	}
+
+	#end
+
 }
