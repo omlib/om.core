@@ -88,9 +88,8 @@ abstract Path(String) from String to String {
 
 	public static inline function withoutDirectory( path : String ) : String
         return haxe.io.Path.withoutDirectory( path );
-		//return haxe.io.Path.removeTrailingSlashes( path ).split( '/' ).pop();
 
-    public static inline function currentyDirectoryName() : String
-        return withoutDirectory( Sys.getCwd() );
+    public static inline function cwdName() : String
+        return haxe.io.Path.removeTrailingSlashes( Sys.getCwd() ).split( '/' ).pop();
 
 }
