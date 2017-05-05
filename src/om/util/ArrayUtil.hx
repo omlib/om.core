@@ -27,7 +27,7 @@ class ArrayUtil {
 	}
 
 	/**
-	Returns true if predicate return true for all elements in the array.
+		Returns true if predicate return true for all elements in the array.
 	*/
 	public static function all<T>( arr : Array<T>, predicate : T->Bool ) : Bool {
 		for( e in arr )
@@ -37,7 +37,7 @@ class ArrayUtil {
 	}
 
 	/**
-	Returns true if predicate return true for at least one element in the array.
+		Returns true if predicate return true for at least one element in the array.
 	*/
 	public static function any<T>( arr : Array<T>, predicate : T->Bool ) : Bool {
 		for( e in arr )
@@ -69,7 +69,7 @@ class ArrayUtil {
 	}
 
 	/**
-	Pushes value to array and returns the array.
+		Pushes value to array and returns the array.
 	*/
 	public static inline function add<T>( arr : Array<T>, v : T ) : Array<T> {
 		arr.push( v );
@@ -106,7 +106,7 @@ class ArrayUtil {
 
 	/**
 	*/
-	public static inline function maxValueIndex<T:Int>( a : Array<T> ) : Int {
+	public static inline function maxValueIndex<T:Float>( a : Array<T> ) : Int {
 	    var h = a[0];
 	    var i = 0;
 		for( j in 0...a.length ) {
@@ -117,6 +117,27 @@ class ArrayUtil {
 			}
 		}
 		return i;
+	}
+
+	/**
+		Resizes an array of `T` to an arbitrary length by adding more elements to its end or by removing extra elements.
+		Note that the function changes the passed array and doesn't create a copy.
+	**/
+	//TODO
+  	//public static function resize<T>( array : Array<T>, length : Int, fill : T ) {
+  	public static function resize( array : Array<Int>, length : Int, fill : Int = 0 ) {
+    	while( array.length < length )
+      		array.push( fill );
+    	array.splice( length, array.length - length );
+    	return array;
+	}
+
+	//TODO
+	public static function resizeFloatArray( array : Array<Float>, length : Int, fill : Float = 0.0) {
+    	while( array.length < length )
+      		array.push( fill );
+    	array.splice( length, array.length - length );
+    	return array;
 	}
 
 	/**

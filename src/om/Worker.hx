@@ -3,6 +3,7 @@ package om;
 #if js
 
 import js.Browser.window;
+import js.html.Blob;
 
 @:forward(
     onmessage,onerror,
@@ -24,7 +25,7 @@ abstract Worker(js.html.Worker) {
     }
 
     public static inline function createInlineURL( script : String ) : String {
-        return untyped window.URL.createObjectURL( new js.html.Blob( [ script ] ) );
+        return untyped window.URL.createObjectURL( new Blob( [script] ) );
     }
 
     public static inline function revokeInlineURL( url : String ) {
@@ -33,6 +34,7 @@ abstract Worker(js.html.Worker) {
 }
 
 #elseif sys
+
 //TODO
 
 /*

@@ -1,5 +1,7 @@
 package om;
 
+#if !doc
+
 #if ( js && om_native_promise )
 typedef Promise<T> = js.Promise<T>;
 #else
@@ -345,4 +347,5 @@ class Promise<T> {
 	}
 }
 
+#end
 #end

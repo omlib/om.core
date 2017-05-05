@@ -62,7 +62,7 @@ class Hxon {
             case CIdent("false"):
                 return false;
             case CIdent(ident):
-                trace("!!!!"+ident+"##");
+                //trace("!!!!"+ident+"##");
                 return ident;
             default:
                 return null;
@@ -74,13 +74,13 @@ class Hxon {
         case EObjectDecl( fields ):
             var obj = {};
             for( f in fields )
-                Reflect.setField( obj, unquoteField(f.field), extractValue(f.expr) );
+                Reflect.setField( obj, unquoteField( f.field ), extractValue( f.expr ) );
             return obj;
         case EArrayDecl(exprs):
             return [for( e in exprs ) extractValue(e)];
-        case EFunction(name,f):
-            trace(f);
-
+        //case EFunction(name,f):
+            //trace(f);
+            //return extractValue(f.expr);
         //case ECall(e,params):
         //    trace(e);
 
@@ -103,7 +103,6 @@ class Hxon {
             //return ExprTools.getValue( e );
 
        }
-       trace(e);
        throw new Error( "Invalid JSON expression: " + e.toString(), e.pos );
     }
 

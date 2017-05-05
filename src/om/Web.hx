@@ -45,6 +45,15 @@ class Web {
 		#elseif php
 		return php.Web.getHostName();
 
+		#elseif python
+		//TODO this is by no means safe
+		return python.lib.Os.environ.get( 'HOST' );
+		//return python.lib.Os.uname()[1];
+		//return new python.lib.net.Socket().getsockname()._1;
+
+		#elseif nodejs
+		return js.node.Os.hostname();
+
 		#elseif js
 		return js.Browser.location.host;
 

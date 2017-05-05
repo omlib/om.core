@@ -29,6 +29,7 @@ class Math {
 	public static inline var LOG10E = 0.4342944819032518;
 	public static inline var LOG2E = 1.4426950408889634;
 	public static inline var PI = 3.141592653589793;
+	public static inline var PI2 = 6.283185307179586;
 	public static inline var SQRT1_2 = 0.7071067811865476;
 	public static inline var SQRT2 = 1.4142135623730951;
 

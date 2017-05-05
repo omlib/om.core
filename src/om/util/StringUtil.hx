@@ -6,6 +6,11 @@ class StringUtil {
 
 	//public static var SPLIT_LINES = ~/\r\n|\n\r|\n|\r/g;
 
+	public static function capitalize( str : String ) : String {
+		return str.charAt( 0 ).toUpperCase() + str.substr( 1 );
+		//return ~/\S/.replace( str, "$1".toUpperCase() );
+	}
+
 	/**
 		Returns `true` if `src` contains one or more occurrences of `str`.
 	*/

@@ -91,7 +91,7 @@ abstract XML(Xml) from Xml to Xml {
 		return (content != null) ? xml.append( Xml.createPCData( content ) ) : xml;
 	}
 
-	@:from public static inline function fromString( str : String ) : XML {
+	@:from public static inline function parse( str : String ) : XML {
 		return new XML( Xml.parse( str ).firstElement() );
 	}
 }

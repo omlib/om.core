@@ -2,12 +2,12 @@ package om;
 
 #if macro
 #elseif js
-	#if nodejs
+	#if web
+	import js.Browser.console;
+	#elseif nodejs
 	import js.Node.process;
 	import js.node.ChildProcess;
 	import om.ANSI;
-	#else
-	import js.Browser.console;
 	#end
 #elseif sys
 import om.ANSI;
@@ -31,9 +31,9 @@ class Console {
     public static var noColors = false;
 
     public static var color_info = Color.blue;
-    public static var color_debug = Color.yellow;
+	public static var color_debug = Color.yellow;
     public static var color_warn = Color.magenta;
-    public static var color_error = Color.red;
+	public static var color_error = Color.red;
 
     #end
 
@@ -56,34 +56,14 @@ class Console {
 
 	#elseif js
 
-		#if nodejs
-
-		static function __print( str : String, ?color : Int ) {
-	        #if (!no_console&&!doc_gen)
-	        if( !noColors && color != null ) str = ANSI.colorize( str, color );
-	        process.stdout.write( str );
-	        #end
-	    }
-
-		public static inline function print( obj : Dynamic, ?color : Int ) __print( Std.string(obj), color );
-	    public static inline function println( obj : Dynamic, ?color : Int ) __print( Std.string(obj)+'\n', color );
-	    public static inline function clear() process.stdout.write( '\033c' );
-	    public static inline function ln() process.stdout.write( '\n' );
-
-	    public static inline function log( obj : Dynamic ) println( obj );
-	    public static inline function info( obj : Dynamic ) println( obj, color_info );
-	    public static inline function debug( obj : Dynamic ) println( obj, color_debug );
-	    public static inline function warn( obj : Dynamic ) println( obj, color_warn );
-	    public static inline function error( obj : Dynamic ) println( obj, color_error );
-
-		#else
+		#if web
 
 		public static inline function print( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.log( obj ); #end }
-	    public static inline function println( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.log( obj ); #end }
+		public static inline function println( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.log( obj ); #end }
 		public static inline function clear() { #if (!no_console&&!doc_gen) console.clear(); #end }
-	    public static inline function ln() log( '' );
+		public static inline function ln() log( '' );
 
-	    public static inline function log( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.log( obj ); #end }
+		public static inline function log( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.log( obj ); #end }
 		public static inline function info( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.info( obj ); #end }
 		public static inline function debug( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.debug( obj ); #end }
 		public static inline function warn( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.warn( obj ); #end }
@@ -91,10 +71,10 @@ class Console {
 
 		public static inline function table( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.table( obj ); #end }
 
-	    //public static inline function trace( obj : Dynamic ) { #if (!no_console&&!doc_gen) untyped console.trace( obj ); #end }
+		//public static inline function trace( obj : Dynamic ) { #if (!no_console&&!doc_gen) untyped console.trace( obj ); #end }
 
-	    public static inline function assert( expression : Dynamic, obj : Dynamic ) { #if (!no_console&&!doc_gen) console.assert( expression, obj ); #end }
-	    public static inline function exception( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.exception( obj ); #end }
+		public static inline function assert( expression : Dynamic, obj : Dynamic ) { #if (!no_console&&!doc_gen) console.assert( expression, obj ); #end }
+		public static inline function exception( obj : Dynamic ) { #if (!no_console&&!doc_gen) console.exception( obj ); #end }
 
 		public static inline function count( label : String ) { #if (!no_console&&!doc_gen) console.count( label ); #end }
 
@@ -114,6 +94,27 @@ class Console {
 		//public static inline function timeline( label : String ) { #if (!no_console&&!doc_gen) untyped console.timeline( label ); #end }
 		//public static inline function timelineEnd( label : String ) { #if (!no_console&&!doc_gen)  untyped console.timelineEnd( label ); #end }
 		//public static inline function timeStamp( label : String ) { #if (!no_console&&!doc_gen)  untyped console.timeStamp( label ); #end }
+
+		#elseif nodejs
+
+		static function __print( str : String, ?color : Int ) {
+	        #if (!no_console&&!doc_gen)
+	        if( !noColors && color != null ) str = ANSI.colorize( str, color );
+	        process.stdout.write( str );
+	        #end
+	    }
+
+		public static inline function print( obj : Dynamic, ?color : Int ) __print( Std.string(obj), color );
+	    public static inline function println( obj : Dynamic, ?color : Int ) __print( Std.string(obj)+'\n', color );
+	    public static inline function clear() process.stdout.write( '\033c' );
+	    public static inline function ln() process.stdout.write( '\n' );
+
+	    public static inline function log( obj : Dynamic ) println( obj );
+	    public static inline function info( obj : Dynamic ) println( obj, color_info );
+	    public static inline function debug( obj : Dynamic ) println( obj, color_debug );
+	    public static inline function warn( obj : Dynamic ) println( obj, color_warn );
+	    public static inline function error( obj : Dynamic ) println( obj, color_error );
+
 
 		#end
 

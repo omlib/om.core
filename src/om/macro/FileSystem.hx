@@ -49,6 +49,7 @@ class FileSystem {
 		return macro null;
 	}
 
+	/*
 	macro public static function stat( path : String ) : ExprOf<FileStat> {
 		var s = sys.FileSystem.stat( path );
 		var atime = s.atime.getDateExpr();
@@ -68,6 +69,7 @@ class FileSystem {
 			mode: $v{s.mode},
 		};
 	}
+	*/
 
 	macro public static function fullPath( relPath : String ) : ExprOf<String> {
 		return Context.makeExpr( sys.FileSystem.fullPath( relPath ), Context.currentPos() );

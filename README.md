@@ -1,2 +1,2 @@
 
-# OM|CORE
+# OM.CORE

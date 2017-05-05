@@ -11,6 +11,9 @@ abstract Random(Float) from Float to Float {
 	public static inline function int( factor : Float ) : Int
 		return Std.int( new Random( factor ) );
 
+	/**
+		Returns random Bool.
+	*/
 	public static inline function bool( factor = 0.5 ) : Bool
 		return factor < (Math.random() * 1.0);
 

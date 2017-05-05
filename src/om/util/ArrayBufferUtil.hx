@@ -1,9 +1,13 @@
 package om.util;
 
+#if js
 import js.html.ArrayBuffer;
 import js.html.Uint8Array;
+#end
 
 class ArrayBufferUtil {
+
+	#if js
 
 	/**
 		String to ArrayBuffer.
@@ -37,6 +41,7 @@ class ArrayBufferUtil {
 	    return ab;
 	}
 
-	#end
+	#end // nodejs
+	#end // js
 
 }

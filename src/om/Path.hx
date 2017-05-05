@@ -42,6 +42,23 @@ abstract Path(String) from String to String {
 
     //@:arrayAccess public inline function set( i : Int, s : String ) : String
 
+    @:from
+    public static inline function fromArray( a : Array<String> ) : Path
+        return new Path( a.join( SEPERATOR ) );
+
+    public static inline function directory( path : String ) : String
+        return haxe.io.Path.directory( path );
+
+    public static inline function extension( path : String ) : String
+        return haxe.io.Path.extension( path );
+
+    public static inline function withoutExtension( path : String ) : String
+        return haxe.io.Path.withoutExtension( path );
+        //return haxe.io.Path.removeTrailingSlashes( path ).split( '/' ).pop();
+
+    public static inline function withoutDirectory( path : String ) : String
+        return haxe.io.Path.withoutDirectory( path );
+
     #if sys
 
     /*
@@ -70,26 +87,9 @@ abstract Path(String) from String to String {
     //public inline function stat() :
     //public inline function absolute() :
 
-    #end
-
-    @:from
-    public static inline function fromArray( a : Array<String> ) : Path
-		return new Path( a.join( SEPERATOR ) );
-
-    public static inline function directory( path : String ) : String
-        return haxe.io.Path.directory( path );
-
-    public static inline function extension( path : String ) : String
-        return haxe.io.Path.extension( path );
-
-    public static inline function withoutExtension( path : String ) : String
-        return haxe.io.Path.withoutExtension( path );
-    	//return haxe.io.Path.removeTrailingSlashes( path ).split( '/' ).pop();
-
-	public static inline function withoutDirectory( path : String ) : String
-        return haxe.io.Path.withoutDirectory( path );
-
     public static inline function cwdName() : String
         return haxe.io.Path.removeTrailingSlashes( Sys.getCwd() ).split( '/' ).pop();
+
+    #end
 
 }
