@@ -13,5 +13,9 @@ matrix:
     - haxe: development
 
 script:
+  - haxelib install hxcpp
+  - haxelib install hxcs
+  - haxelib install hxjava
+  - haxelib install format
   - haxelib git om.core https://github.com/tong/om.core
   - haxe doc.hxml
