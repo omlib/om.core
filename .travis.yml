@@ -16,6 +16,7 @@ script:
   - haxelib install hxcpp
   - haxelib install hxcs
   - haxelib install hxjava
+  - haxelib install hxnodejs
   - haxelib install format
   - haxelib git om.core https://github.com/tong/om.core
   - haxe doc.hxml
