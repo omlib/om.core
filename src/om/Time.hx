@@ -9,14 +9,6 @@ class Time {
 		#if sys
 		return (Sys.time() - startTime) * 1000;
 
-		/*
-		#elseif electron
-		return window.performance.now();
-
-		#elseif nodejs
-		return getNanoSeconds() / 1e6;
-		*/
-
 		#elseif electron
 		return js.Browser.window.performance.now();
 
@@ -25,6 +17,9 @@ class Time {
 
 		#elseif js
 		return js.Browser.window.performance.now();
+
+		#elseif (doc||test)
+		return 0.0;
 
 		#else #error "Not implemented"
 
