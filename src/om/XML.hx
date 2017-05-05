@@ -27,7 +27,7 @@ abstract XML(Xml) from Xml to Xml {
 
 	public var text(get,never) : Text;
 	function get_text() : Text return switch type {
-		case Xml.XmlType.Element:
+		case XmlType.Element:
 			var c = this.firstChild();
 			(c == null) ? null : c.nodeValue;
 		default:
