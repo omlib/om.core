@@ -1,0 +1,17 @@
+language: haxe
+
+os:
+  - linux
+  - osx
+
+haxe:
+  - "3.4.2"
+  - development
+
+matrix:
+  allow_failures:
+    - haxe: development
+
+script:
+  - haxelib git om.core https://github.com/tong/om.core
+  - haxe doc.hxml
