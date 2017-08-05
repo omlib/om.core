@@ -91,6 +91,17 @@ class System {
 		return untyped __js__( '"performance" in window' );
 	}
 
+	public static function supportsPassive() : Bool  {
+		var supported = false;
+		try {
+			untyped var opts = Object.defineProperty( {}, 'passive', {
+				get: function() { supported = true; }
+  			});
+  			window.addEventListener( "test", null, opts );
+		} catch(e:Dynamic) {}
+		return supported;
+	}
+
 	public static function supportsPointerlock() : Bool {
 		try {
 			return untyped __js__('"pointerLockElement" in document||"mozPointerLockElement" in document||"webkitPointerLockElement" in document');
