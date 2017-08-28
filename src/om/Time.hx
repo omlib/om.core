@@ -21,7 +21,7 @@ class Time {
 		#elseif (doc||test)
 		return 0.0;
 
-		#else #error "Not implemented"
+		#else #error
 
 		#end
 	}
@@ -33,6 +33,9 @@ class Time {
 	#if sys
 
 	public static var startTime(default,null) : Float = Sys.time();
+
+	public static inline function createNextTickProvider( ms = 0 ) : (Void->Void)->Void
+		return haxe.Timer.delay.bind( _, ms );
 
 	#elseif js
 
