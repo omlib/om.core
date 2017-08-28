@@ -1,15 +1,14 @@
 package om;
 
-#if js
+#if nodejs #error #end
 
-import js.Browser.window;
-import js.html.Blob;
+#if js
 
 @:forward(
     onmessage,onerror,
-    terminate
+    postMessage,terminate
 )
-abstract Worker(js.html.Worker) {
+abstract Worker(js.html.Worker) to js.html.Worker {
 
     public inline function new( scriptURL : String )
         this = new js.html.Worker( scriptURL );
@@ -17,20 +16,25 @@ abstract Worker(js.html.Worker) {
     public inline function post( ?msg : Dynamic, ?transfer : Array<Dynamic> )
         this.postMessage( msg, transfer );
 
-    public inline function postMessage( ?msg : Dynamic, ?transfer : Array<Dynamic> )
-        this.postMessage( msg, transfer );
-
-    public static inline function fromScript( script : String ) : Worker {
+    public static inline function fromScript( script : String ) : Worker
         return new Worker( createInlineURL( script ) );
-    }
 
-    public static inline function createInlineURL( script : String ) : String {
-        return untyped window.URL.createObjectURL( new Blob( [script] ) );
-    }
+    public static inline function createInlineURL( code : String ) : String
+        return js.html.URL.createObjectURL( new js.html.Blob( [code] ) );
 
-    public static inline function revokeInlineURL( url : String ) {
-        untyped window.URL.revokeObjectURL( url );
+    /**
+        Blob URLs are unique and last for the lifetime of your application (e.g. until the document is unloaded).
+        If you're creating many Blob URLs, it's a good idea to release references that are no longer needed.
+    */
+    public static inline function revokeInlineURL( url : String )
+        js.html.URL.revokeObjectURL( url );
+
+    /*
+    macro public static function fromFile( path : String ) : haxe.macro.Expr {
+        var src = sys.io.File.getContent( path );
+        return macro null;
     }
+    */
 }
 
 #elseif sys
