@@ -1,12 +1,5 @@
 package om;
 
-#if nodejs
-#elseif js
-import js.Browser.document;
-import js.Browser.navigator;
-import js.Browser.window;
-#end
-
 using om.util.StringUtil;
 
 class System {
@@ -46,22 +39,24 @@ class System {
 	#if js
 
 	public static inline function hasWindow() : Bool {
-		return untyped __js__( "typeof window != 'undefined'" );
+		return untyped __js__( "typeof window!='undefined'" );
 	}
 
-	#if nodejs
-	/////
+	#if (electron||nodejs)
+
+	public static inline function isMobile() : Bool {
+		return false;
+	}
+
 	#else
 
 	public static function isMobile( ?userAgent : String, ?mobileUserAgents : Array<String> ) : Bool {
-		if( userAgent == null ) userAgent = navigator.userAgent;
+		if( userAgent == null ) userAgent = js.Browser.navigator.userAgent;
 		if( mobileUserAgents == null ) mobileUserAgents = System.mobileUserAgents;
 		return new EReg( mobileUserAgents.join( '|' ), 'i' ).match( userAgent );
 	}
 
-	public static inline function supportsGeolocation() : Bool {
-		return navigator.geolocation != null;
-	}
+	#end
 
 	public static inline function getLanguage() : String {
 		return untyped window.navigator.language;
@@ -83,6 +78,10 @@ class System {
 		return untyped !!navigator.webkitGetGamepads || !!navigator.webkitGamepads || !!navigator.getGamepads;
 	}
 
+	public static inline function supportsGeolocation() : Bool {
+		return js.Browser.navigator.geolocation != null;
+	}
+
 	public static inline function supportsMIDI() : Bool {
 		return untyped navigator.requestMIDIAccess != null;
 	}
@@ -97,7 +96,7 @@ class System {
 			untyped var opts = Object.defineProperty( {}, 'passive', {
 				get: function() { supported = true; }
   			});
-  			window.addEventListener( "test", null, opts );
+  			js.Browser.window.addEventListener( "test", null, opts );
 		} catch(e:Dynamic) {}
 		return supported;
 	}
@@ -117,7 +116,7 @@ class System {
 
 	public static inline function supportsSessionStorage() : Bool {
 		try {
-			return window.sessionStorage.getItem != null;
+			return js.Browser.window.sessionStorage.getItem != null;
 		} catch(e:Dynamic) {
 			return false;
 		}
@@ -127,8 +126,8 @@ class System {
 		return untyped __js__( '"content" in document.createElement("template")' );
 	}
 
-	public static inline function supportsTouchInput() : Bool {
-		try document.createEvent( 'TouchEvent' ) catch(e:Dynamic) {
+	public static function supportsTouchInput() : Bool {
+		try js.Browser.document.createEvent( 'TouchEvent' ) catch(e:Dynamic) {
 			return false;
 		}
 		return true;
@@ -152,7 +151,7 @@ class System {
 		try {
 			if( untyped window.WebGLRenderingContext == null )
 				return false;
-			if( document.createCanvasElement().getContextWebGL() == null )
+			if( js.Browser.document.createCanvasElement().getContextWebGL() == null )
 				return false;
 		} catch(e:Dynamic) {
 			return false;
@@ -165,10 +164,9 @@ class System {
 	}
 
 	public static inline function supportsWorker() : Bool {
-		return untyped __js__( '!! window.Worker' );
+		return untyped __js__( '!!window.Worker' );
 	}
 
-	#end
 	#end
 
 }
