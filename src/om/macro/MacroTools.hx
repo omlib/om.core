@@ -8,6 +8,9 @@ import haxe.macro.Type;
 
 class MacroTools {
 
+	public static inline function toExpr( v : Dynamic ) : Expr
+        return Context.makeExpr( v, Context.currentPos() );
+
 	public static inline function here() : Position
 		return Context.currentPos();
 
