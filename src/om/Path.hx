@@ -13,13 +13,12 @@ abstract Path(String) from String to String {
     inline function get_dir() return haxe.io.Path.directory( this );
 
     public var ext(get,never) : String;
-    inline function get_ext() return haxe.io.Path.directory( this );
+    inline function get_ext() return haxe.io.Path.extension( this );
 
     public var last(get,never) : String;
     inline function get_last() return haxe.io.Path.withoutDirectory( this );
 
-    public inline function new( s : String )
-        this = s;
+    public inline function new( s : String ) this = s;
 
     public inline function isAbsolute() : Bool
         return haxe.io.Path.isAbsolute( this );
