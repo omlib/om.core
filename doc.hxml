@@ -1,7 +1,6 @@
 --no-output
 -lib thx.semver
 -cp src/
-#--macro include('om',['om.unit'])
 --macro include('om',['om.ds'])
 -D doc
 -D doc-gen
