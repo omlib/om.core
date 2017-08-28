@@ -1,7 +1,5 @@
 package om;
 
-#if nodejs #error #end
-
 #if js
 
 @:forward(
