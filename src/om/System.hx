@@ -111,7 +111,11 @@ class System {
 	}
 
 	public static inline function supportsRequestAnimationFrame() : Bool {
-		return untyped __js__('!! window.mozRequestAnimationFrame || !! window.webkitRequestAnimationFrame || !! window.oRequestAnimationFrame || !! window.msRequestAnimationFrame');
+		return untyped __js__('!!window.requestAnimationFrame||!!window.mozRequestAnimationFrame||!!window.webkitRequestAnimationFrame||!!window.oRequestAnimationFrame||!!window.msRequestAnimationFrame');
+	}
+
+	public static inline function supportsRequestIdleCallback() : Bool {
+		return untyped __js__('!!window.requestIdleCallback||!!window.mozRequestIdleCallback||!!window.webkitRequestIdleCallback||!!window.oRequestIdleCallback||!!window.msRequestIdleCallback');
 	}
 
 	public static inline function supportsSessionStorage() : Bool {
