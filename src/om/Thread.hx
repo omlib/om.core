@@ -12,5 +12,5 @@ typedef Thread =
 	#elseif doc
 		Dynamic;
 	#else
-		#error 'not implemented'
+		#error
 	#end
