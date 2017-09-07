@@ -14,15 +14,41 @@ class Math {
 	/** Max value, signed integer */
 	public static inline var INT32_MAX = 0x7FFFFFFF;
 
+	/** Euler’s number, the base of the natural logarithm. */
 	public static inline var E = 2.718281828459045;
+
+	/***/
 	public static inline var EPSILON = 1e-10;
-	public static inline var LN10 = 2.302585092994046;
+
+	/** Returns the natural logarithm of 2. */
 	public static inline var LN2 = 0.6931471805599453;
-	public static inline var LOG10E = 0.4342944819032518;
+
+	/** Returns the natural logarithm of 10. */
+	public static inline var LN10 = 2.302585092994046;
+
+	/** Returns the base-2 logarithm of E. */
 	public static inline var LOG2E = 1.4426950408889634;
+
+	/** Returns the base-10 logarithm of E. */
+	public static inline var LOG10E = 0.4342944819032518;
+
+	/** The mathematical constant that is the ratio of a circle's circumference to its diameter. */
 	public static inline var PI = 3.141592653589793;
-	public static inline var PI2 = 6.283185307179586;
+
+	/** The ratio constant of a circle's circumference to radius, equal to 2 * pi */
+	public static inline var TAU = 6.283185307179586;
+
+	/**
+		The golden ratio.
+		Two quantities are in the golden ratio if their ratio is the same as the ratio of their sum to the larger of the two quantities.
+		Defined as (1 + sqrt(5)) / 2
+	*/
+	public static inline var PHI = 1.618033988749895;
+
+	/** Returns the square root of 1/2. */
 	public static inline var SQRT1_2 = 0.7071067811865476;
+
+	/** Returns the square root of 2. */
 	public static inline var SQRT2 = 1.4142135623730951;
 
 	//public static inline var DEGREES_TO_RADIANS_FACTOR = 0.017453292519943295; // PI/180
