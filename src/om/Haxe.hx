@@ -4,7 +4,7 @@ package om;
 import haxe.io.Bytes;
 import haxe.macro.Compiler;
 import haxe.macro.Context;
-import om.macro.MacroTools;
+import om.macro.MacroTools.*;
 #end
 
 class Haxe {
@@ -69,12 +69,12 @@ class Haxe {
 
     macro public static function now() : ExprOf<Date> {
         var date = Date.now();
-        var year = MacroTools.toExpr( date.getFullYear() );
-        var month = MacroTools.toExpr( date.getMonth() );
-        var day = MacroTools.toExpr( date.getDate() );
-        var hour = MacroTools.toExpr( date.getHours() );
-        var min = MacroTools.toExpr( date.getMinutes() );
-        var sec = MacroTools.toExpr( date.getSeconds() );
+        var year = toExpr( date.getFullYear() );
+        var month = toExpr( date.getMonth() );
+        var day = toExpr( date.getDate() );
+        var hour = toExpr( date.getHours() );
+        var min = toExpr( date.getMinutes() );
+        var sec = toExpr( date.getSeconds() );
         return macro new Date( $year, $month, $day, $hour, $min, $sec );
     }
 
@@ -92,15 +92,5 @@ class Haxe {
     macro public static function dateString() : ExprOf<String> {
         return toExpr( Date.now().toString() );
     }
-
-
-
-    #if macro
-
-    static inline function toExpr( v : Dynamic ) : haxe.macro.Expr {
-        return haxe.macro.Context.makeExpr( v, haxe.macro.Context.currentPos() );
-    }
-
-    #end
 
 }
