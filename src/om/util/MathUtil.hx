@@ -37,7 +37,7 @@ class MathUtil {
         It can be either clock-wise or counter-clock-wise.
     **/
     public static inline function interpolateAngle( f : Float, a : Float, b : Float, turn = 360.0 ) : Float {
-        return FloatUtil.wrapCircular( interpolate( f, a, a + angleDifference( a, b, turn ) ), turn );
+        return wrapCircularFloat( interpolate( f, a, a + angleDifference( a, b, turn ) ), turn );
     }
 
 	public static function clamp( value : Float, minOrMax1 : Float, minOrMax2 : Float ) : Float {
@@ -52,5 +52,11 @@ class MathUtil {
 		else
 			Math.round( min + equation(f) * ( max - min ) );
 	}
+
+    public static function wrapCircularFloat( v : Float, max : Float ) : Float {
+        v = v % max;
+        if( v < 0 ) v += max;
+        return v;
+    }
 
 }
