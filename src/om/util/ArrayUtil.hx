@@ -158,6 +158,12 @@ class ArrayUtil {
 
 	/**
 	*/
+	public static inline function random<T>( arr : Array<T> ) : T {
+		return arr[Std.int(Math.random()*arr.length-1)];
+	}
+
+	/**
+	*/
 	public static function sorted<T>( a : Array<T>, f : T->T->Int ) : Array<T> {
 		var n = a.copy();
     	n.sort( f );
