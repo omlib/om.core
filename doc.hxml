@@ -1,6 +1,5 @@
 --no-output
--lib thx.semver
--cp src/
+-lib om.core
 --macro include('om',['om.ds'])
 -D doc
 -D doc-gen
