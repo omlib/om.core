@@ -34,6 +34,10 @@ class Haxe {
         return macro null;
     }
 
+    macro public static function getCwd() : ExprOf<String> {
+        return macro $v{Sys.getCwd()};
+    }
+
     macro public static function getClassPath() : ExprOf<Array<String>> {
         return macro $v{Context.getClassPath()};
     }
