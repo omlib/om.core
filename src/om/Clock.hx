@@ -7,13 +7,14 @@ import om.Time;
 */
 class Clock {
 
+    public var autoStart(default,null) : Bool;
 	public var running(default,null) = false;
-	public var startTime(default,null) : Float;
-	public var elapsedTime(default,null) : Float;
-	public var oldTime(default,null) : Float;
+	public var startTime(default,null) = 0.0;
+	public var elapsedTime(default,null) = 0.0;
+	public var oldTime(default,null) = 0.0;
 
-	public function new() {
-		startTime = elapsedTime = oldTime = 0;
+	public function new( autoStart = true ) {
+        this.autoStart = autoStart;
 	}
 
 	public function start() {
@@ -25,7 +26,7 @@ class Clock {
 
 	public function stop() {
 		getElapsedTime();
-		running = false;
+		running = autoStart = false;
 	}
 
 	public function getElapsedTime() : Float {
@@ -40,7 +41,10 @@ class Clock {
 			diff = (now - oldTime) / 1000;
 			oldTime = now;
 			elapsedTime += diff;
-		}
+		} else if( autoStart ) {
+            start();
+            return 0;
+        }
 		return diff;
 	}
 
