@@ -34,6 +34,13 @@ abstract Worker(js.html.Worker) to js.html.Worker {
         return macro null;
     }
     */
+
+    /*
+    macro public static function fromWorkerScript<T>( cl : ExprOf<Class<T>> ) {
+        trace( cl );
+        return macro null;
+    }
+    */
 }
 
 #end

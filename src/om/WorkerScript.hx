@@ -22,25 +22,18 @@ class Build {
         var fields = Context.getBuildFields();
         var pos = Context.currentPos();
 
-        //var sup = Context.getLocalClass().get().superClass;
-        //trace( sup );
-
-        if( fields.hasFunField( '__init__' ) ) {
-            //TODO inject expr into __init__ method ?
-            Context.fatalError( 'Class already has __init__ method', pos );
-        }
-        if( fields.hasFunField( 'main' ) ) {
+        if( fields.hasFunField( 'main' ) )
             Context.fatalError( 'Worker scripts cannot have a main method', pos );
-        }
-        if( !fields.hasFunField( 'onMessage' ) ) {
+        if( fields.hasFunField( '__init__' ) )
+            Context.fatalError( 'Class already has __init__ method', pos );
+        if( !fields.hasFunField( 'onMessage' ) )
             Context.fatalError( 'Missing onMessage method', pos );
-        }
 
-        var field_onMessage = fields.findField( 'onMessage' );
-        field_onMessage.meta.push( { name: ':keep', pos: pos } );
+        var onMessage = fields.findField( 'onMessage' );
+        onMessage.meta.push( { name: ':keep', pos: pos } );
 
         var cl = Context.getLocalClass().get();
-        var js = 'self.onmessage='+cl.name+'.onMessage;';
+        var js = 'self.onmessage='+cl.name+'.onMessage';
 
         fields.push({
             name: '__init__',
@@ -48,6 +41,23 @@ class Build {
             kind: FFun( { expr: macro untyped __js__($v{js}), args: [], ret: null } ),
             pos: pos
         });
+
+        if( !fields.hasFunField( 'postMessage' ) ) {
+            fields.push({
+                name: 'postMessage',
+                access: [APublic,AStatic],
+                kind: FFun( {
+                    args: [
+                        { name: 'aMessage', type: macro : Dynamic },
+                        { name: 'transferList', type: macro : Array<Dynamic>, opt: true }
+                    ],
+                    expr: macro untyped __js__('self.postMessage(aMessage,)'),
+                    ret: null
+                } ),
+                meta: [ { name: ':keep', pos: pos } ],
+                pos: pos
+            });
+        }
 
         /*
         fields.push({
@@ -68,19 +78,17 @@ class Build {
     Implement this interface to build a worker script.
 
     Usage:
-        ```haxe
         class MyWorkerScript implements om.WorkerScript {
         	static function onMessage( e : js.html.MessageEvent ) {
                 trace(e);
             }
         }
-        ```
 */
 @:require(js)
 //@:build(om.WorkerScript.Build.build())
 @:autoBuild(om.WorkerScript.Build.autoBuild())
-//class WorkerScript {
 interface WorkerScript {
+    //class WorkerScript {
 
     /*
     macro public static function worker() {
@@ -89,6 +97,13 @@ interface WorkerScript {
 
     static inline function __init__() {
         untyped __js__($v{script})
+    }
+    */
+
+    /*
+    macro public static function worker<T>( cl : ExprOf<Class<T>> ) {
+        trace( cl );
+        return macro null;
     }
     */
 }
