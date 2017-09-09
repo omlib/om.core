@@ -1,5 +1,7 @@
 package om;
 
+#if js
+
 @:forward(onmessage,onerror,postMessage,terminate)
 abstract Worker(js.html.Worker) to js.html.Worker {
 
@@ -33,3 +35,5 @@ abstract Worker(js.html.Worker) to js.html.Worker {
     }
     */
 }
+
+#end
