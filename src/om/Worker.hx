@@ -2,19 +2,34 @@ package om;
 
 #if js
 
+/**
+    The Transferable interface represents an object that can be transfered between different execution contexts, like the main thread and Web workers.
+    The ArrayBuffer, MessagePort and ImageBitmap types implement this interface.
+*/
+typedef Transferable  = Dynamic;
+
+/**
+    Represents a background task that can be easily created and can send messages back to its creator.
+*/
 @:forward(onmessage,onerror,postMessage,terminate)
 abstract Worker(js.html.Worker) to js.html.Worker {
 
     public inline function new( scriptURL : String )
         this = new js.html.Worker( scriptURL );
 
-    public inline function post( ?msg : Dynamic, ?transfer : Array<Dynamic> )
-        this.postMessage( msg, transfer );
+    /**
+        Sends a message — which can consist of any JavaScript object — to the worker's inner scope.
+
+        @param aMessage The object to deliver to the worker; this will be in the data field in the event delivered to the DedicatedWorkerGlobalScope.onmessage handler.
+        @param transferList An optional array of Transferable objects to transfer ownership of.
+    */
+    public inline function post( ?aMessage : Dynamic, ?transferList : Array<Transferable> )
+        this.postMessage( aMessage, transferList );
 
     /**
     */
-    public static inline function fromScript( script : String ) : Worker
-        return new Worker( createInlineURL( script ) );
+    public static inline function fromScript( script : String ) : om.Worker
+        return new om.Worker( createInlineURL( script ) );
 
     /**
     */
