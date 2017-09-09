@@ -1,11 +1,6 @@
 package om;
 
-#if js
-
-@:forward(
-    onmessage,onerror,
-    postMessage,terminate
-)
+@:forward(onmessage,onerror,postMessage,terminate)
 abstract Worker(js.html.Worker) to js.html.Worker {
 
     public inline function new( scriptURL : String )
@@ -14,9 +9,13 @@ abstract Worker(js.html.Worker) to js.html.Worker {
     public inline function post( ?msg : Dynamic, ?transfer : Array<Dynamic> )
         this.postMessage( msg, transfer );
 
+    /**
+    */
     public static inline function fromScript( script : String ) : Worker
         return new Worker( createInlineURL( script ) );
 
+    /**
+    */
     public static inline function createInlineURL( code : String ) : String
         return js.html.URL.createObjectURL( new js.html.Blob( [code] ) );
 
@@ -34,34 +33,3 @@ abstract Worker(js.html.Worker) to js.html.Worker {
     }
     */
 }
-
-#elseif sys
-
-//TODO
-
-/*
-class Worker {
-
-    public var thread(default,null) : Thread;
-
-    public function new( f : Void->Void ) {
-        thread = Thread.create( f );
-        thread.sendMessage( Thread.current() );
-    }
-
-    public function post( msg : Dynamic ) : Worker {
-        thread.sendMessage( msg );
-        return this;
-    }
-
-    public function read<T>( block = true ) : T {
-        return Thread.readMessage( block );
-    }
-
-    public static inline function currentThread() : Thread {
-        return Thread.current();
-    }
-}
-*/
-
-#end

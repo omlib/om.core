@@ -13,7 +13,6 @@ class Build {
     /*
     static function build() : Array<Field> {
         var fields = Context.getBuildFields();
-        var pos = Context.currentPos();
         return fields;
     }
     */
@@ -23,11 +22,11 @@ class Build {
         var fields = Context.getBuildFields();
         var pos = Context.currentPos();
 
-        var sup = Context.getLocalClass().get().superClass;
-        trace( sup );
+        //var sup = Context.getLocalClass().get().superClass;
+        //trace( sup );
 
         if( fields.hasFunField( '__init__' ) ) {
-            //TODO inject expr into __init__ method
+            //TODO inject expr into __init__ method ?
             Context.fatalError( 'Class already has __init__ method', pos );
         }
         if( fields.hasFunField( 'main' ) ) {
@@ -37,23 +36,23 @@ class Build {
             Context.fatalError( 'Missing onMessage method', pos );
         }
 
-        var onMessageField = fields.findField( 'onMessage' );
-        onMessageField.meta.push( { name: ':keep', pos: pos } );
+        var field_onMessage = fields.findField( 'onMessage' );
+        field_onMessage.meta.push( { name: ':keep', pos: pos } );
 
-        var clName = Context.getLocalClass().get().name;
-        var script = 'self.onmessage='+clName+'.onMessage;';
+        var cl = Context.getLocalClass().get();
+        var js = 'self.onmessage='+cl.name+'.onMessage;';
 
         fields.push({
             name: '__init__',
             access: [APublic,AStatic,AInline],
-            kind: FFun( { expr: macro untyped __js__($v{script}), args: [], ret: null } ),
+            kind: FFun( { expr: macro untyped __js__($v{js}), args: [], ret: null } ),
             pos: pos
         });
 
         /*
         fields.push({
             name: 'worker',
-            access: [AMacro,APublic,AStatic],
+            access: [APublic,AStatic],
             kind: FFun( { expr: macro return null, args: [], ret: null } ),
             pos: pos
         });
@@ -77,9 +76,11 @@ class Build {
         }
         ```
 */
+@:require(js)
 //@:build(om.WorkerScript.Build.build())
 @:autoBuild(om.WorkerScript.Build.autoBuild())
-class WorkerScript {
+//class WorkerScript {
+interface WorkerScript {
 
     /*
     macro public static function worker() {
