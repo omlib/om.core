@@ -80,32 +80,14 @@ class Build {
     Usage:
         class MyWorkerScript implements om.WorkerScript {
         	static function onMessage( e : js.html.MessageEvent ) {
-                trace(e);
+                trace( e );
+                postMessage( 'howdi' );
             }
         }
 */
 @:require(js)
 //@:build(om.WorkerScript.Build.build())
 @:autoBuild(om.WorkerScript.Build.autoBuild())
-interface WorkerScript {
-    //class WorkerScript {
-
-    /*
-    macro public static function worker() {
-        return macro null;
-    }
-
-    static inline function __init__() {
-        untyped __js__($v{script})
-    }
-    */
-
-    /*
-    macro public static function worker<T>( cl : ExprOf<Class<T>> ) {
-        trace( cl );
-        return macro null;
-    }
-    */
-}
+interface WorkerScript {}
 
 #end
