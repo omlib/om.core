@@ -4,7 +4,7 @@ os:
   - linux
 
 haxe:
-  - "3.4.2"
+  - "3.4.3"
   - development
 
 matrix:
@@ -18,6 +18,6 @@ script:
   - haxelib install hxnodejs
   - haxelib install format
   - haxelib install thx.semver
-  - haxelib git om.core https://github.com/tong/om.core
+  - haxelib dev om.core .
   - haxe doc.hxml
   #- haxe --cwd test build.hxml
