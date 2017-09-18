@@ -9,7 +9,7 @@ typedef Thread =
 		lua.Thread;
 	#elseif neko
 		neko.vm.Thread;
-	#elseif doc
+	#elseif doc_gen
 		Dynamic;
 	#else
 		#error

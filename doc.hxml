@@ -1,7 +1,6 @@
 --no-output
 -lib om.core
 --macro include('om',['om.ds'])
--D doc
 -D doc-gen
 --each
 
@@ -18,6 +17,10 @@
 -xml doc/hl.xml
 
 --next
+--interp
+-xml doc/interp.xml
+
+--next
 -java x
 -xml doc/java.xml
 
@@ -26,9 +29,13 @@
 -xml doc/js.xml
 
 --next
+-lua x
+-xml doc/lua.xml
+
+--next
 -js x
 -lib hxnodejs
--xml doc/node.xml
+-xml doc/nodejs.xml
 
 --next
 -neko x
@@ -41,6 +48,9 @@
 --next
 -python x
 -xml doc/python.xml
+
+#--next
+#-xml doc/cross.xml
 
 #--next
 #-cmd haxelib run dox -i doc/ -o doc

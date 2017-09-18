@@ -5,7 +5,7 @@ typedef URL =
 		js.node.Url
 	#elseif js
 		js.html.URL
-	#elseif doc
+	#elseif doc_gen
 		Dynamic
 	#else
 		#error
