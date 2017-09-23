@@ -46,16 +46,12 @@ class FieldTools {
 	}
 
 	public static function findField( fields : Array<Field>, name : String ) : Field {
-		for( f in fields )
-			if( f.name == name )
-				return f;
+		for( f in fields ) if( f.name == name ) return f;
 		return null;
 	}
 
 	public static function findClassField( fields : Array<ClassField>, name : String ) : ClassField {
-		for( f in fields )
-			if( f.name == name )
-				return f;
+		for( f in fields ) if( f.name == name ) return f;
 		return null;
 	}
 
@@ -85,9 +81,9 @@ class FieldTools {
 	    return false;
 	}
 
-	public static function hasFunField( fields : Array<Field>, fieldName : String ) : Bool {
+	public static function hasFunField( fields : Array<Field>, name : String ) : Bool {
 		for( field in fields )
-			if( field.name == fieldName &&
+			if( field.name == name &&
 				switch field.kind {
 				case FFun(_): true;
 				case _: false;
