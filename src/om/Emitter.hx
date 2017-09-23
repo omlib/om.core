@@ -64,7 +64,7 @@ class Emitter<T> implements Disposable {
     /**
         Invoke registered handlers.
     */
-    public function emit( eventName : String, value : T ) : Emitter<T> {
+    public function emit( eventName : String, ?value : T ) : Emitter<T> {
         if( map.exists( eventName ) )
             for( h in map.get( eventName ) )
                 h( value );
