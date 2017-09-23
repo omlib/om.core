@@ -49,8 +49,5 @@
 -python x
 -xml doc/python.xml
 
-#--next
-#-xml doc/cross.xml
-
-#--next
-#-cmd haxelib run dox -i doc/ -o doc
+--next
+-xml doc/cross.xml

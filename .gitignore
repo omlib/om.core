@@ -1,5 +1,6 @@
 __*
 *.[0-9].*
+_depricated/
 doc/*
 examples/*/*.jar
 examples/*/*.js*
