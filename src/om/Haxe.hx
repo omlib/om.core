@@ -56,6 +56,11 @@ class Haxe {
         return Context.parse( Context.definedValue( key ), Context.currentPos() );
     }
 
+    macro public static function println( msg : String ) {
+        Sys.println( msg, Context.currentPos() );
+        return macro null;
+    }
+
     macro public static function warn( msg : String ) : ExprOf<Date> {
         Context.warning( msg, Context.currentPos() );
         return macro null;
