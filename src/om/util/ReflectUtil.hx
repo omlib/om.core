@@ -26,4 +26,10 @@ class ReflectUtil {
 			Reflect.setField( y, f, Reflect.field( x, f ) );
 	}
 
+	/**
+	*/
+	public static inline function createCopy<T>( a : T ) : T {
+		return copyFieldsFrom( cast {}, a );
+	}
+
 }
