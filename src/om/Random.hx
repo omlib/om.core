@@ -15,11 +15,17 @@ abstract Random(Float) from Float to Float {
 		return factor < (Math.random() * 1.0);
 
 	/**
+			Returns random float.
+	*/
+	public static inline function float( seed : Float ) : Float
+		return new Random( seed );
+
+
+	/**
 		Returns random Int.
 	*/
 	public static inline function int( seed : Float ) : Int
 		return Std.int( new Random( seed ) );
-
 
 	/*
 	public static inline function getRandomValues( factor = 0.5 ) : Bool
@@ -40,4 +46,24 @@ abstract Random(Float) from Float to Float {
         return str;
 	}
 	*/
+
+	/**
+		Murmur3 is a non-cryptographic hash, designed to be fast and excellent-quality for making things like hash tables or bloom filters.
+	*/
+	public static function murmur3( n : Int, seed: Int ) : haxe.Int32 {
+		var n : haxe.Int32 = n;
+		n *= 0xcc9e2d51;
+		n = (n << 15) | (n >>> 17);
+		n *= 0x1b873593;
+		var h : haxe.Int32 = seed;
+		h ^= n;
+		h = (h << 13) | (h >>> 19);
+		h = h*5 + 0xe6546b64;
+		h ^= h >> 16;
+		h *= 0x85ebca6b;
+		h ^= h >> 13;
+		h *= 0xc2b2ae35;
+		h ^= h >> 16;
+		return h;
+	}
 }
