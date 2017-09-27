@@ -33,14 +33,17 @@ private typedef ExprToken = {
 class Template {
 
     //TODO
-    public static inline var S_START = '::';
-    public static inline var S_END = '::';
-    public static inline var S_CB = '@';
-    public static inline var CURRENT = 'ctx';
+    //public static inline var S_START = '::';
+    //public static inline var S_END = '::';
+    //public static inline var S_CB = '@';
+    //public static inline var CURRENT = 'ctx';
 
 	//TODO
+	/*
 	//static var splitter = ~/(::[A-Za-z0-9_ ()&|!+=\/><*."-]+::|\$\$([A-Za-z0-9_-]+)\()/;
 	static var splitter = new EReg( '('+S_START+'[A-Za-z0-9_ ()&|!+=\\/><*."-]+'+S_END+'|'+S_CB+'([A-Za-z0-9_-]+)\\()','');
+	*/
+	var splitter : EReg;
 	static var expr_splitter = ~/(\(|\)|[ \r\n\t]*"[^"]*"[ \r\n\t]*|[!+=\/><*.&|-]+)/;
 	static var expr_trim = ~/^[ ]*([^ ]+)[ ]*$/;
 	static var expr_int = ~/^[0-9]+$/;
@@ -51,6 +54,11 @@ class Template {
 		has lower priority than the context argument of execute().
 	**/
 	public static var globals : Dynamic = {};
+
+	public var sStart(default,null) : String;
+	public var sEnd(default,null) : String;
+	public var sCallback(default,null) : String;
+	public var sCurrent(default,null) : String;
 
 	var expr : TemplateExpr;
 	var context : Dynamic;
@@ -68,9 +76,17 @@ class Template {
 
 		If `str` is null, the result is unspecified.
 	**/
-	public function new( str : String ) {
+	public function new( str : String, sStart = '::', sEnd = '::', sCallback = '@', sCurrent = 'ctx' ) {
+
+		this.sStart = sStart;
+		this.sEnd = sEnd;
+		this.sCallback = sCallback;
+		this.sCurrent = sCurrent;
+
+		splitter = new EReg( '('+sStart+'[A-Za-z0-9_ ()&|!+=\\/><*."-]+'+sEnd+'|'+sCallback+'([A-Za-z0-9_-]+)\\()','');
+
 		var tokens = parseTokens(str);
-		expr = parseBlock(tokens);
+		expr = parseBlock( tokens );
 		if( !tokens.isEmpty() )
 			throw "Unexpected '"+tokens.first().s+"'";
 	}
@@ -101,7 +117,8 @@ class Template {
 	}
 
 	function resolve( v : String ) : Dynamic {
-		if( v == CURRENT )
+		//if( v == CURRENT )
+		if( v == sCurrent )
 			return context;
 		var value = Reflect.getProperty(context, v);
 		if( value != null || Reflect.hasField(context,v) )
