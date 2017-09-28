@@ -9,37 +9,49 @@ import om.macro.MacroTools.*;
 
 class Haxe {
 
-    /*
-    macro public static function isDefined( key : String ) : ExprOf<Bool> {
-        return macro $v{haxe.macro.Context.defined( key )};
-    }
-
-    macro public static function setCompilerDefine( key : String, value : String ) : haxe.macro.Expr {
-        haxe.macro.Compiler.define( key, value );
-        return macro null;
-    }
-    */
-
-    macro public static function isDebug() : ExprOf<Bool> {
-        return macro #if debug true #else false #end;
-    }
-
-    macro public static function getOutput() : ExprOf<String> {
-        return macro $v{Compiler.getOutput()};
-    }
-
     macro public static function addResource( name : String, data : Bytes ) {
         Context.addResource( name, data );
-        Context.addResource( name, data );
         return macro null;
     }
 
-    macro public static function getCwd() : ExprOf<String> {
-        return macro $v{Sys.getCwd()};
+    macro public static function date() : ExprOf<Date> {
+        var d = Date.now();
+        return macro new Date( $v{d.getFullYear()}, $v{d.getMonth()}, $v{d.getDate()}, $v{d.getHours()}, $v{d.getMinutes()}, $v{d.getSeconds()} );
+    }
+
+    macro public static function dateString() : ExprOf<String> {
+        return toExpr( Date.now().toString() );
+    }
+
+    macro public static  function define( name : String, ?value : String ) {
+        Compiler.define( $v{name}, $v{value} );
+        return macro null;
+    }
+
+    macro public static function defined( key : String ) : ExprOf<Bool> {
+        return macro $v{Context.defined( key )};
+    }
+
+    macro public static  function definedValue<T>( key : String, ?def : T ) : T {
+        return Context.defined( $v{key} ) ? cast Context.definedValue( $v{key} ) : $v{def};
+    }
+
+    macro public static function error( msg : String ) : ExprOf<Date> {
+        Context.error( msg, here() );
+        return macro null;
+    }
+
+    macro public static function fatalError( msg : String ) : ExprOf<Date> {
+        Context.fatalError( msg, here() );
+        return macro null;
     }
 
     macro public static function getClassPath() : ExprOf<Array<String>> {
         return macro $v{Context.getClassPath()};
+    }
+
+    macro public static function getCwd() : ExprOf<String> {
+        return macro $v{Sys.getCwd()};
     }
 
     macro public static function getDefines() : ExprOf<Array<Array<String>>> {
@@ -49,57 +61,34 @@ class Haxe {
             arr.push( [key,Std.string(map.get(key))] );
         }
         //return macro $v{map};
-        return Context.makeExpr( arr, Context.currentPos() );
+        return Context.makeExpr( arr, here() );
+    }
+
+    macro public static function getOutput() : ExprOf<String> {
+        return macro $v{Compiler.getOutput()};
+    }
+
+    macro public static function isDebug() : ExprOf<Bool> {
+        return macro #if debug true #else false #end;
+    }
+
+    macro public static function now() : ExprOf<Date> {
+        var d = Date.now();
+        return macro new Date( $v{d.getFullYear()}, $v{d.getMonth()}, $v{d.getDate()}, $v{d.getHours()}, $v{d.getMinutes()}, $v{d.getSeconds()} );
     }
 
     macro public static function parseDefine( key : String ) {
-        return Context.parse( Context.definedValue( key ), Context.currentPos() );
+        return Context.parse( Context.definedValue( key ), here() );
     }
 
     macro public static function println( msg : String ) {
-        Sys.println( msg, Context.currentPos() );
+        Sys.println( msg );
         return macro null;
     }
 
     macro public static function warn( msg : String ) : ExprOf<Date> {
-        Context.warning( msg, Context.currentPos() );
+        Context.warning( msg, here() );
         return macro null;
-    }
-
-    macro public static function error( msg : String ) : ExprOf<Date> {
-        Context.error( msg, Context.currentPos() );
-        return macro null;
-    }
-
-    macro public static function fatalError( msg : String ) : ExprOf<Date> {
-        Context.error( msg, Context.currentPos() );
-        return macro null;
-    }
-
-    macro public static function now() : ExprOf<Date> {
-        var date = Date.now();
-        var year = toExpr( date.getFullYear() );
-        var month = toExpr( date.getMonth() );
-        var day = toExpr( date.getDate() );
-        var hour = toExpr( date.getHours() );
-        var min = toExpr( date.getMinutes() );
-        var sec = toExpr( date.getSeconds() );
-        return macro new Date( $year, $month, $day, $hour, $min, $sec );
-    }
-
-    macro public static function date() : ExprOf<Date> {
-        var date = Date.now();
-        var year = toExpr( date.getFullYear() );
-        var month = toExpr( date.getMonth() );
-        var day = toExpr( date.getDate() );
-        var hours = toExpr( date.getHours() );
-        var mins = toExpr( date.getMinutes() );
-        var secs = toExpr( date.getSeconds() );
-        return macro new Date( $year, $month, $day, $hours, $mins, $secs );
-    }
-
-    macro public static function dateString() : ExprOf<String> {
-        return toExpr( Date.now().toString() );
     }
 
 }
