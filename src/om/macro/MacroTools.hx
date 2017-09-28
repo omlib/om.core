@@ -9,7 +9,22 @@ import sys.FileSystem;
 
 class MacroTools {
 
-	public static inline function getCurrentModulePath() : String
+	public static function createMetaEntry( name : String, ?params : Array<Expr>, ?pos : Position ) : MetadataEntry {
+		return {
+			name: name,
+			params: params,
+			pos: position( pos )
+		};
+	}
+
+	public static function extractMetaParam( type : Type, name : String ) : String {
+		return switch type {
+		case TInst(t,params): ExprTools.getValue( t.get().meta.extract( name )[0].params[0] );
+		default: //throw 'not implementd';
+		}
+	}
+
+	public static function getCurrentModulePath() : String
 		return Context.getPosInfos( (macro null).pos ).file;
 
 	public static function getFileInClassPath( file : String ) : String {
@@ -24,10 +39,10 @@ class MacroTools {
 	public static function getFullClassName( cls : ClassType ) : String
 		return ((cls.pack.length > 0) ? cls.pack.join(".") + "." : "") + cls.name;
 
-	public static inline function getLocalClass() : ClassType
+	public static function getLocalClass() : ClassType
 		return Context.getLocalClass().get();
 
-	public static inline function getLocalClassName() : String
+	public static function getLocalClassName() : String
 		return Context.getLocalClass().toString();
 
 	public static function getMainClass() : String {
@@ -48,13 +63,13 @@ class MacroTools {
 		};
 	}
 
-	public static inline function here() : Position
+	public static function here() : Position
 		return Context.currentPos();
 
-	public static inline function position( ?pos : Position ) : Position
+	public static function position( ?pos : Position ) : Position
 		return (pos == null) ? Context.currentPos() : pos;
 
-	public static inline function toExpr( v : Dynamic ) : Expr
+	public static function toExpr( v : Dynamic ) : Expr
 		return Context.makeExpr( v, Context.currentPos() );
 
 }
