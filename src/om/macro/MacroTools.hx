@@ -5,23 +5,95 @@ package om.macro;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
+import om.Haxe.CompilerTarget;
 import sys.FileSystem;
+
+using haxe.macro.ExprTools;
+using haxe.macro.TypeTools;
 
 class MacroTools {
 
-	public static function createMetaEntry( name : String, ?params : Array<Expr>, ?pos : Position ) : MetadataEntry {
+	public static function asTypePath( s : String, ?params ) : TypePath {
+		var parts = s.split( '.' );
+		var name = parts.pop();
+		var sub = null;
+		if( parts.length > 0 && parts[parts.length - 1].charCodeAt(0) < 0x5B ) {
+			sub = name;
+			name = parts.pop();
+			if( sub == name ) sub = null;
+		}
 		return {
 			name: name,
-			params: params,
-			pos: position( pos )
+			pack: parts,
+			params: params == null ? [] : params,
+			sub: sub
 		};
+	}
+
+	public static function createMetaEntry( name : String, ?params : Array<Expr>, ?pos : Position ) : MetadataEntry {
+		return { name: name, params: params, pos: position( pos ) };
 	}
 
 	public static function extractMetaParam( type : Type, name : String ) : String {
 		return switch type {
-		case TInst(t,params): ExprTools.getValue( t.get().meta.extract( name )[0].params[0] );
-		default: //throw 'not implementd';
+		case TInst(t,params): t.get().meta.extract( name )[0].params[0].getValue();
+		default: throw 'not implementd';
 		}
+	}
+
+	macro public static function getAbstractEnumValues<T>( typePath : Expr ) : ExprOf<Array<T>> {
+        var type = Context.getType( typePath.toString() );
+        return switch type.follow() {
+        case TAbstract(_.get()=>ab,_) if( ab.meta.has( ":enum" ) ):
+            var exprs = [];
+            for( f in ab.impl.get().statics.get() ) {
+                if( f.meta.has( ":enum" ) && f.meta.has( ":impl" ) ) {
+                    var field = f.name;
+                    exprs.push( macro $typePath.$field );
+                }
+            }
+            macro $a{exprs};
+        default:
+            throw new haxe.macro.Error( type.toString() + " should be @:enum abstract", typePath.pos );
+        }
+    }
+
+	public static function getClassAncestor( type : ClassType ) : Null<ClassType> {
+        var c = type.superClass;
+        return (c == null) ? null : c.t.get();
+    }
+
+	public static function getCompilerTarget() : CompilerTarget {
+	//	for( t in ['cpp','cs','hl','interp','java','js','lua','neko','php','python','swf'] )
+		var targets : Array<String> = getAbstractEnumValues( CompilerTarget );
+		for( t in targets )
+			if( Context.defined( t ) )
+				return t;
+		return null;
+
+
+	//	trace( 'eval', Context.defined('eval') );
+		//trace( 'macro', Context.defined('macro') );
+		//trace( 'js', Context.defined('js') );
+
+
+		/*
+		return
+			#if cpp 'cpp'
+		//	#elseif eval 'eval'
+			#elseif cs 'cs'
+			#elseif hl 'hl'
+			#elseif interp 'interp'
+			#elseif java 'java'
+			#elseif js 'js'
+			#elseif lua 'lua'
+			#elseif neko 'neko'
+			#elseif php 'php'
+			#elseif python 'python'
+			#elseif swf 'swf'
+			#else 'unknown'
+			#end;
+			*/
 	}
 
 	public static function getCurrentModulePath() : String
@@ -46,7 +118,7 @@ class MacroTools {
 		return Context.getLocalClass().toString();
 
 	public static function getMainClass() : String {
-		var args = Sys.args();
+		var args = std.Sys.args();
 		return switch [args.indexOf('-main'), args.indexOf('-x')] {
 			case [-1, -1]: null;
 			case [v, -1] | [_, v]: args[v+1];
@@ -65,6 +137,13 @@ class MacroTools {
 
 	public static function here() : Position
 		return Context.currentPos();
+
+	public static function isConstant( e : Expr ) : Bool {
+		return switch e.expr {
+			case EConst(c): true;
+			default: false;
+		}
+	}
 
 	public static function position( ?pos : Position ) : Position
 		return (pos == null) ? Context.currentPos() : pos;

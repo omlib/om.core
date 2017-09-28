@@ -7,6 +7,19 @@ import haxe.macro.Context;
 import om.macro.MacroTools.*;
 #end
 
+@:enum abstract CompilerTarget(String) from String to String {
+    var cpp = 'cpp';
+    var cs = 'cs';
+    var hl = 'hl';
+    var java = 'java';
+    var js = 'js';
+    var lua = 'lua';
+    var neko = 'neko';
+    var php = 'php';
+    var python = 'python';
+    var swf = 'swf';
+}
+
 class Haxe {
 
     macro public static function addResource( name : String, data : Bytes ) {
@@ -48,6 +61,11 @@ class Haxe {
 
     macro public static function getClassPath() : ExprOf<Array<String>> {
         return macro $v{Context.getClassPath()};
+    }
+
+    macro public static function getCompilerTarget() : ExprOf<CompilerTarget> {
+        var t = om.macro.MacroTools.getCompilerTarget();
+        return macro $v{t};
     }
 
     macro public static function getCwd() : ExprOf<String> {
