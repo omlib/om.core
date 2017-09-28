@@ -5,6 +5,7 @@ import haxe.io.Bytes;
 import haxe.macro.Compiler;
 import haxe.macro.Context;
 import om.macro.MacroTools.*;
+using StringTools;
 #end
 
 @:enum abstract CompilerTarget(String) from String to String {
@@ -85,6 +86,51 @@ class Haxe {
     macro public static function getOutput() : ExprOf<String> {
         return macro $v{Compiler.getOutput()};
     }
+
+    macro public static function getTargetLineComment( ?target : String ) : ExprOf<String> {
+		if( target == null ) target = om.macro.MacroTools.getCompilerTarget();
+		return macro $v{switch target {
+			case 'lua': '--';
+			case 'python': '#';
+			case _: '//';
+		}}
+	}
+
+    macro public static function injectCode( code : String ) : ExprOf<String> {
+        var target = om.macro.MacroTools.getCompilerTarget();
+        return switch target {
+        case cpp: macro untyped __cpp__( '$code' );
+        case cs: macro untyped __cs__( '$code' );
+        case js: macro untyped __js__( '$code' );
+        case lua: macro untyped __lua__( '$code' );
+        case php: macro untyped __php__( '$code' );
+        case java: macro untyped __java__( '$code' );
+        //case 'python': macro untyped __python__( '$code' );
+        default:
+            Context.warning( 'injectCode not implemented [$target]', here() );
+            macro null;
+        }
+    }
+
+    //TODO injects a ; at end
+    macro public static function injectComment( str : String ) {
+        var target = om.macro.MacroTools.getCompilerTarget();
+        var comment = getTargetLineComment();
+        if( !str.startsWith( 'comment' ) ) str = '$comment $str';
+        return switch target {
+        case 'cpp':	macro untyped __cpp__( '$str' );
+        case 'cs':	macro untyped __cs__( '$str' );
+        case 'js':	macro untyped __js__( '$str' );
+        case 'lua':	macro untyped __lua__( '$str' );
+        case 'php': macro untyped __php__( '$str' );
+        case 'java': macro untyped __java__( '$str' );
+        //case 'python': macro untyped __python__( '$str' );
+        default:
+            Context.warning( 'injectComment not implemented', here() );
+            macro null;
+        }
+    }
+
 
     macro public static function isDebug() : ExprOf<Bool> {
         return macro #if debug true #else false #end;
