@@ -5,6 +5,7 @@ package om.macro;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
+import haxe.macro.PositionTools;
 import om.Haxe.CompilerTarget;
 import sys.FileSystem;
 
@@ -64,36 +65,11 @@ class MacroTools {
     }
 
 	public static function getCompilerTarget() : CompilerTarget {
-	//	for( t in ['cpp','cs','hl','interp','java','js','lua','neko','php','python','swf'] )
-		var targets : Array<String> = getAbstractEnumValues( CompilerTarget );
-		for( t in targets )
+		var values : Array<String> = getAbstractEnumValues( CompilerTarget );
+		for( t in values )
 			if( Context.defined( t ) )
 				return t;
 		return null;
-
-
-	//	trace( 'eval', Context.defined('eval') );
-		//trace( 'macro', Context.defined('macro') );
-		//trace( 'js', Context.defined('js') );
-
-
-		/*
-		return
-			#if cpp 'cpp'
-		//	#elseif eval 'eval'
-			#elseif cs 'cs'
-			#elseif hl 'hl'
-			#elseif interp 'interp'
-			#elseif java 'java'
-			#elseif js 'js'
-			#elseif lua 'lua'
-			#elseif neko 'neko'
-			#elseif php 'php'
-			#elseif python 'python'
-			#elseif swf 'swf'
-			#else 'unknown'
-			#end;
-			*/
 	}
 
 	public static function getCurrentModulePath() : String
@@ -134,9 +110,6 @@ class MacroTools {
 			case _: throw 'invalid type $type';
 		};
 	}
-
-	public static function here() : Position
-		return Context.currentPos();
 
 	public static function isConstant( e : Expr ) : Bool {
 		return switch e.expr {
