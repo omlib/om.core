@@ -8,7 +8,7 @@ import js.html.Uint8Array;
 class ArrayBufferUtil {
 
 	/**
-		js.html.ArrayBuffer to String.
+		Convert js.html.ArrayBuffer to String.
 	*/
 	public static function ab2str( buf : ArrayBuffer ) : String {
 		var v = new Uint8Array( buf );
@@ -20,19 +20,19 @@ class ArrayBufferUtil {
 	#if nodejs
 
 	/**
-		js.node.Buffer to js.html.ArrayBuffer.
+		Convert js.node.Buffer to js.html.ArrayBuffer.
 	*/
 	public static function buf2ab( buf : js.node.Buffer ) : ArrayBuffer {
-		var ab = new ArrayBuffer( buf.length );
-		var view = new Uint8Array(ab);
-		for( i in 0...buf.length ) view[i] = buf[i];
-		return ab;
+		var a = new ArrayBuffer( buf.length );
+		var v = new Uint8Array( a );
+		for( i in 0...buf.length ) v[i] = buf[i];
+		return a;
 	}
 
 	#end
 
 	/**
-		String to js.html.ArrayBuffer.
+		Convert String to js.html.ArrayBuffer.
 	*/
 	public static function str2ab( str : String ) : ArrayBuffer {
 		var b = new ArrayBuffer( str.length );
