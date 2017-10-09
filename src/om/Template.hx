@@ -32,18 +32,6 @@ private typedef ExprToken = {
 **/
 class Template {
 
-    //TODO
-    //public static inline var S_START = '::';
-    //public static inline var S_END = '::';
-    //public static inline var S_CB = '@';
-    //public static inline var CURRENT = 'ctx';
-
-	//TODO
-	/*
-	//static var splitter = ~/(::[A-Za-z0-9_ ()&|!+=\/><*."-]+::|\$\$([A-Za-z0-9_-]+)\()/;
-	static var splitter = new EReg( '('+S_START+'[A-Za-z0-9_ ()&|!+=\\/><*."-]+'+S_END+'|'+S_CB+'([A-Za-z0-9_-]+)\\()','');
-	*/
-	var splitter : EReg;
 	static var expr_splitter = ~/(\(|\)|[ \r\n\t]*"[^"]*"[ \r\n\t]*|[!+=\/><*.&|-]+)/;
 	static var expr_trim = ~/^[ ]*([^ ]+)[ ]*$/;
 	static var expr_int = ~/^[0-9]+$/;
@@ -60,6 +48,7 @@ class Template {
 	public var sCallback(default,null) : String;
 	public var sCurrent(default,null) : String;
 
+	var splitter : EReg;
 	var expr : TemplateExpr;
 	var context : Dynamic;
 	var macros : Dynamic;
@@ -117,7 +106,6 @@ class Template {
 	}
 
 	function resolve( v : String ) : Dynamic {
-		//if( v == CURRENT )
 		if( v == sCurrent )
 			return context;
 		var value = Reflect.getProperty(context, v);
