@@ -2,8 +2,6 @@ package om;
 
 import Xml;
 
-using om.util.IterableUtil;
-
 abstract XML(Xml) from Xml to Xml {
 
 	public static inline var Element = XmlType.Element;

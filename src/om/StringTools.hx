@@ -1,8 +1,28 @@
-package om.util;
+package om;
 
-using om.util.ArrayUtil;
+using om.ArrayTools;
 
-class StringUtil {
+class StringTools {
+
+	public static inline function htmlEscape( s : String, ?quotes : Bool ) : String return std.StringTools.htmlEscape( s, quotes );
+	public static inline function htmlUnescape( s : String ) : String return std.StringTools.htmlUnescape( s );
+	//public static inline function postProcessUrlEncode( s : String ) : String return std.StringTools.postProcessUrlEncode( s );
+	public static inline function urlEncode( s : String ) : String return std.StringTools.urlEncode( s );
+	public static inline function urlDecode( s : String ) : String return std.StringTools.urlDecode( s );
+	public static inline function startsWith( s : String, start : String ) : Bool return std.StringTools.startsWith( s, start );
+	public static inline function endsWith( s : String, end : String ) : Bool return std.StringTools.endsWith( s, end );
+	public static inline function isSpace( s : String, pos : Int ) : Bool return std.StringTools.isSpace( s, pos );
+	public static inline function ltrim( s : String ) : String return std.StringTools.ltrim( s );
+	public static inline function rtrim( s : String ) : String return std.StringTools.rtrim( s );
+	public static inline function trim( s : String ) : String return std.StringTools.trim( s );
+	public static inline function lpad( s : String, c : String, l : Int ) : String return std.StringTools.lpad( s, c, l );
+	public static inline function rpad( s : String, c : String, l : Int ) : String return std.StringTools.rpad( s, c, l );
+	public static inline function replace( s : String, sub : String, by : String ) : String return std.StringTools.replace( s, sub, by );
+	public static inline function hex( n : Int, ?digits : Int ) : String return std.StringTools.hex( n, digits );
+	public static inline function fastCodeAt( s : String, index : Int ) : Int return std.StringTools.fastCodeAt( s, index );
+	public static inline function isEof( c : Int ) : Bool return std.StringTools.isEof( c );
+	public static inline function quoteUnixArg( argument : String ) : String return std.StringTools.quoteUnixArg( argument );
+	public static inline function quoteWinArg( argument : String, escapeMetaCharacters : Bool ) : String return std.StringTools.quoteWinArg( argument, escapeMetaCharacters );
 
 	//public static var SPLIT_LINES = ~/\r\n|\n\r|\n|\r/g;
 

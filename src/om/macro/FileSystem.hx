@@ -7,11 +7,10 @@ import haxe.Json;
 import sys.FileSystem;
 import sys.io.File;
 
-using StringTools;
 using haxe.io.Path;
+using om.StringTools;
 using om.macro.MacroTools;
 using om.macro.ExprTools;
-using om.util.StringUtil;
 
 #end
 

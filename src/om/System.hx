@@ -1,6 +1,6 @@
 package om;
 
-using om.util.StringUtil;
+using om.StringTools;
 
 class System {
 

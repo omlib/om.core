@@ -5,7 +5,7 @@ package om;
 import js.html.ArrayBuffer;
 import js.html.Uint8Array;
 
-class ArrayBufferUtil {
+class ArrayBufferTools {
 
 	/**
 		Convert `js.html.ArrayBuffer` to `String`.
