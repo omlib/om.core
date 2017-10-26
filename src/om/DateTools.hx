@@ -1,7 +1,42 @@
 package om.util;
 
-class DateUtil {
+class DateTools {
 
+	public static inline function format( d : Date, f : String ) : String
+		return std.DateTools.format( d, f );
+
+	public static inline function delta( d : Date, t : Float ) : Date
+		return std.DateTools.delta( d, t );
+
+	public static inline function getMonthDays( d : Date ) : Int
+		return std.DateTools.getMonthDays( d );
+
+	public static inline function seconds( n : Float ) : Float
+		return std.DateTools.seconds( n );
+
+	public static inline function minutes( n : Float ) : Float
+		return std.DateTools.minutes( n );
+
+	public static inline function hours( n : Float ) : Float
+		return std.DateTools.hours( n );
+
+	public static inline function days( n : Float ) : Float
+		return std.DateTools.days( n );
+
+	public static inline function parse( t : Float )
+		return std.DateTools.parse( t );
+
+	public static inline function make( o : { ms : Float, seconds : Int, minutes : Int, hours : Int, days : Int } ) : Float
+		return std.DateTools.make( o );
+
+	#if (js || flash || php || cpp || python)
+
+	public static inline function makeUtc( year : Int, month : Int, day : Int, hour : Int, min : Int, sec : Int ) : Float
+		return std.DateTools.makeUtc( year, month, day, hour, min, sec );
+
+	#end
+
+	/*
 	public static inline function weeks( days : Float ) : Int {
 		return Math.floor( Math.ceil( days / 7 ) );
 	}
@@ -17,6 +52,7 @@ class DateUtil {
 	public static inline function minutes( diff : Float ) : Int {
 		return Math.floor( diff / 60 );
 	}
+	*/
 
 	/**
 		Formats given date to:

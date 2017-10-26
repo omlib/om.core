@@ -1,10 +1,10 @@
-package om.util;
+package om;
 
 #if macro
 import haxe.macro.Expr;
 #end
 
-class ArrayUtil {
+class ArrayTools {
 
 	//See: https://github.com/polygonal/ds/blob/master/src/de/polygonal/ds/tools/NativeArrayTools.hx
 
@@ -161,8 +161,8 @@ class ArrayUtil {
 
 	/**
 	*/
-	public static inline function random<T>( arr : Array<T> ) : T {
-		return arr[ Math.floor( Math.random() * arr.length - 1 ) ];
+	public static inline function random<T>( a : Array<T> ) : T {
+		return a[ Math.floor( Math.random() * a.length - 1 ) ];
 	}
 
 	/**
@@ -179,14 +179,15 @@ class ArrayUtil {
 	}
 
 	//TODO
-	public static function resizeFloatArray( array : Array<Float>, length : Int, fill : Float = 0.0) {
-    	while( array.length < length )
-      		array.push( fill );
-    	array.splice( length, array.length - length );
-    	return array;
+	public static function resizeFloatArray( a : Array<Float>, length : Int, fill : Float = 0.0) {
+    	while( a.length < length )
+      		a.push( fill );
+    	a.splice( length, a.length - length );
+    	return a;
 	}
 
 	/**
+		Returns reversed array
 	*/
 	public static inline function reversed<T:Int>( a : Array<T> ) : Array<T> {
 		var b = a.copy();
@@ -211,6 +212,15 @@ class ArrayUtil {
 	}
 
 	/**
+		Tests whether at least one element in the array passes the test implemented by the provided function.
+	*/
+	#if js
+	public static inline function some<T>( a : Array<T>, f : T->Int->Array<T>->Bool ) {
+		return untyped a.some( f );
+	}
+	#end
+
+	/**
 	*/
 	public static function sorted<T>( a : Array<T>, f : T->T->Int ) : Array<T> {
 		var n = a.copy();
@@ -225,7 +235,7 @@ class ArrayUtil {
 	/**
 		Returns a copy of the array with the new element added to the end.
 	*/
-	public inline static function with<T>( a : Array<T>, e : T ) : Array<T> {
+	public static inline function with<T>( a : Array<T>, e : T ) : Array<T> {
 		return a.concat( [e] );
 	}
 

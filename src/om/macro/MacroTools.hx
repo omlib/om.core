@@ -35,7 +35,7 @@ class MacroTools {
 		return { name: name, params: params, pos: position( pos ) };
 	}
 
-	public static function extractMetaParam( type : Type, name : String ) : String {
+	public static function extractMetaParam( type : Type, name : String ) {
 		return switch type {
 		case TInst(t,params): t.get().meta.extract( name )[0].params[0].getValue();
 		default: throw 'not implementd';
@@ -104,7 +104,7 @@ class MacroTools {
 	public static function getModuleDirectory( type : String ) : String
 		return getModulePath( type ).split( "/" ).slice( 0, -1 ).join( "/" );
 
-	public static function getModulePath( type : String) : String {
+	public static function getModulePath( type : String ) : String {
     	return switch Context.getType( type ) {
 			case TInst(t,_): Context.getPosInfos( t.get().pos ).file;
 			case _: throw 'invalid type $type';

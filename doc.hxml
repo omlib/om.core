@@ -34,8 +34,8 @@
 
 --next
 -js x
+-xml doc/node.xml
 -lib hxnodejs
--xml doc/nodejs.xml
 
 --next
 -neko x

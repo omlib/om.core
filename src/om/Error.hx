@@ -23,31 +23,22 @@ class Error #if js extends js.Error #end {
 
 	public var stackItems(default,null) : Array<StackItem>;
 
-	//public function new( ?message : String, ?pos : PosInfos ) {
 	public function new( ?message : String, ?stack : Array<StackItem>, ?pos : PosInfos ) {
 
 		#if js
 		super( message );
 		#end
+		var cl = Type.getClassName( Type.getClass( this ) );
+		if( cl.indexOf( '.' ) != -1 ) cl = cl.split('.').pop();
+		this.name = cl;
 		this.message = message;
 		this.pos = pos;
 
-		var clName = Type.getClassName( Type.getClass(this) );
-		if( clName.indexOf( '.' ) != -1 ) clName = clName.split('.').pop();
-		this.name = clName;
-
 		if( stack == null ) {
 			stack = try CallStack.exceptionStack() catch(e:Dynamic) [];
-			if( stack.length == 0 )
-				stack = try CallStack.callStack() catch(e:Dynamic) [];
+			if( stack.length == 0 ) stack = try CallStack.callStack() catch(e:Dynamic) [];
 		}
 		this.stackItems = stack;
-	}
-
-	public function toString() : String {
-		var items = getExceptionStack();
-		if( items.length == 0 ) items = getCallStack();
-		return getSourcePosition() + ' : ' + message + CallStack.toString( items );
 	}
 
 	public inline function getCallStack() : Array<StackItem>
@@ -58,6 +49,12 @@ class Error #if js extends js.Error #end {
 
 	public inline function getSourcePosition() : String
 		return pos.fileName + ':' + pos.lineNumber;
+
+	public function toString() : String {
+		var items = getExceptionStack();
+		if( items.length == 0 ) items = getCallStack();
+		return getSourcePosition() + ' : ' + message + CallStack.toString( items );
+	}
 
 	/*
 	public inline function callStack() : String

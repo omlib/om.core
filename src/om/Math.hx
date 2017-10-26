@@ -63,19 +63,19 @@ class Math {
 	public static var NEGATIVE_INFINITY(get,never) : Float;
 	static inline function get_NEGATIVE_INFINITY() return std.Math.NEGATIVE_INFINITY;
 
-	public static inline function abs( f : Float )
+	public static inline function abs( f : Float ) : Float
 		return f < 0 ? -f : f;
 
-	public static inline function acos( f : Float )
+	public static inline function acos( f : Float ) : Float
 		return std.Math.acos(f);
 
-	public static inline function asin( f : Float )
+	public static inline function asin( f : Float ) : Float
 		return std.Math.asin(f);
 
-	public static inline function atan( f : Float )
+	public static inline function atan( f : Float ) : Float
 		return std.Math.atan(f);
 
-	public static inline function atan2( y : Float, x : Float )
+	public static inline function atan2( y : Float, x : Float ) : Float
 		return std.Math.atan2(y,x);
 
 	public static inline function ceil( f : Float ) : Float
@@ -87,7 +87,7 @@ class Math {
 		return value < min ? min : value > max ? max : value;
 	}
 
-	public static inline function cos( f : Float )
+	public static inline function cos( f : Float ) : Float
 		return std.Math.cos(f);
 
 	/**
@@ -96,20 +96,20 @@ class Math {
 	public static inline function countDigits( x : Float ) : Int
 		return Std.int( (x == 0) ? 1 : (Math.log(x) / Math.log(10)) + 1 );
 
-	public static inline function degToRad( f : Float )
+	public static inline function degToRad( f : Float ) : Float
 		return f * PI / 180;
 	//public static inline function degToRad( f : Float ) return f * DEGREES_TO_RADIANS_FACTOR;
 
-	public static inline function exp( f : Float )
+	public static inline function exp( f : Float ) : Float
 		return std.Math.exp(f);
 
-	public static inline function fceil( f : Float )
+	public static inline function fceil( f : Float ) : Float
 		return std.Math.fceil(f);
 
-	public static inline function ffloor( f : Float )
+	public static inline function ffloor( f : Float ) : Float
 		return std.Math.ffloor(f);
 
-	public static inline function floor( f : Float )
+	public static inline function floor( f : Float ) : Int
 		return std.Math.floor(f);
 
 	/**
@@ -138,47 +138,47 @@ class Math {
 		else Math.round( min + equation(f) * ( max - min ) );
 	}
 
-	public static inline function invSqrt( f : Float )
+	public static inline function invSqrt( f : Float ) : Float
 		return 1.0 / sqrt(f);
 
-	public static inline function isFinite( v : Float )
+	public static inline function isFinite( v : Float ) : Bool
 		return std.Math.isFinite( v );
 
-	public static inline function isNaN( v : Float )
+	public static inline function isNaN( v : Float ) : Bool
 		return std.Math.isNaN( v );
 
-	public static inline function log( v : Float )
+	public static inline function log( v : Float ) : Float
 		return std.Math.log( v );
 
-	public static inline function log10( v : Float )
+	public static inline function log10( v : Float ) : Float
 		return log( v ) / Math.LN10;
 
-	public static inline function max( a : Float, b : Float )
+	public static inline function max( a : Float, b : Float ) : Float
 		return a < b ? b : a;
 
-	public static inline function min( a : Float, b : Float )
+	public static inline function min( a : Float, b : Float ) : Float
 		return a > b ? b : a;
 
-	public static inline function pow( v : Float, p : Float )
+	public static inline function pow( v : Float, p : Float ) : Float
 		return std.Math.pow( v, p );
 
-	public static inline function radToDeg( f : Float )
+	public static inline function radToDeg( f : Float ) : Float
 		return f * 180 / PI;
 	//public static inline function radToDeg( f : Float )	return f * RADIANS_TO_DEGREES_FACTOR;
 
-	public static inline function random( max = 1.0 )
+	public static inline function random( max : Float = 1.0 ) : Float
 		return std.Math.random() * max;
 
-	public static inline function round( f : Float )
+	public static inline function round( f : Float ) : Int
 		return std.Math.round(f);
 
-	public static inline function sin( f : Float )
+	public static inline function sin( f : Float ) : Float
 		return std.Math.sin(f);
 
-	public static inline function sqrt( f : Float )
+	public static inline function sqrt( f : Float ) : Float
 		return std.Math.sqrt(f);
 
-	public static inline function tan( f : Float )
+	public static inline function tan( f : Float ) : Float
 		return std.Math.tan(f);
 
 }
