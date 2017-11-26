@@ -54,6 +54,16 @@ class StringTools {
 		return count( str, '\n' );
 	}
 
+	public static function fromIntArray( a : Array<Int> ) : String {
+		var r = [];
+		for( i in 0...a.length ) {
+	        var c = a[i];
+	        if( c > 255 ) c &= 255;
+	        r.push( String.fromCharCode( c ) );
+	    }
+	    return r.join( "" );
+	}
+
 	public static inline function isEmpty( str : String ) : Bool {
 		return str == null || str == '';
 	}
@@ -120,4 +130,12 @@ class StringTools {
 	public static inline function toArray( str : String, delimiter = '' ) : Array<String> {
 		return str.split( delimiter );
 	}
+
+	public static function toIntArray( s : String ) : Array<Int> {
+		var r = new Array<Int>();
+		for( i in 0...s.length )
+			r.push( s.charCodeAt( i ) );
+		return r;
+	}
+
 }
