@@ -159,7 +159,7 @@ class ArrayTools {
         var i = 0;
         var r = [];
         function n() {
-            f( a[i], y -> {
+            f( a[i], function(y) {
                 if( y ) r.push( a[i] );
                 if( ++i == a.length ) callback( r ) else n();
             } );
@@ -204,6 +204,15 @@ class ArrayTools {
 	*/
 	public static inline function last<T>( a : Array<T> ) : T {
 		return a[a.length-1];
+	}
+
+	/**
+		Same as `Array.map` but it adds a second argument to the `callback` function with the current index value.
+	*/
+	public static function mapi<TIn,TOut>( a : Array<TIn>, callback : TIn->Int->TOut ) : Array<TOut> {
+		var r = [];
+		for( i in 0...a.length ) r.push( callback( a[i], i ) );
+		return r;
 	}
 
 	/**
