@@ -6,9 +6,9 @@ import haxe.macro.Expr;
 
 class ArrayTools {
 
-	//See: https://github.com/polygonal/ds/blob/master/src/de/polygonal/ds/tools/NativeArrayTools.hx
 
 	/*
+	//See: https://github.com/polygonal/ds/blob/master/src/de/polygonal/ds/tools/NativeArrayTools.hx
 	public static inline function alloc<T>( len : Int ) : Array<T> {
 		#if js
 		return untyped __js__("new Array({0})", len );
@@ -35,34 +35,34 @@ class ArrayTools {
 	/**
 		Pushes value to array and returns the array.
 	*/
-	public static inline function add<T>( arr : Array<T>, v : T ) : Array<T> {
-		arr.push( v );
-		return arr;
+	public static inline function add<T>( a : Array<T>, v : T ) : Array<T> {
+		a.push( v );
+		return a;
 	}
 
 	/**
 		Returns all the items after the first occurrance of `e`.
 	*/
-	public static inline function after<T>( arr : Array<T>, e : T ) : Array<T> {
-		return arr.slice( arr.indexOf( e ) + 1 );
+	public static inline function after<T>( a : Array<T>, e : T ) : Array<T> {
+		return a.slice( a.indexOf( e ) + 1 );
 	}
 
 	/**
 		Returns true if predicate return true for all items in the array.
 	*/
-	public static function all<T>( arr : Array<T>, predicate : T->Bool ) : Bool {
-		for( e in arr )
+	public static function all<T>( a : Array<T>, predicate : T->Bool ) : Bool {
+		for( e in a )
 			if( !predicate( e ) )
 				return false;
 		return true;
 	}
 
 	/**
-		Returns true if predicate return true for at least one element in the array.
+		Returns true if `f()` return true for at least one element in the array.
 	*/
-	public static function any<T>( arr : Array<T>, predicate : T->Bool ) : Bool {
-		for( e in arr )
-			if( predicate( e ) )
+	public static function any<T>( a : Array<T>, f : T->Bool ) : Bool {
+		for( e in a )
+			if( f( e ) )
 				return true;
 		return false;
 	}
@@ -74,35 +74,47 @@ class ArrayTools {
 		return a;
 	}
 
+	public static inline function at<T>( a : Array<T>, indexes : Array<Int> ) : Array<T> {
+		return indexes.map( function(i) return a[i] );
+	}
+
 	/**
 		Returns all items before `e`.
 	*/
-	public static inline function before<T>( arr : Array<T>, e : T ) : Array<T> {
-		return arr.slice( 0, arr.indexOf( e ) );
+	public static inline function before<T>( a : Array<T>, e : T ) : Array<T> {
+		return a.slice( 0, a.indexOf( e ) );
 	}
 
 	/**
 		Returns `true` if `e` is found in the array.
 	*/
-	public static function contains<T>( arr : Array<T>, e : T, ?eq : T->T->Bool ) : Bool {
-		if( eq == null )
-			return arr.indexOf( e ) >= 0;
-		for( i in 0...arr.length )
-			if( eq( arr[i], e ) )
+	public static function contains<T>( a : Array<T>, e : T, ?f : T->T->Bool ) : Bool {
+		if( f == null )
+			return a.indexOf( e ) >= 0;
+		for( i in 0...a.length )
+			if( f( a[i], e ) )
 				return true;
 		return false;
 	}
 
 	/**
-		Returns `true` if all items match.
+		Returns `true` if all elements are found in the array.
 	*/
-	public static function equals<T>( a : Array<T>, b : Array<T>, f : T->T->Bool ) : Bool {
-		if( a == null || b == null || a.length != b.length )
-			return false;
-		for( i in 0...a.length )
-			if( !f( a[i], b[i] ) )
+	public static function containsAll<T>( a : Array<T>, elements : Array<T>, ?f : T->T->Bool ) : Bool {
+		for( e in elements )
+			if( !contains( a, e, f ) )
 				return false;
 		return true;
+	}
+
+	/**
+		Returns `true` if any of `elements` are found in the array.
+	*/
+	public static function containsAny<T>( a : Array<T>, elements : Array<T>, ?f : T->T->Bool ) : Bool {
+		for( e in elements )
+			if( contains( a, e, f ) )
+				return true;
+		return false;
 	}
 
 	/**
@@ -118,9 +130,73 @@ class ArrayTools {
 	}
 
 	/**
+		Returns `true` if all items match.
+	*/
+	public static function equals<T>( a : Array<T>, b : Array<T>, f : T->T->Bool ) : Bool {
+		if( a == null || b == null || a.length != b.length )
+			return false;
+		for( i in 0...a.length )
+			if( !f( a[i], b[i] ) )
+				return false;
+		return true;
+	}
+
+	/**
+		Find the element, remove it, return it.
+	*/
+	public static function extract<T>( a : Array<T>, f : T->Bool ) : T {
+    	for( i in 0...a.length )
+      		if( f( a[i] ) )
+        		return a.splice( i, 1 )[0];
+    	return null;
+  	}
+
+	#if js
+	/**
+		Async filter.
+	*/
+	public static function filter<T>( a : Array<T>, f : T->(Bool->Void)->Void, callback : Array<T>->Void ) {
+        var i = 0;
+        var r = [];
+        function n() {
+            f( a[i], y -> {
+                if( y ) r.push( a[i] );
+                if( ++i == a.length ) callback( r ) else n();
+            } );
+        }();
+    }
+	#end
+
+	/**
+		Returns the first element that matches function `f`.
+	*/
+	public static function find<T>( a : Array<T>, f : T->Bool ) : Null<T> {
+		for( e in a ) if( f( e) ) return e;
+		return null;
+	}
+
+	/**
+	*/
+	public static function findIndex<T>( a : Array<T>, f : T->Bool ) : Int {
+		for( i in 0...a.length ) if( f( a[i] ) ) return i;
+		return -1;
+	}
+
+	/**
 	*/
 	public static inline function first<T>( a : Array<T> ) : T {
 		return a[0];
+	}
+
+	/**
+	public static function flatten<T>( a : Array<Array<T>> ) : Array<T> {
+	*/
+
+	/**
+		Returns `true` if the array contains 0 elements.
+	*/
+	public static inline function isEmpty<T>( a : Array<T> ) : Bool {
+		return a == null || a.length == 0;
 	}
 
 	/**
@@ -155,8 +231,8 @@ class ArrayTools {
 
 	/**
 	*/
-	macro public static function pluck<T,TOut>( arr : ExprOf<Array<T>>, expr : ExprOf<TOut> ) : ExprOf<Array<TOut>> {
-		return macro $e{arr}.map( function(_) return ${expr} );
+	macro public static function pluck<T,TOut>( a : ExprOf<Array<T>>, expr : ExprOf<TOut> ) : ExprOf<Array<TOut>> {
+		return macro $e{a}.map( function(_) return ${expr} );
 	}
 
 	/**
@@ -171,11 +247,11 @@ class ArrayTools {
 	**/
 	//TODO
   	//public static function resize<T>( array : Array<T>, length : Int, fill : T ) {
-  	public static function resize( array : Array<Int>, length : Int, fill : Int = 0 ) {
-    	while( array.length < length )
-      		array.push( fill );
-    	array.splice( length, array.length - length );
-    	return array;
+  	public static function resize( a : Array<Int>, length : Int, fill : Int = 0 ) {
+    	while( a.length < length )
+      		a.push( fill );
+    	a.splice( length, a.length - length );
+    	return a;
 	}
 
 	//TODO
@@ -229,8 +305,8 @@ class ArrayTools {
 	}
 
 	/**
-	*/
 	//public static inline function split<T:Int>( a : Array<T>, parts : Int ) : Array<T> {
+	*/
 
 	/**
 		Returns a copy of the array with the new element added to the end.
