@@ -18,7 +18,7 @@ class Clock {
 	}
 
 	public function start() {
-		startTime = Time.now();
+		startTime = Time.stamp();
 		oldTime = startTime;
 		elapsedTime = 0;
 		running = true;
@@ -35,17 +35,17 @@ class Clock {
 	}
 
 	public function getDelta() : Float {
-		var diff = 0.0;
+		var d = 0.0;
 		if( running ) {
-			var now = Time.now();
-			diff = (now - oldTime) / 1000;
-			oldTime = now;
-			elapsedTime += diff;
+			var ts = Time.stamp();
+			d = (ts - oldTime) / 1000;
+			oldTime = ts;
+			elapsedTime += d;
 		} else if( autoStart ) {
             start();
             return 0;
         }
-		return diff;
+		return d;
 	}
 
 }
