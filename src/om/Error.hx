@@ -28,15 +28,17 @@ class Error #if js extends js.Error #end {
 		#if js
 		super( message );
 		#end
+		this.message = message;
+
 		var cl = Type.getClassName( Type.getClass( this ) );
 		if( cl.indexOf( '.' ) != -1 ) cl = cl.split('.').pop();
 		this.name = cl;
-		this.message = message;
 		this.pos = pos;
 
 		if( stack == null ) {
 			stack = try CallStack.exceptionStack() catch(e:Dynamic) [];
-			if( stack.length == 0 ) stack = try CallStack.callStack() catch(e:Dynamic) [];
+			if( stack.length == 0 )
+				stack = try CallStack.callStack() catch(e:Dynamic) [];
 		}
 		this.stackItems = stack;
 	}
@@ -55,23 +57,5 @@ class Error #if js extends js.Error #end {
 		if( items.length == 0 ) items = getCallStack();
 		return getSourcePosition() + ' : ' + message + CallStack.toString( items );
 	}
-
-	/*
-	public inline function callStack() : String
-		return CallStack.toString( CallStack.callStack() );
-
-	public inline function exceptionStack() : String
-		return CallStack.toString( CallStack.exceptionStack() );
-
-
-	public inline function getSourcePosition() : String
-		return pos.fileName + ':' + pos.lineNumber;
-		*/
-
-		/*
-	public static inline function ofDynamic( err : Dynamic, ?pos : PosInfos ) : TError {
-		return new TError( err+'', null, pos );
-	}
-	*/
 
 }
