@@ -51,6 +51,9 @@ class Math {
 	/** Returns the square root of 2. */
 	public static inline var SQRT2 = 1.4142135623730951;
 
+	//public static inline final DIVIDER_KB = 1024;
+	//public static inline final DIVIDER_MB = 1048576;
+
 	//public static inline var DEGREES_TO_RADIANS_FACTOR = 0.017453292519943295; // PI/180
 	//public static inline var RADIANS_TO_DEGREES_FACTOR = 57.29577951308232; // 180/PI
 
@@ -66,6 +69,16 @@ class Math {
 	public static inline function abs( f : Float ) : Float
 		return f < 0 ? -f : f;
 
+	/**
+		Returns the angular distance between 2 angles.
+	*/
+	public static function angleDifference( a : Float, b : Float, ?turn = 360.0 ) {
+		var r = (b - a) % turn;
+	    if( r < 0 ) r += turn;
+	    if( r > turn / 2 ) r -= turn;
+	    return r;
+	}
+
 	public static inline function acos( f : Float ) : Float
 		return std.Math.acos(f);
 
@@ -78,7 +91,7 @@ class Math {
 	public static inline function atan2( y : Float, x : Float ) : Float
 		return std.Math.atan2(y,x);
 
-	public static inline function ceil( f : Float ) : Float
+	public static inline function ceil( f : Float ) : Int
 		return std.Math.ceil( f );
 
 	public static function clamp( value : Float, minOrMax1 : Float, minOrMax2 : Float ) : Float {
@@ -105,6 +118,9 @@ class Math {
 
 	public static inline function fceil( f : Float ) : Float
 		return std.Math.fceil(f);
+
+	public static inline function fround( f : Float ) : Float
+		return std.Math.fround(f);
 
 	public static inline function ffloor( f : Float ) : Float
 		return std.Math.ffloor(f);
@@ -133,10 +149,18 @@ class Math {
 		return ffloor( v * exp + .49999 ) * neg / exp;
 	}
 
+	/*
 	public static function interpolate( f : Float, min = 0.0, max = 1.0, ?equation : Float->Float ) : Int {
 		return if( equation == null ) Math.round( (min + f) * (max - min) );
 		else Math.round( min + equation(f) * ( max - min ) );
 	}
+	*/
+
+	public static inline function interpolate( f : Float, a : Float, b : Float ) : Float
+		return (b - a) * f + a;
+
+	public static function interpolateAngle( f : Float, a : Float, b : Float, turn : Float = 360 )
+	    return wrapCircular( interpolate( f, a, a + angleDifference( a, b, turn ) ), turn );
 
 	public static inline function invSqrt( f : Float ) : Float
 		return 1.0 / sqrt(f);
@@ -159,6 +183,26 @@ class Math {
 	public static inline function min( a : Float, b : Float ) : Float
 		return a > b ? b : a;
 
+	public static function nearEquals(a : Float, b : Float, ?tollerance = EPSILON ) {
+		if( Math.isFinite( a ) ) {
+	 		#if (php || java)
+	 		if( !Math.isFinite( b ) )
+	   			return false;
+	 		#end
+	 		return Math.abs( a - b ) <= tollerance;
+   		}
+   		if( Math.isNaN(a) )
+	 		return Math.isNaN( b );
+   		if( Math.isNaN(b) )
+	 		return false;
+   		if( !Math.isFinite(b) )
+	 		return (a > 0) == (b > 0);
+   		return false; // a is Infinity and b is finite
+	}
+
+	public static inline function nearZero( v : Float, tollerance = EPSILON ) : Bool
+		return abs( v ) <= tollerance;
+
 	public static inline function pow( v : Float, p : Float ) : Float
 		return std.Math.pow( v, p );
 
@@ -172,6 +216,11 @@ class Math {
 	public static inline function round( f : Float ) : Int
 		return std.Math.round(f);
 
+	public static function roundTo( f : Float, precision : Int ) : Float {
+		var p = Math.pow( 10, precision );
+		return Math.fround( f * p ) / p;
+	}
+
 	public static inline function sin( f : Float ) : Float
 		return std.Math.sin(f);
 
@@ -180,5 +229,11 @@ class Math {
 
 	public static inline function tan( f : Float ) : Float
 		return std.Math.tan(f);
+
+	public static function wrapCircular( v : Float, max : Float ) : Float {
+		v = v % max;
+		if( v < 0 ) v += max;
+		return v;
+    }
 
 }

@@ -281,6 +281,21 @@ class ArrayTools {
 	}
 
 	/**
+		Transforms like:
+		`[[a0,b0],[a1,b1],[a2,b2]]`
+		`[[a0,a1,a2],[b0,b1,b2]]`
+	*/
+	public static function rotate<T>( a : Array<Array<T>> ) : Array<Array<T>> {
+		var r = [];
+		for( i in 0...a[0].length ) {
+			var row = [];
+			r.push( row );
+			for( j in 0...a.length ) row.push( a[j][i] );
+		}
+		return r;
+	}
+
+	/**
 		Shuffles given array in place.
 	*/
 	public static function shuffle<T>( a : Array<T> ) : Array<T> {
