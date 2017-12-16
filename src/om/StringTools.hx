@@ -85,11 +85,11 @@ class StringTools {
 	    if( precision == null )
 	        return Std.string( f );
 	    if( precision < 0 )
-			throw 'invalid precision';
+			return throw 'invalid precision';
 		var s = Std.string( f );
         var i = s.indexOf( '.' );
-        if( i == -1 )
-            return s;
+        if( -1 == i )
+			return s;
         if( precision == 0 )
             return s.substr( 0, i );
         return s.substr( 0, i + 1 + precision );
