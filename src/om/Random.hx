@@ -15,11 +15,10 @@ abstract Random(Float) from Float to Float {
 		return factor < (Math.random() * 1.0);
 
 	/**
-			Returns random float.
+		Returns random float.
 	*/
 	public static inline function float( seed : Float ) : Float
 		return new Random( seed );
-
 
 	/**
 		Returns random Int.

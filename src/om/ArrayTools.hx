@@ -118,6 +118,7 @@ class ArrayTools {
 	}
 
 	/**
+		Returns a[n-end]
 	*/
 	public static inline function dropLeft<T>( a: Array<T>, n : Int ) : Array<T> {
 		return (n >= a.length) ? [] : a.slice( n );
@@ -183,10 +184,10 @@ class ArrayTools {
 	}
 
 	/**
-	*/
 	public static inline function first<T>( a : Array<T> ) : T {
 		return a[0];
 	}
+	*/
 
 	/**
 	public static function flatten<T>( a : Array<Array<T>> ) : Array<T> {
@@ -272,7 +273,7 @@ class ArrayTools {
 	}
 
 	/**
-		Returns reversed array
+		Returns reversed copy
 	*/
 	public static inline function reversed<T:Int>( a : Array<T> ) : Array<T> {
 		var b = a.copy();

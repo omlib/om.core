@@ -1,5 +1,11 @@
 package om;
 
+#if neko
+import neko.Web;
+#elseif php
+import php.Web;
+#end
+
 using om.StringTools;
 
 class System {
@@ -36,27 +42,42 @@ class System {
 		#end
 	}
 
-	#if js
+	public static function getUserAgent() : String {
+		#if (neko||php)
+		return Sys.getEnv( 'HTTP_USER_AGENT' );
+		#elseif js
+			#if electron
+			return js.Browser.navigator.userAgent;
+			#elseif nodejs
+			//TODO
+			return null;
+			#else
+			return js.Browser.navigator.userAgent;
+			#end
+		#elseif doc_gen
+		return null;
+		#else
+		return null;
+		#else #error
+		#end
+	}
+
+	public static inline function isMobile( ?userAgent : String, ?mobileUserAgents : Array<String> ) : Bool {
+		#if (electron||nodejs)
+		return false;
+		#else
+		if( userAgent == null ) userAgent = getUserAgent();
+		if( mobileUserAgents == null ) mobileUserAgents = System.mobileUserAgents;
+		return new EReg( mobileUserAgents.join( '|' ), 'i' ).match( userAgent );
+		#end
+	}
+
+	#if (neko||php)
+	#elseif js
 
 	public static inline function hasWindow() : Bool {
 		return untyped __js__( "typeof window!='undefined'" );
 	}
-
-	#if (electron||nodejs)
-
-	public static inline function isMobile() : Bool {
-		return false;
-	}
-
-	#else
-
-	public static function isMobile( ?userAgent : String, ?mobileUserAgents : Array<String> ) : Bool {
-		if( userAgent == null ) userAgent = js.Browser.navigator.userAgent;
-		if( mobileUserAgents == null ) mobileUserAgents = System.mobileUserAgents;
-		return new EReg( mobileUserAgents.join( '|' ), 'i' ).match( userAgent );
-	}
-
-	#end
 
 	public static inline function getLanguage() : String {
 		return untyped window.navigator.language;
