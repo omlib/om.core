@@ -64,6 +64,10 @@ class StringTools {
 	    return r.join( "" );
 	}
 
+	public static inline function hasUpperCase( s : String ) : Bool {
+		return s != s.toLowerCase();
+	}
+
 	public static inline function isEmpty( str : String ) : Bool {
 		return str == null || str == '';
 	}
