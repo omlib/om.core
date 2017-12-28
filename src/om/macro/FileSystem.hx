@@ -10,7 +10,6 @@ import sys.io.File;
 using haxe.io.Path;
 using om.StringTools;
 using om.macro.MacroTools;
-using om.macro.ExprTools;
 
 #end
 

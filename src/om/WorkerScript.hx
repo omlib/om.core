@@ -10,30 +10,28 @@ using om.macro.FieldTools;
 
 class Build {
 
-    /*
-    static function build() : Array<Field> {
-        var fields = Context.getBuildFields();
-        return fields;
-    }
-    */
-
     static function autoBuild() : Array<Field> {
 
-        var fields = Context.getBuildFields();
         var pos = Context.currentPos();
+        var fields = Context.getBuildFields();
 
+        function error( msg : String ) Context.fatalError( msg, pos );
+
+        /*
         if( fields.hasFunField( 'main' ) )
-            Context.fatalError( 'Worker scripts cannot have a main method', pos );
+            error( 'worker scripts cannot have main method' );
         if( fields.hasFunField( '__init__' ) )
-            Context.fatalError( 'Class already has __init__ method', pos );
+            error( 'Class already has __init__ method' );
         if( !fields.hasFunField( 'onMessage' ) )
-            Context.fatalError( 'Missing onMessage method', pos );
+            error( 'missing [onMessage] method' );
+        */
 
         var onMessage = fields.findField( 'onMessage' );
         onMessage.meta.push( { name: ':keep', pos: pos } );
 
         var cl = Context.getLocalClass().get();
-        var js = 'self.onmessage='+cl.name+'.onMessage';
+        var clPath = cl.pack.concat( [cl.name] ).join( '_' );
+        var js = 'self.onmessage=$clPath.onMessage';
 
         fields.push({
             name: '__init__',
@@ -48,13 +46,13 @@ class Build {
                 access: [APublic,AStatic],
                 kind: FFun( {
                     args: [
-                        { name: 'aMessage', type: macro : Dynamic },
-                        { name: 'transferList', type: macro : Array<Dynamic>, opt: true }
+                        { name: 'message', type: macro:Dynamic },
+                        { name: 'transfer', type: macro:Array<Dynamic>, opt: true }
                     ],
-                    expr: macro untyped __js__('self.postMessage(aMessage,)'),
-                    ret: null
+                    expr: macro untyped __js__('self.postMessage(message,transfer)'),
+                    ret: macro:Void
                 } ),
-                meta: [ { name: ':keep', pos: pos } ],
+                //meta: [ { name: ':keep', pos: pos } ],
                 pos: pos
             });
         }
@@ -70,24 +68,27 @@ class Build {
 
         return fields;
     }
+
 }
 
 #else
 
 /**
-    Implement this interface to build a worker script.
+    Implement this interface to build a standalone worker script.
 
     Usage:
+
         class MyWorkerScript implements om.WorkerScript {
+
         	static function onMessage( e : js.html.MessageEvent ) {
                 trace( e );
                 postMessage( 'howdi' );
             }
         }
 */
-@:require(js)
-//@:build(om.WorkerScript.Build.build())
 @:autoBuild(om.WorkerScript.Build.autoBuild())
+//@:build(om.WorkerScript.Build.build())
+@:keepSub
 interface WorkerScript {}
 
 #end

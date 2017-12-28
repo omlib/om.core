@@ -2,12 +2,6 @@ package om;
 
 #if atom
 typedef Emitter = atom.Emitter;
-/*
-abstract Emitter(atom.Emitter) {
-    public inline function new( e : atom.Emitter ) this = e;
-}
-*/
-
 #else
 
 class Emitter<T> implements Disposable {
@@ -16,7 +10,8 @@ class Emitter<T> implements Disposable {
     public var numHandlers(default,null) : Int;
 
     public function new() {
-        clear();
+        map = new Map();
+        numHandlers = 0;
     }
 
     public inline function iterator() : Iterator<Array<T->Void>> {
@@ -43,7 +38,9 @@ class Emitter<T> implements Disposable {
         Register the given handler function to be invoked whenever events by the given name are emitted via emit.
     */
     public function on( eventName : String, handler : T->Void, unshift = false ) : Emitter<T> {
-        map.exists( eventName ) ? map.get( eventName ).push( handler ) : map.set( eventName, [handler] );
+        map.exists( eventName ) ?
+            map.get( eventName ).push( handler ) :
+            map.set( eventName, [handler] );
         numHandlers++;
         return this;
     }
@@ -72,8 +69,10 @@ class Emitter<T> implements Disposable {
     }
 
     function off( eventName : String, handlerToRemove : T->Void ) : Emitter<T> {
-        if( map.exists( eventName ) )
-        map.get( eventName ).remove( handlerToRemove );
+        if( map.exists( eventName ) ) {
+            map.get( eventName ).remove( handlerToRemove );
+            numHandlers--;
+        }
         return this;
     }
 

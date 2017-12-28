@@ -143,7 +143,7 @@ class ArrayTools {
 	}
 
 	/**
-		Find the element, remove it, return it.
+		Find, remove and return value
 	*/
 	public static function extract<T>( a : Array<T>, f : T->Bool ) : T {
     	for( i in 0...a.length )
@@ -156,6 +156,7 @@ class ArrayTools {
 	/**
 		Async filter.
 	*/
+	/*
 	public static function filter<T>( a : Array<T>, f : T->(Bool->Void)->Void, callback : Array<T>->Void ) {
         var i = 0;
         var r = [];
@@ -166,6 +167,7 @@ class ArrayTools {
             } );
         }();
     }
+	*/
 	#end
 
 	/**
@@ -177,6 +179,7 @@ class ArrayTools {
 	}
 
 	/**
+		Returns the index of the first element that matches function `f`.
 	*/
 	public static function findIndex<T>( a : Array<T>, f : T->Bool ) : Int {
 		for( i in 0...a.length ) if( f( a[i] ) ) return i;
@@ -300,7 +303,6 @@ class ArrayTools {
 		Shuffles given array in place.
 	*/
 	public static function shuffle<T>( a : Array<T> ) : Array<T> {
-		var x : T;
 		var x : T, j : Int, i = a.length;
 		while( i > 0 ) {
 			j = Math.floor( Math.random() * i );

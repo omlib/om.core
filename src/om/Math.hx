@@ -3,22 +3,29 @@ package om;
 class Math {
 
 	/** Max value, unsigned short */
-	public static inline var UINT16_MAX = 0xFFFF;
+	//public static inline var UINT16_MAX = 0xFFFF;
 
-	/** Min value, signed short */
-	public static inline var INT16_MIN = -0x8000;
+	/** Min value, signed short (-0x8000) */
+	public static inline var INT16_MIN = -32768;
 
-	/** Max value, signed short */
-	public static inline var INT16_MAX = 0x7FFF;
+	/** Max value, signed short (0x7FFF) */
+	public static inline var INT16_MAX = 32767;
 
-	/** Max value, signed integer */
-	public static inline var INT32_MAX = 0x7FFFFFFF;
+	/***/
+	public static inline var INT32_MIN = -2147483648;
+
+	/** Max value, signed integer (0x7FFFFFFF) */
+	public static inline var INT32_MAX = 2147483647;
 
 	/** Euler’s number, the base of the natural logarithm. */
 	public static inline var E = 2.718281828459045;
 
 	/***/
 	public static inline var EPSILON = 1e-10;
+
+	public static inline var EULER = 0.5772156649015329;
+
+	public static inline var GOLDEN_RATIO = 1.6180339887498948482;
 
 	/** Returns the natural logarithm of 2. */
 	public static inline var LN2 = 0.6931471805599453;
@@ -35,13 +42,17 @@ class Math {
 	/** The mathematical constant that is the ratio of a circle's circumference to its diameter. */
 	public static inline var PI = 3.141592653589793;
 
+	public static inline var PI2 = 6.283185307179586477;
+
+	public static inline var HALF_PI = 1.570796326794896619;
+
 	/** The ratio constant of a circle's circumference to radius, equal to 2 * pi */
 	public static inline var TAU = 6.283185307179586;
 
 	/**
 		The golden ratio.
-		Two quantities are in the golden ratio if their ratio is the same as the ratio of their sum to the larger of the two quantities.
 		Defined as (1 + sqrt(5)) / 2
+		Two quantities are in the golden ratio if their ratio is the same as the ratio of their sum to the larger of the two quantities.
 	*/
 	public static inline var PHI = 1.618033988749895;
 
@@ -202,6 +213,9 @@ class Math {
 
 	public static inline function nearZero( v : Float, tollerance = EPSILON ) : Bool
 		return abs( v ) <= tollerance;
+
+	public static inline function normalize( v : Float ) : Float
+		return clamp( v, 0, 1 );
 
 	public static inline function pow( v : Float, p : Float ) : Float
 		return std.Math.pow( v, p );

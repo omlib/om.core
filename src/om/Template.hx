@@ -65,7 +65,7 @@ class Template {
 
 		If `str` is null, the result is unspecified.
 	**/
-	public function new( str : String, sStart = '::', sEnd = '::', sCallback = '@', sCurrent = 'ctx' ) {
+	public function new( str : String, sStart = '::', sEnd = '::', sCallback = '@@', sCurrent = 'ctx' ) {
 
 		this.sStart = sStart;
 		this.sEnd = sEnd;

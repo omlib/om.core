@@ -102,12 +102,12 @@ class StringTools {
 			else '"' + StringTools.replace( str, '"', '\\"' ) + '"';
 	}
 
-	public static inline function removeLinebreaks( str : String ) : String {
-		return str.split( '\n' ).join( '' );
+	public static inline function removeLinebreaks( s : String ) : String {
+		return s.split( '\n' ).join( '' );
 	}
 
-	public static inline function repeat( str : String, times : Int ) : String {
-		return [for(i in 0...times) str].join( '' );
+	public static inline function repeat( s : String, n : Int ) : String {
+		return [for(i in 0...n) s].join( '' );
 	}
 
 	/*
