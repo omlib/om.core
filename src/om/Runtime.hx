@@ -1,5 +1,6 @@
 package om;
 
+import om.error.NotImplemented;
 #if neko
 import neko.Web;
 #elseif php
@@ -8,7 +9,7 @@ import php.Web;
 
 using om.StringTools;
 
-class System {
+class Runtime {
 
 	public static var mobileUserAgents = ['Android','webOS','iPhone','iPad','iPod','BlackBerry','IEMobile','Opera Mini'];
 
@@ -37,14 +38,16 @@ class System {
 		return flash.system.Capabilities.os;
 
 		#else
-		return throw new om.error.NotImplemented();
+		return throw NotImplemented();
 
 		#end
 	}
 
 	public static function getUserAgent() : String {
+
 		#if (neko||php)
 		return Sys.getEnv( 'HTTP_USER_AGENT' );
+
 		#elseif js
 			#if electron
 			return js.Browser.navigator.userAgent;
@@ -54,11 +57,15 @@ class System {
 			#else
 			return js.Browser.navigator.userAgent;
 			#end
+
 		#elseif doc_gen
 		return null;
+
 		#else
 		return null;
+
 		#else #error
+
 		#end
 	}
 
@@ -67,17 +74,31 @@ class System {
 		return false;
 		#else
 		if( userAgent == null ) userAgent = getUserAgent();
-		if( mobileUserAgents == null ) mobileUserAgents = System.mobileUserAgents;
+		if( mobileUserAgents == null ) mobileUserAgents = Runtime.mobileUserAgents;
 		return new EReg( mobileUserAgents.join( '|' ), 'i' ).match( userAgent );
+		#end
+	}
+
+	public static inline function supportsWindows() : Bool {
+		#if (electron||web)
+		return true;
+		#elseif nodejs
+		return false;
+		#elseif (web||js)
+		return untyped __js__( "typeof window!='undefined'" );
+		#else
+		return false;
 		#end
 	}
 
 	#if (neko||php)
 	#elseif js
 
-	public static inline function hasWindow() : Bool {
+	/*
+	public static inline function supportsWindows() : Bool {
 		return untyped __js__( "typeof window!='undefined'" );
 	}
+	*/
 
 	public static inline function getLanguage() : String {
 		return untyped window.navigator.language;
