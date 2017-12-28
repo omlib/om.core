@@ -9,18 +9,19 @@ class Clock {
 
     public var autoStart(default,null) : Bool;
 	public var running(default,null) = false;
-	public var startTime(default,null) = 0.0;
-	public var elapsedTime(default,null) = 0.0;
-	public var oldTime(default,null) = 0.0;
+
+	public var timeStart(default,null) = 0.0;
+	public var timeElapsed(default,null) = 0.0;
+	public var timeOld(default,null) = 0.0;
 
 	public function new( autoStart = true ) {
         this.autoStart = autoStart;
 	}
 
 	public function start() {
-		startTime = Time.stamp();
-		oldTime = startTime;
-		elapsedTime = 0;
+		timeStart = Time.stamp();
+		timeOld = timeStart;
+		timeElapsed = 0;
 		running = true;
 	}
 
@@ -31,16 +32,16 @@ class Clock {
 
 	public function getElapsedTime() : Float {
 		getDelta();
-		return elapsedTime;
+		return timeElapsed;
 	}
 
 	public function getDelta() : Float {
 		var d = 0.0;
 		if( running ) {
 			var ts = Time.stamp();
-			d = (ts - oldTime) / 1000;
-			oldTime = ts;
-			elapsedTime += d;
+			d = (ts - timeOld) / 1000;
+			timeOld = ts;
+			timeElapsed += d;
 		} else if( autoStart ) {
             start();
             return 0;
