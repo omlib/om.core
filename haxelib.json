@@ -1,7 +1,7 @@
 {
     "name": "om.core",
-    "version": "0.1.0",
-    "description": "Core library",
+    "version": "0.1.1",
+    "description": "Om core library",
     "tags": ["om","core"],
     "url": "https://github.com/tong/om.core",
     "targets": [],
@@ -9,7 +9,5 @@
     "contributors": ["tong"],
     "releasenote": "See CHANGELOG",
     "classPath" : "src/",
-    "dependencies": {
-        "thx.semver": ""
-    }
+    "dependencies": {}
 }
