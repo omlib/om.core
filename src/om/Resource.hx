@@ -7,6 +7,10 @@ abstract Resource(haxe.Resource) {
 		return std.haxe.Resource.getString( name );
 	}
 
+	public static inline function exists( name : String ) : Bool {
+		return list().indexOf( name ) >= 0;
+	}
+
 	public static inline function list() : Array<String> {
 		return std.haxe.Resource.listNames();
 	}
