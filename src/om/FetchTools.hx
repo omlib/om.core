@@ -1,9 +1,6 @@
 package om;
 
-// TODO
-#if nodejs #error #end
-
-#if js
+#if nodejs #elseif js
 
 import haxe.extern.EitherType;
 import js.Browser.window;
