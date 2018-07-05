@@ -1,2 +1,2 @@
 -cp src
---macro om.Lib.prepare()
+#--macro om.Lib.build()
