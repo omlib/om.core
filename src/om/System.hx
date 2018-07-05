@@ -9,14 +9,17 @@ import php.Web;
 
 using om.StringTools;
 
-class Runtime {
+class System {
 
+	//public static var console(default,null) : om.Console;
 	public static var mobileUserAgents = ['Android','webOS','iPhone','iPad','iPod','BlackBerry','IEMobile','Opera Mini'];
 
 	/**
 		Returns the name of the operating system (crossplatform).
 	*/
-	public static #if (!js||nodejs) inline #end function name() : String {
+	public static
+	#if (!js||nodejs) inline #end
+	function name() : String {
 
 		#if sys
 		return Sys.systemName().toLowerCase();
@@ -74,25 +77,26 @@ class Runtime {
 		return false;
 		#else
 		if( userAgent == null ) userAgent = getUserAgent();
-		if( mobileUserAgents == null ) mobileUserAgents = Runtime.mobileUserAgents;
+		if( mobileUserAgents == null ) mobileUserAgents = System.mobileUserAgents;
 		return new EReg( mobileUserAgents.join( '|' ), 'i' ).match( userAgent );
 		#end
 	}
 
+	/*
 	public static inline function supportsWindows() : Bool {
-		#if (electron||web)
+		#if electron
 		return true;
 		#elseif nodejs
 		return false;
-		#elseif (web||js)
+		#elseif js
 		return untyped __js__( "typeof window!='undefined'" );
 		#else
 		return false;
 		#end
 	}
+	*/
 
-	#if (neko||php)
-	#elseif js
+	#if (neko||php) #elseif js
 
 	/*
 	public static inline function supportsWindows() : Bool {
@@ -133,14 +137,14 @@ class Runtime {
 	}
 
 	public static function supportsPassive() : Bool  {
-		var supported = false;
+		var supports = false;
 		try {
 			untyped var opts = Object.defineProperty( {}, 'passive', {
-				get: function() { supported = true; }
+				get: function() { supports = true; }
   			});
   			js.Browser.window.addEventListener( "test", null, opts );
 		} catch(e:Dynamic) {}
-		return supported;
+		return supports;
 	}
 
 	public static function supportsPointerlock() : Bool {
@@ -180,7 +184,7 @@ class Runtime {
 	}
 
 	public static inline function supportsUserMedia() : Bool {
-		return untyped __js__('!! window.navigator.getUserMedia || !! window.navigator.webkitGetUserMedia || !! window.navigator.mozGetUserMedia || !! window.navigator.msGetUserMedia');
+		return untyped __js__('!!window.navigator.getUserMedia||!!window.navigator.webkitGetUserMedia||!!window.navigator.mozGetUserMedia||!!window.navigator.msGetUserMedia');
 	}
 
 	public static function supportsWebAudio() : Bool {
@@ -191,6 +195,10 @@ class Runtime {
 			return false;
 		}
 		return true;
+	}
+
+	public static inline function supportsWebComponents() : Bool {
+		return untyped __js__("'registerElement' in document");
 	}
 
 	public static function supportsWebGL() : Bool {
@@ -206,7 +214,8 @@ class Runtime {
 	}
 
 	public static inline function supportsWebVR() : Bool {
-		return untyped navigator.getVRDisplays != null;
+		//return untyped navigator.getVRDisplays != null;
+		return untyped __js__( '!!navigator.getVRDisplays' );
 	}
 
 	public static inline function supportsWorker() : Bool {
