@@ -6,7 +6,6 @@ import haxe.macro.Expr;
 
 class ArrayTools {
 
-
 	/*
 	//See: https://github.com/polygonal/ds/blob/master/src/de/polygonal/ds/tools/NativeArrayTools.hx
 	public static inline function alloc<T>( len : Int ) : Array<T> {
@@ -74,25 +73,27 @@ class ArrayTools {
 		return a;
 	}
 
+	/**
+	*/
 	public static inline function at<T>( a : Array<T>, indexes : Array<Int> ) : Array<T> {
 		return indexes.map( function(i) return a[i] );
 	}
 
 	/**
-		Returns all items before `e`.
+		Returns all items of array `a` before index of item `e`.
 	*/
 	public static inline function before<T>( a : Array<T>, e : T ) : Array<T> {
 		return a.slice( 0, a.indexOf( e ) );
 	}
 
 	/**
-		Returns `true` if `e` is found in the array.
+		Returns `true` if `e` is found in given array.
 	*/
 	public static function contains<T>( a : Array<T>, e : T, ?f : T->T->Bool ) : Bool {
 		if( f == null )
 			return a.indexOf( e ) >= 0;
-		for( i in 0...a.length )
-			if( f( a[i], e ) )
+		for( i in a )
+			if( f( i, e ) )
 				return true;
 		return false;
 	}
@@ -174,7 +175,7 @@ class ArrayTools {
 		Returns the first element that matches function `f`.
 	*/
 	public static function find<T>( a : Array<T>, f : T->Bool ) : Null<T> {
-		for( e in a ) if( f( e) ) return e;
+		for( e in a ) if( f( e ) ) return e;
 		return null;
 	}
 
@@ -249,6 +250,7 @@ class ArrayTools {
 	}
 
 	/**
+		Returns a random element.
 	*/
 	public static inline function random<T>( a : Array<T> ) : T {
 		return a[ Math.floor( Math.random() * a.length - 1 ) ];
@@ -268,7 +270,7 @@ class ArrayTools {
 	}
 
 	//TODO
-	public static function resizeFloatArray( a : Array<Float>, length : Int, fill : Float = 0.0) {
+	public static function resizeFloatArray( a : Array<Float>, length : Int, fill : Float = 0.0 ) {
     	while( a.length < length )
       		a.push( fill );
     	a.splice( length, a.length - length );
@@ -278,7 +280,7 @@ class ArrayTools {
 	/**
 		Returns reversed copy
 	*/
-	public static inline function reversed<T:Int>( a : Array<T> ) : Array<T> {
+	public static inline function reversed<T>( a : Array<T> ) : Array<T> {
 		var b = a.copy();
 		b.reverse();
 		return b;

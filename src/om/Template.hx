@@ -22,13 +22,10 @@ private typedef ExprToken = {
 }
 
 /**
-	Template provides a basic templating mechanism to replace values in a source
-	String, and to have some basic logic.
+	Fork of haxe.Template.
 
-    Fork of haxe.Template.
-
-	A complete documentation of the supported syntax is available at:
-	<https://haxe.org/manual/std-template.html>
+	Template provides a basic templating mechanism to replace values in a source String, and to have some basic logic.
+	A complete documentation of the supported syntax is available at: <https://haxe.org/manual/std-template.html>
 **/
 class Template {
 
@@ -65,7 +62,7 @@ class Template {
 
 		If `str` is null, the result is unspecified.
 	**/
-	public function new( str : String, sStart = '::', sEnd = '::', sCallback = '@@', sCurrent = 'ctx' ) {
+	public function new( str : String, sStart = '::', sEnd = '::', sCallback = '@@', sCurrent = '__current__' ) {
 
 		this.sStart = sStart;
 		this.sEnd = sEnd;

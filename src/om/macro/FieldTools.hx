@@ -48,6 +48,13 @@ class FieldTools {
 		return null;
 	}
 
+	public static function getAncestor( type : ClassType ) : Null<ClassType> {
+	    var c = type.superClass;
+    	if( c == null )
+			return null;
+    	return c.t.get();
+	}
+
 	public static function getFunctionArguments( field : Field ) : Array<FunctionArg> {
 		switch field.kind {
 		case FFun(o): return o.args;

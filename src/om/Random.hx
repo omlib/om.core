@@ -1,6 +1,6 @@
 package om;
 
-abstract Random(Float) from Float to Float {
+abstract Random(Float) to Float {
 
 	public inline function new( seed : Float )
 		this = Math.random() * seed;
@@ -65,4 +65,5 @@ abstract Random(Float) from Float to Float {
 		h ^= h >> 16;
 		return h;
 	}
+	
 }

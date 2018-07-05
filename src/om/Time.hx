@@ -30,32 +30,30 @@ class Time {
 		return now();
 	}
 
-	#if sys
+	#if nodejs
+
+	public static var startTime(default,null) : Float = getNanoSeconds();
+
+	public static inline function getNanoSeconds() : Float {
+		var t = js.Node.process.hrtime();
+		return t[0] * 1e9 + t[1];
+	}
+
+	#elseif js
+
+	public static inline function asap( f : Void->Void )
+		haxe.Timer.delay( f, 0 );
+
+	public static inline function createNextTickProvider( ms = 0 ) : (Void->Void)->Void
+		return haxe.Timer.delay.bind( _, ms );
+
+	#elseif sys
 
 	public static var startTime(default,null) : Float = Sys.time();
 
 	public static inline function createNextTickProvider( ms = 0 ) : (Void->Void)->Void
 		return haxe.Timer.delay.bind( _, ms );
 
-	#elseif js
-
-	public static inline function asap( fn : Void->Void )
-		haxe.Timer.delay( fn, 0 );
-
-	public static inline function createNextTickProvider( ms = 0 ) : (Void->Void)->Void
-		return haxe.Timer.delay.bind( _, ms );
-
-		#if nodejs
-
-		public static var startTime(default,null) : Float = getNanoSeconds();
-
-		public static inline function getNanoSeconds() : Float {
-			var t = js.Node.process.hrtime();
-			return t[0] * 1e9 + t[1];
-		}
-
-		#end // nodejs
-
-	#end // js
+	#end
 
 }

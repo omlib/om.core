@@ -4,6 +4,7 @@ package om;
 import haxe.io.Bytes;
 import haxe.macro.Compiler;
 import haxe.macro.Context;
+import haxe.macro.PositionTools.here;
 import om.macro.MacroTools.*;
 using StringTools;
 #end
@@ -130,7 +131,6 @@ class Haxe {
             macro null;
         }
     }
-
 
     macro public static function isDebug() : ExprOf<Bool> {
         return macro #if debug true #else false #end;

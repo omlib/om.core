@@ -3,6 +3,8 @@ package om;
 typedef Thread =
 	#if cpp
 		cpp.vm.Thread;
+	//#elseif hl
+	//	hl.vm.Thread;
 	#elseif java
 		java.vm.Thread;
 	#elseif lua
