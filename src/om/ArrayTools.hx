@@ -6,33 +6,8 @@ import haxe.macro.Expr;
 
 class ArrayTools {
 
-	/*
-	//See: https://github.com/polygonal/ds/blob/master/src/de/polygonal/ds/tools/NativeArrayTools.hx
-	public static inline function alloc<T>( len : Int ) : Array<T> {
-		#if js
-		return untyped __js__("new Array({0})", len );
-		#elseif neko
-		return untyped __dollar__amake( len );
-		#elseif cs
-		return cs.Lib.arrayAlloc( len );
-		#elseif java
-		return untyped Array.alloc( len );
-		#elseif cpp
-		var a = new Array<T>();
-		cpp.NativeArray.setSize( a, len );
-		return a;
-		#elseif python
-		return python.Syntax.pythonCode( "[{0}]*{1}", null, len );
-		#else
-		var a = [];
-		untyped a.length = len;
-		return a;
-		#end
-	}
-	*/
-
 	/**
-		Pushes value to array and returns the array.
+		Push v to a and return a.
 	*/
 	public static inline function add<T>( a : Array<T>, v : T ) : Array<T> {
 		a.push( v );
@@ -47,7 +22,7 @@ class ArrayTools {
 	}
 
 	/**
-		Returns true if predicate return true for all items in the array.
+		Returns `true` if predicate returns `true` for all items in the array.
 	*/
 	public static function all<T>( a : Array<T>, predicate : T->Bool ) : Bool {
 		for( e in a )
@@ -67,6 +42,8 @@ class ArrayTools {
 	}
 
 	/**
+		Append to array in place.
+		Shortcut for `a = a.concat(b)``
 	*/
 	public static inline function append<T>( a : Array<T>, b : Array<T> ) : Array<T> {
 		a = a.concat( b );

@@ -30,6 +30,16 @@ class Time {
 		return now();
 	}
 
+	#if js
+
+	public static inline function asap( f : Void->Void )
+		haxe.Timer.delay( f, 0 );
+
+	public static inline function createNextTickProvider( ms = 0 ) : (Void->Void)->Void
+		return haxe.Timer.delay.bind( _, ms );
+
+	#end
+
 	#if nodejs
 
 	public static var startTime(default,null) : Float = getNanoSeconds();
@@ -39,15 +49,9 @@ class Time {
 		return t[0] * 1e9 + t[1];
 	}
 
-	#elseif js
+	#end
 
-	public static inline function asap( f : Void->Void )
-		haxe.Timer.delay( f, 0 );
-
-	public static inline function createNextTickProvider( ms = 0 ) : (Void->Void)->Void
-		return haxe.Timer.delay.bind( _, ms );
-
-	#elseif sys
+	#if sys
 
 	public static var startTime(default,null) : Float = Sys.time();
 
