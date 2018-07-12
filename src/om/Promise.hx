@@ -1,5 +1,5 @@
 package om;
 
 #if js
-typedef Promise<T> = js.Promise<T>;
+typedef Promise = js.Promise;
 #end
