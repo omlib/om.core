@@ -17,7 +17,6 @@ script:
   - haxelib install hxjava
   - haxelib install hxnodejs
   - haxelib install format
-  - haxelib install thx.semver
   - haxelib dev om.core .
   - haxe doc.hxml
   #- haxe --cwd test build.hxml
