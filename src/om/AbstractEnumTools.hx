@@ -1,4 +1,4 @@
-package om.macro;
+package om;
 
 #if macro
 import haxe.macro.Context;
