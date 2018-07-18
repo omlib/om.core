@@ -38,26 +38,9 @@ class MacroTools {
 	public static function extractMetaParam( type : Type, name : String ) {
 		return switch type {
 		case TInst(t,params): t.get().meta.extract( name )[0].params[0].getValue();
-		default: throw 'not implementd';
+		default: throw 'cannot extract meta data from '+type;
 		}
 	}
-
-	macro public static function getAbstractEnumValues<T>( typePath : Expr ) : ExprOf<Array<T>> {
-        var type = Context.getType( typePath.toString() );
-        return switch type.follow() {
-        case TAbstract(_.get()=>ab,_) if( ab.meta.has( ":enum" ) ):
-            var exprs = [];
-            for( f in ab.impl.get().statics.get() ) {
-                if( f.meta.has( ":enum" ) && f.meta.has( ":impl" ) ) {
-                    var field = f.name;
-                    exprs.push( macro $typePath.$field );
-                }
-            }
-            macro $a{exprs};
-        default:
-            throw new haxe.macro.Error( type.toString() + " should be @:enum abstract", typePath.pos );
-        }
-    }
 
 	public static function getClassAncestor( type : ClassType ) : Null<ClassType> {
         var c = type.superClass;
