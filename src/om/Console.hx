@@ -8,11 +8,12 @@ typedef Console =
 	#elseif js
 		js.html.Console;
 	#end
+#end
 
+/*
 #elseif sys
 	#error
 
-/*
 //TODO
 class Console {
 
@@ -24,6 +25,6 @@ class Console {
 		Sys.println( data );
 	}
 }
-*/
 
 #end
+*/
