@@ -11,12 +11,14 @@ matrix:
   allow_failures:
     - haxe: "3.4.7"
 
-script:
+install:
   - haxelib install hxcpp
   - haxelib install hxcs
   - haxelib install hxjava
   - haxelib install hxnodejs
   - haxelib install format
   - haxelib dev om.core .
+
+script:
   - haxe doc.hxml
   #- haxe --cwd test build.hxml
