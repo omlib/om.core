@@ -32,10 +32,10 @@ class AbstractEnumTools {
 
 	/**
 	*/
-	macro public static function toMap<T>( eab : Expr ) : ExprOf<Map<String,T>> {
-		return macro $a{ getFields( eab ).map( f -> {
+	macro public static function toMap<T>( eAbstract : Expr ) : ExprOf<Map<String,T>> {
+		return macro $a{ getFields( eAbstract ).map( f -> {
 			var n = f.name;
-			var v = macro $eab.$n;
+			var v = macro $eAbstract.$n;
 			return macro $v{n} => $v;
 		}) };
 	}
