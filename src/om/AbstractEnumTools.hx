@@ -32,6 +32,12 @@ class AbstractEnumTools {
 
 	/**
 	*/
+	macro public static function count( eAbstract : Expr ) : ExprOf<Int> {
+		return macro $v{ getFields( eAbstract ).length }
+	}
+
+	/**
+	*/
 	macro public static function toMap<T>( eAbstract : Expr ) : ExprOf<Map<String,T>> {
 		return macro $a{ getFields( eAbstract ).map( f -> {
 			var n = f.name;
