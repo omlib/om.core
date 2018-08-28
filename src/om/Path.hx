@@ -4,7 +4,6 @@ package om;
 	Abstract over `haxe.io.Path`
 */
 @:forward(backslash,dir,ext,file)
-@:forwardStatics(addTrailingSlash,directory,extension,isAbsolute,join,normalize,removeTrailingSlashes,withExtension,withoutDirectory,withoutExtension)
 abstract Path(haxe.io.Path) {
 
 	public static inline var SEPERATOR = '/';
@@ -18,6 +17,36 @@ abstract Path(haxe.io.Path) {
 
     @:to public inline function toString() : String
         return this.toString();
+
+	public static inline function addTrailingSlash( path : String ) : String
+		return haxe.io.Path.addTrailingSlash( path );
+
+ 	public static inline function directory( path : String ) : String
+		return haxe.io.Path.directory( path );
+
+ 	public static inline function extension( path : String ) : String
+		return haxe.io.Path.extension( path );
+
+ 	public static inline function isAbsolute( path : String ) : Bool
+		return haxe.io.Path.isAbsolute( path );
+
+ 	public static inline function join( paths : Array<String> ) : String
+		return haxe.io.Path.join( paths );
+
+ 	public static inline function normalize( path : String ) : String
+		return haxe.io.Path.normalize( path );
+
+ 	public static inline function removeTrailingSlashes( path : String ) : String
+		return haxe.io.Path.removeTrailingSlashes( path );
+
+ 	public static inline function withExtension( path : String, ext : String ) : String
+		return haxe.io.Path.withExtension( path, ext );
+
+ 	public static inline function withoutDirectory( path : String ) : String
+		return haxe.io.Path.withoutDirectory( path );
+
+ 	public static inline function withoutExtension( path : String ) : String
+		return haxe.io.Path.withoutExtension( path );
 
 	@:from public static inline function fromArray( a : Array<String> ) : om.Path
 		return om.Path.join( a );
