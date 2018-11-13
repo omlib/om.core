@@ -85,6 +85,10 @@ class StringTools {
 		return ~/\r\n|\n\r|\n|\r/g.split( str );
 	}
 
+	public static inline function map<T>( str : String, cb : String->T ) : Array<T> {
+		return toArray( str ).map( cb );
+	}
+
 	public static function parseFloat( f : Float, ?precision : Null<Int> ) : String {
 	    if( precision == null )
 	        return Std.string( f );
