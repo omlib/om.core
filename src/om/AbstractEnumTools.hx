@@ -9,7 +9,7 @@ using haxe.macro.Tools;
 #end
 
 /**
-    https://code.haxe.org/category/macros/enum-abstract-values.html
+    @see: https://code.haxe.org/category/macros/enum-abstract-values.html
 */
 class AbstractEnumTools {
 

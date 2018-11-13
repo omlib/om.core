@@ -157,9 +157,10 @@ class ArrayTools {
 	}
 
 	/**
-		Returns the index of the first element that matches function `f`.
+		Returns the index of the first element in the array that satisfies the provided testing function.
 	*/
 	public static function findIndex<T>( a : Array<T>, f : T->Bool ) : Int {
+		//#if js return untyped a.findIndex( f );
 		for( i in 0...a.length ) if( f( a[i] ) ) return i;
 		return -1;
 	}
@@ -227,7 +228,7 @@ class ArrayTools {
 	}
 
 	/**
-		Returns a random element.
+		Returns the value at random index.
 	*/
 	public static inline function random<T>( a : Array<T> ) : T {
 		return a[ Math.floor( Math.random() * a.length - 1 ) ];
@@ -247,12 +248,14 @@ class ArrayTools {
 	}
 
 	//TODO
+	/*
 	public static function resizeFloatArray( a : Array<Float>, length : Int, fill : Float = 0.0 ) {
     	while( a.length < length )
       		a.push( fill );
     	a.splice( length, a.length - length );
     	return a;
 	}
+	*/
 
 	/**
 		Returns reversed copy
@@ -279,7 +282,7 @@ class ArrayTools {
 	}
 
 	/**
-		Shuffles given array in place.
+		Shuffles given array in place and return it.
 	*/
 	public static function shuffle<T>( a : Array<T> ) : Array<T> {
 		var x : T, j : Int, i = a.length;
@@ -292,6 +295,13 @@ class ArrayTools {
 		}
 		return a;
 	}
+
+	/*
+	public static function shuffled<T>( a : Array<T> ) : Array<T> {
+		shuffle( a );
+		return a;
+	}
+	*/
 
 	/**
 		Tests whether at least one element in the array passes the test implemented by the provided function.
