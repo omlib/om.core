@@ -46,7 +46,7 @@ class System {
 		#end
 	}
 
-	public static function getUserAgent() : String {
+	public static inline function getUserAgent() : String {
 
 		#if (neko||php)
 		return Sys.getEnv( 'HTTP_USER_AGENT' );
