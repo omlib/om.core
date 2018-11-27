@@ -82,6 +82,21 @@ class System {
 		#end
 	}
 
+	#if (sys||nodejs)
+
+	public static function isRaspberryPi() : Bool {
+		var modelFile = '/sys/firmware/devicetree/base/model';
+		if( !sys.FileSystem.exists( modelFile ) )
+			return false;
+		return try {
+			~/Raspberry/.match( sys.io.File.getContent( modelFile ) );
+		} catch(e:Dynamic) {
+			false;
+		}
+	}
+
+	#end
+
 	/*
 	public static inline function supportsWindows() : Bool {
 		#if electron
