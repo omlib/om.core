@@ -30,6 +30,10 @@ class Time {
 		return now();
 	}
 
+	public static inline function timestamp() : Float {
+		return now();
+	}
+
 	#if js
 
 	public static inline function asap( f : Void->Void )
