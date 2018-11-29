@@ -60,4 +60,7 @@ class IntTools {
         #end
     }
 
+	public static inline function isEven( v : Int ) : Bool
+    	return v % 2 == 0;
+
 }
