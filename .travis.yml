@@ -19,6 +19,7 @@ install:
   - haxelib install hxjava
   - haxelib install hxnodejs
   - haxelib git om.test https://github.com/omlib/om.test.git
+  - haxelib git utest https://github.com/tong/utest.git
   - haxelib dev om.core .
 
 script:
