@@ -1,6 +1,5 @@
-#-main Unit
--lib om.test
 -lib om.core
+-lib om.test
 -D om_test_add_cases
 --each
 
@@ -13,8 +12,8 @@
 #-D emscripten
 ##-cmd mv bin/cpp/Unit ./unit
 
-#--next
-#-cppia bin/unit.cppia
+--next
+-cppia bin/unit.cppia
 
 --next
 -cs bin/cs
@@ -22,12 +21,6 @@
 
 --next
 -hl bin/unit.hl
-
-#--next
-#-cmd mkdir -p bin/hlc
-#-hl bin/hlc/unit.c
-#TODO
-#-cmd gcc -O3 -o bin/unit.hlc -std=c11 -I -I bin/hlc/unit.c -Lhl [/path/to/required.hdll]
 
 --next
 -java bin/java
