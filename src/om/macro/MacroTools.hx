@@ -6,7 +6,6 @@ import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
 import haxe.macro.PositionTools;
-import om.Haxe.CompilerTarget;
 import sys.FileSystem;
 
 using haxe.macro.ExprTools;
@@ -46,14 +45,6 @@ class MacroTools {
         var c = type.superClass;
         return (c == null) ? null : c.t.get();
     }
-
-	public static function getCompilerTarget() : CompilerTarget {
-		var values : Array<String> = getAbstractEnumValues( CompilerTarget );
-		for( t in values )
-			if( Context.defined( t ) )
-				return t;
-		return null;
-	}
 
 	public static function getCurrentModulePath() : String
 		return Context.getPosInfos( (macro null).pos ).file;
