@@ -30,13 +30,18 @@
 -xml doc/xml/js.xml
 
 --next
--lua x
--xml doc/xml/lua.xml
-
---next
 -js x
 -xml doc/xml/node.xml
 -lib hxnodejs
+
+--next
+-js x
+-xml doc/xml/electron.xml
+-lib electron
+
+--next
+-lua x
+-xml doc/xml/lua.xml
 
 --next
 -neko x

@@ -41,6 +41,10 @@
 -lib hxnodejs
 
 --next
+-js bin/unit.electron.js
+-lib electron
+
+--next
 -lua bin/unit.lua
 
 --next

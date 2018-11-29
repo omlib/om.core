@@ -12,6 +12,7 @@ matrix:
     - haxe: "3.4.7"
 
 install:
+  - haxelib install electron
   - haxelib install format
   - haxelib install hashlink
   - haxelib install hxcpp
