@@ -1,53 +1,54 @@
 --no-output
 -lib om.core
---macro include('om',['om.ds'])
+--macro include('om',[])
 -D doc-gen
+-dce no
 --each
 
 --next
 -cpp x
--xml doc/cpp.xml
+-xml doc/xml/cpp.xml
 
 --next
 -cs x
--xml doc/cs.xml
+-xml doc/xml/cs.xml
 
 --next
 -hl x
--xml doc/hl.xml
+-xml doc/xml/hl.xml
 
 --next
 --interp
--xml doc/interp.xml
+-xml doc/xml/interp.xml
 
 --next
 -java x
--xml doc/java.xml
+-xml doc/xml/java.xml
 
 --next
 -js x
--xml doc/js.xml
+-xml doc/xml/js.xml
 
 --next
 -lua x
--xml doc/lua.xml
+-xml doc/xml/lua.xml
 
 --next
 -js x
--xml doc/node.xml
+-xml doc/xml/node.xml
 -lib hxnodejs
 
 --next
 -neko x
--xml doc/neko.xml
+-xml doc/xml/neko.xml
 
 --next
 -php x
--xml doc/php.xml
+-xml doc/xml/php.xml
 
 --next
 -python x
--xml doc/python.xml
+-xml doc/xml/python.xml
 
 --next
--xml doc/cross.xml
+-xml doc/xml/cross.xml
