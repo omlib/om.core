@@ -46,6 +46,10 @@ class System {
 		#end
 	}
 
+	public static inline function is( name : String ) : Bool {
+		return System.name() == name;
+	}
+
 	public static inline function getUserAgent() : String {
 
 		#if (neko||php)
