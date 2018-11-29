@@ -1,6 +1,6 @@
 package om.error;
 
-class NotFound extends om.Error {
+class NotFound extends ErrorType {
 
 	public var location(default,null) : String;
 

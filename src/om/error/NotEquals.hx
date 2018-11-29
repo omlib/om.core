@@ -1,6 +1,6 @@
 package om.error;
 
-class NotEquals<T> extends om.Error {
+class NotEquals<T> extends ErrorType {
 
 	public var a(default,null) : T;
 	public var b(default,null) : T;

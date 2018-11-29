@@ -6,7 +6,7 @@ import haxe.PosInfos;
 import haxe.macro.Context;
 #end
 
-class NullArgument extends om.Error {
+class NullArgument extends ErrorType {
 
 	public function new( ?message : String, ?pos : PosInfos ) {
 		super( message, pos );

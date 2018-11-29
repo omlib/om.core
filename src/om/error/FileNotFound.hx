@@ -1,6 +1,6 @@
 package om.error;
 
-class FileNotFound extends om.error.NotFound {
+class FileNotFound extends NotFound {
 
 	/*
 	public var location(default,null) : String;
