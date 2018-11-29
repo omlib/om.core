@@ -7,6 +7,15 @@ haxe:
   - "3.4.7"
   - development
 
+addons:
+  apt:
+    packages:
+      - mono-devel
+      - mono-mcs
+      - python3
+      - gcc-multilib
+      - g++-multilib
+
 matrix:
   allow_failures:
     - haxe: "3.4.7"
