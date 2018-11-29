@@ -1,0 +1,60 @@
+#-main Unit
+-lib om.test
+-lib om.core
+-D om_test_add_cases
+--each
+
+--next
+-cpp bin/cpp
+-cmd mv bin/cpp/Unit bin/unit
+
+#--next
+#-cpp bin/webasm
+#-D emscripten
+##-cmd mv bin/cpp/Unit ./unit
+
+#--next
+#-cppia bin/unit.cppia
+
+--next
+-cs bin/cs
+-cmd mv bin/cs/bin/Unit.exe bin/unit.exe
+
+--next
+-hl bin/unit.hl
+
+#--next
+#-cmd mkdir -p bin/hlc
+#-hl bin/hlc/unit.c
+#TODO
+#-cmd gcc -O3 -o bin/unit.hlc -std=c11 -I -I bin/hlc/unit.c -Lhl [/path/to/required.hdll]
+
+--next
+-java bin/java
+-cmd mv bin/java/Unit.jar bin/unit.jar
+
+--next
+-js bin/unit.js
+
+--next
+-js bin/unit.node.js
+-lib hxnodejs
+
+--next
+-lua bin/unit.lua
+
+--next
+-neko bin/unit.n
+
+--next
+-php bin
+-D php-front=unit.php
+
+--next
+-python bin/unit.py
+
+#--next
+#--interp
+
+#--next
+#--macro om.test.Unit.main()

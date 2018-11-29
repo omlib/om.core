@@ -12,13 +12,15 @@ matrix:
     - haxe: "3.4.7"
 
 install:
+  - haxelib install format
+  - haxelib install hashlink
   - haxelib install hxcpp
   - haxelib install hxcs
   - haxelib install hxjava
   - haxelib install hxnodejs
-  - haxelib install format
+  - haxelib git om.test https://github.com/omlib/om.test.git
   - haxelib dev om.core .
 
 script:
   - haxe doc.hxml
-  #- haxe --cwd test build.hxml
+  - haxe --cwd test build.hxml
