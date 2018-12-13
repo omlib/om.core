@@ -2,6 +2,7 @@ _*
 *.[0-9].*
 _depricated/
 doc/
+example/
 example/_*
 example/*/*.hl
 example/*/*.jar
