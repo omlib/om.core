@@ -7,53 +7,57 @@
 
 --next
 -cpp x
--xml doc/xml/cpp.xml
+-xml doc/cpp.xml
+
+--next
+-cppia x
+-xml doc/cppia.xml
 
 --next
 -cs x
--xml doc/xml/cs.xml
+-xml doc/cs.xml
 
 --next
 -hl x
--xml doc/xml/hl.xml
+-xml doc/hl.xml
 
 --next
 --interp
--xml doc/xml/interp.xml
+-xml doc/interp.xml
 
 --next
 -java x
--xml doc/xml/java.xml
+-xml doc/java.xml
 
 --next
 -js x
--xml doc/xml/js.xml
+-xml doc/js.xml
 
 --next
 -js x
--xml doc/xml/node.xml
+-xml doc/node.xml
 -lib hxnodejs
 
 --next
 -js x
--xml doc/xml/electron.xml
+-xml doc/electron.xml
 -lib electron
 
 --next
 -lua x
--xml doc/xml/lua.xml
+-xml doc/lua.xml
 
 --next
 -neko x
--xml doc/xml/neko.xml
+-xml doc/neko.xml
 
 --next
 -php x
--xml doc/xml/php.xml
+-xml doc/php.xml
 
 --next
 -python x
--xml doc/xml/python.xml
+-xml doc/python.xml
 
 --next
--xml doc/xml/cross.xml
+-xml doc/cross.xml
