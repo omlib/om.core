@@ -1,6 +1,6 @@
 package om;
 
-#if nodejs #elseif js
+#if js
 
 import haxe.extern.EitherType;
 import js.Browser.window;
@@ -28,7 +28,7 @@ class FetchTools {
 
     public static inline function fetchAudioBuffer( context : AudioContext, input : EitherType<Request,String>, ?init : RequestInit ) : Promise<AudioBuffer> {
         return fetchArrayBuffer( input, init ).then( buf ->
-            return context.decodeAudioData( buf ).then( (ab : AudioBuffer) ->
+            return context.decodeAudioData( buf ).then( (ab:AudioBuffer) ->
                 return ab
             )
         );
@@ -63,14 +63,6 @@ class FetchTools {
             return r.text()
         );
     }
-
-    /*
-    public static inline function fetchXml( input : EitherType<Request,String>, ?init : RequestInit ) : Promise<Xml> {
-        return fetchText( input, init ).then( s ->
-            return Xml.parse( s )
-        );
-    }
-    */
 
 }
 
