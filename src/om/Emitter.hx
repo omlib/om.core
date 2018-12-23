@@ -4,6 +4,9 @@ package om;
 typedef Emitter = atom.Emitter;
 #else
 
+/**
+	Utility class to be used when implementing event-based APIs that allows for handlers registered via `on` to be invoked with calls to `emit`.
+**/
 class Emitter<T> implements Disposable {
 
     public var map(default,null) : Map<String,Array<T->Void>>;
