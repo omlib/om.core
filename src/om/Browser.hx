@@ -1,5 +1,5 @@
 package om;
 
-#if (js&&!nodejs)
+#if js
 typedef Browser = js.Browser;
 #end
