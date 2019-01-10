@@ -10,10 +10,26 @@ class Json {
 		return haxe.Json.stringify( v, replacer, space );
 	}
 
-	#if (sys||nodejs)
+	#if nodejs
 
-	public static inline function parseFile( path : String ) : Dynamic {
-		return haxe.Json.parse( sys.io.File.getContent( path ) );
+	public static function readFile<T>( path : String ) : Promise<T> {
+		return new Promise( function(resolve,reject){
+			js.node.Fs.readFile( path, { encoding : 'utf8' }, function(e,r){
+				if( e != null ) reject(e) else {
+					var d = try parse( r ) catch(e:Dynamic) {
+						reject(e);
+						return;
+					}
+					resolve( d );
+				}
+			});
+		});
+	}
+
+	#elseif sys
+
+	public static inline function readFile( path : String ) : Dynamic {
+		return parse( sys.io.File.getContent( path ) );
 	}
 
 	#end
