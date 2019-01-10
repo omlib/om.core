@@ -16,12 +16,18 @@ import js.html.audio.AudioBuffer;
 import js.html.audio.AudioContext;
 
 /**
-    https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+	Interface for accessing and manipulating parts of the HTTP pipeline, such as requests and responses.
+
+    @see https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
 **/
 class FetchTools {
 
+	public static inline function fetch( input : EitherType<Request,String>, ?init : RequestInit ) : Promise<Response> {
+        return window.fetch( input, init );
+    }
+
     public static inline function fetchArrayBuffer( input : EitherType<Request,String>, ?init : RequestInit ) : Promise<ArrayBuffer> {
-        return window.fetch( input, init ).then( (r:Response) ->
+        return fetch( input, init ).then( (r:Response) ->
             return r.arrayBuffer()
         );
     }
@@ -35,13 +41,13 @@ class FetchTools {
     }
 
     public static inline function fetchBlob( input : EitherType<Request,String>, ?init : RequestInit ) : Promise<Blob> {
-        return window.fetch( input, init ).then( (r:Response) ->
+        return fetch( input, init ).then( (r:Response) ->
             return r.blob()
         );
     }
 
     public static inline function fetchFormData( input : EitherType<Request,String>, ?init : RequestInit ) : Promise<FormData> {
-        return window.fetch( input, init ).then( (r:Response) ->
+        return fetch( input, init ).then( (r:Response) ->
             return r.formData()
         );
     }
@@ -53,13 +59,13 @@ class FetchTools {
     }
 
     public static inline function fetchJson( input : EitherType<Request,String>, ?init : RequestInit ) : Promise<Dynamic> {
-        return window.fetch( input, init ).then( (r:Response) ->
+        return fetch( input, init ).then( (r:Response) ->
             return r.json()
         );
     }
 
     public static inline function fetchText( input : EitherType<Request,String>, ?init : RequestInit ) : Promise<String> {
-        return window.fetch( input, init ).then( (r:Response) ->
+        return fetch( input, init ).then( (r:Response) ->
             return r.text()
         );
     }
