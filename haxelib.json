@@ -1,9 +1,9 @@
 {
     "name": "om.core",
     "version": "0.1.1",
-    "description": "Om core library",
+    "description": "Core library",
     "tags": ["om","core"],
-    "url": "https://github.com/tong/om.core",
+    "url": "https://github.com/omlib/om.core",
     "targets": [],
     "license": "OM",
     "contributors": ["tong"],
