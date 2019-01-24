@@ -26,23 +26,8 @@ class Time {
 		#end
 	}
 
-	public static inline function stamp() : Float {
+	public static inline function stamp() : Float
 		return now();
-	}
-
-	public static inline function timestamp() : Float {
-		return now();
-	}
-
-	#if js
-
-	public static inline function asap( f : Void->Void )
-		haxe.Timer.delay( f, 0 );
-
-	public static inline function createNextTickProvider( ms = 0 ) : (Void->Void)->Void
-		return haxe.Timer.delay.bind( _, ms );
-
-	#end
 
 	#if nodejs
 
@@ -52,6 +37,31 @@ class Time {
 		var t = js.Node.process.hrtime();
 		return t[0] * 1e9 + t[1];
 	}
+
+	#elseif js
+
+	public static inline function asap( f : Void->Void, ms = 0 )
+		delay( f, ms );
+
+	public static inline function delay( f : Void->Void, ms : Int )
+		haxe.Timer.delay( f, ms );
+
+	public static inline function createNextTickProvider( ms = 0 ) : (Void->Void)->Void
+		return haxe.Timer.delay.bind( _, ms );
+
+	public static function nextAnimationFrame( fn : Float->Void ) : Int {
+		var id : Int;
+		return id = raf( function( time : Float ) {
+			caf( id );
+			fn( time );
+		});
+	}
+
+	public static inline function raf( fn : Float->Void ) : Int
+		return js.Browser.window.requestAnimationFrame( fn );
+
+	public static inline function caf( id : Int )
+		js.Browser.window.cancelAnimationFrame( id );
 
 	#end
 
