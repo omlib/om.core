@@ -146,17 +146,24 @@ class StringTools {
 		return r;
 	}
 
+	#if js
+
 	public static function createRandomString( length : Int ) : String {
-        #if nodejs
+		#if doc_gen
+		return null;
+		#elseif nodejs
         return js.node.Crypto.randomBytes( length ).toString( 'hex' ).substr( 0, length );
-        #else
+        #elseif js
         var charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         var values = new js.html.Uint32Array( length );
-        window.crypto.getRandomValues( values );
+        om.Browser.window.crypto.getRandomValues( values );
         var str = "";
-        for( i in 0...length ) result += charset.charAt( values[i] % charset.length );
+        for( i in 0...length ) str += charset.charAt( values[i] % charset.length );
         return str;
+		#else #error
         #end
     }
+
+	#end
 
 }
