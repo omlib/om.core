@@ -29,16 +29,7 @@ class Time {
 	public static inline function stamp() : Float
 		return now();
 
-	#if nodejs
-
-	public static var startTime(default,null) : Float = getNanoSeconds();
-
-	public static inline function getNanoSeconds() : Float {
-		var t = js.Node.process.hrtime();
-		return t[0] * 1e9 + t[1];
-	}
-
-	#elseif js
+	#if js
 
 	public static inline function asap( f : Void->Void, ms = 0 )
 		delay( f, ms );
@@ -48,6 +39,21 @@ class Time {
 
 	public static inline function createNextTickProvider( ms = 0 ) : (Void->Void)->Void
 		return haxe.Timer.delay.bind( _, ms );
+
+	#end
+
+	#if nodejs
+
+	public static var startTime(default,null) : Float = getNanoSeconds();
+
+	public static inline function getNanoSeconds() : Float {
+		var t = js.Node.process.hrtime();
+		return t[0] * 1e9 + t[1];
+	}
+
+	#end
+
+	#if (js&&!nodejs)
 
 	public static function nextAnimationFrame( fn : Float->Void ) : Int {
 		var id : Int;
