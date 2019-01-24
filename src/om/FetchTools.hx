@@ -4,7 +4,6 @@ package om;
 
 import haxe.extern.EitherType;
 import js.Browser.window;
-import js.Promise;
 import js.html.ArrayBuffer;
 import js.html.Blob;
 import js.html.FormData;
@@ -58,7 +57,7 @@ class FetchTools {
         );
     }
 
-    public static inline function fetchJson( input : EitherType<Request,String>, ?init : RequestInit ) : Promise<Dynamic> {
+    public static inline function fetchJson<T>( input : EitherType<Request,String>, ?init : RequestInit ) : Promise<T> {
         return fetch( input, init ).then( (r:Response) ->
             return r.json()
         );
