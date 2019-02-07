@@ -45,7 +45,7 @@ class Json {
 	}
 
 	public static inline function writeFile( v : Dynamic, path : String, ?replacer : (key:Dynamic,value:Dynamic)->Dynamic, ?space : String ) {
-		sys.io.File.saveContent( stringify( v, replacer, space ), path );
+		sys.io.File.saveContent( path, stringify( v, replacer, space ) );
 	}
 
 	#end
