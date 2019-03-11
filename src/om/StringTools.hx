@@ -155,7 +155,11 @@ class StringTools {
         return js.node.Crypto.randomBytes( length ).toString( 'hex' ).substr( 0, length );
         #elseif js
         var charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		#if (haxe_ver >= 4)
+        var values = new js.lib.Uint32Array( length );
+		#else
         var values = new js.html.Uint32Array( length );
+		#end
         om.Browser.window.crypto.getRandomValues( values );
         var str = "";
         for( i in 0...length ) str += charset.charAt( values[i] % charset.length );

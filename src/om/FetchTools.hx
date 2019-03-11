@@ -4,7 +4,11 @@ package om;
 
 import haxe.extern.EitherType;
 import js.Browser.window;
+#if (haxe_ver >= 4)
+import js.lib.ArrayBuffer;
+#else
 import js.html.ArrayBuffer;
+#end
 import js.html.Blob;
 import js.html.FormData;
 import js.html.ImageBitmap;
