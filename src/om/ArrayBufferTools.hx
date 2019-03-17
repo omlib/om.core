@@ -2,8 +2,8 @@ package om;
 
 #if js
 
-import js.html.ArrayBuffer;
-import js.html.Uint8Array;
+import js.lib.ArrayBuffer;
+import js.lib.Uint8Array;
 
 class ArrayBufferTools {
 
