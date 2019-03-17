@@ -80,6 +80,9 @@ class Math {
 	public static inline function abs( f : Float ) : Float
 		return f < 0 ? -f : f;
 
+	public static inline function acos( f : Float ) : Float
+		return std.Math.acos(f);
+
 	/**
 		Returns the angular distance between 2 angles.
 	*/
@@ -89,9 +92,6 @@ class Math {
 	    if( r > turn / 2 ) r -= turn;
 	    return r;
 	}
-
-	public static inline function acos( f : Float ) : Float
-		return std.Math.acos(f);
 
 	public static inline function asin( f : Float ) : Float
 		return std.Math.asin(f);
@@ -173,6 +173,15 @@ class Math {
 	public static function interpolateAngle( f : Float, a : Float, b : Float, turn : Float = 360 )
 	    return wrapCircular( interpolate( f, a, a + angleDifference( a, b, turn ) ), turn );
 
+	public static inline function iabs( i : Int ) : Int
+		return i < 0 ? -i : i;
+
+	public static inline function imax( a : Int, b : Int ) : Int
+		return a < b ? b : a;
+
+	public static inline function imin( a : Int, b : Int ) : Int
+		return a > b ? b : a;
+
 	public static inline function invSqrt( f : Float ) : Float
 		return 1.0 / sqrt(f);
 
@@ -220,9 +229,9 @@ class Math {
 	public static inline function pow( v : Float, p : Float ) : Float
 		return std.Math.pow( v, p );
 
+	//public static inline function radToDeg( f : Float )	return f * RADIANS_TO_DEGREES_FACTOR;
 	public static inline function radToDeg( f : Float ) : Float
 		return f * 180 / PI;
-	//public static inline function radToDeg( f : Float )	return f * RADIANS_TO_DEGREES_FACTOR;
 
 	public static inline function random( max : Float = 1.0 ) : Float
 		return std.Math.random() * max;
