@@ -4,6 +4,14 @@ package om;
 import haxe.macro.Expr;
 #end
 
+private class ArrayKeyValueIterator<T> {
+	var index : Int = 0;
+	final array : Array<T>;
+	public inline function new( array : Array<T> ) this.array = array;
+	public inline function hasNext() return index < array.length;
+	public inline function next() return { key: index, value: array[index++] };
+}
+
 class ArrayTools {
 
 	/**
@@ -180,6 +188,12 @@ class ArrayTools {
 	*/
 	public static inline function isEmpty<T>( a : Array<T> ) : Bool {
 		return a == null || a.length == 0;
+	}
+
+	/**
+	**/
+	public static inline function keyValueIterator<T>( a : Array<T> ) {
+		return new ArrayKeyValueIterator( a );
 	}
 
 	/**
