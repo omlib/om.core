@@ -28,10 +28,10 @@ install:
   - haxelib install hxcs
   - haxelib install hxjava
   - haxelib install hxnodejs
-  - haxelib git utest https://github.com/tong/utest.git
   - haxelib git om.test https://github.com/omlib/om.test.git
+  - haxelib git utest https://github.com/tong/utest.git
   - haxelib dev om.core .
 
 script:
   - haxe doc.hxml
-  - haxe --cwd test build.hxml
+  - haxe test.hxml
