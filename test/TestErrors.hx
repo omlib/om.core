@@ -45,6 +45,7 @@ class TestErrors extends utest.Test {
 		equals( null, e.message );
 	}
 
+	/*
 	function test_SyntaxError() {
 		var e = new SyntaxError( 'mymessage' );
 		equals( 'SyntaxError', e.name );
@@ -52,5 +53,6 @@ class TestErrors extends utest.Test {
 		equals( 49, e.lineNumber );
 		equals( 'mymessage', e.message );
 	}
+	*/
 
 }
