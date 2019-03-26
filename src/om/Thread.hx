@@ -1,12 +1,14 @@
 package om;
 
 typedef Thread =
-	#if (cpp||hl||java||neko||php||python)
+	//#if (cpp||hl||java||neko||php||python)
+	#if (cpp||hl||java||neko)
 		sys.thread.Thread;
-	#elseif (cs||lua)
-		Dynamic; //TODO
-	#elseif doc_gen
-		Dynamic;
+	//#elseif (cs||lua)
+	//	Dynamic; //TODO
+	//#elseif doc_gen
 	#else
-		#error
+		Dynamic;
+	//#else
+	//	#error
 	#end
