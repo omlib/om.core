@@ -2,13 +2,18 @@ package om;
 
 #if js
 
+#if (haxe_ver >= 4)
 import js.lib.ArrayBuffer;
 import js.lib.Uint8Array;
+#else
+import js.html.ArrayBuffer;
+import js.html.Uint8Array;
+#end
 
 class ArrayBufferTools {
 
 	/**
-		Convert `js.html.ArrayBuffer` to `String`.
+		Convert `js.lib.ArrayBuffer` to `String`.
 	*/
 	public static function ab2str( buf : ArrayBuffer ) : String {
 		var v = new Uint8Array( buf );
