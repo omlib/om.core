@@ -1,5 +1,6 @@
 
 import om.Worker;
+import utest.Assert;
 import utest.Assert.*;
 
 class TestWorker extends utest.Test {
