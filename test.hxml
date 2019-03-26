@@ -1,6 +1,7 @@
 -lib om.core
--lib om.test
--D om_test_add_cases
+-lib utest
+-main Unit
+-cp test
 --each
 
 --next
