@@ -21,8 +21,8 @@ class StringTools {
 	public static inline function hex( n : Int, ?digits : Int ) : String return std.StringTools.hex( n, digits );
 	public static inline function fastCodeAt( s : String, index : Int ) : Int return std.StringTools.fastCodeAt( s, index );
 	public static inline function isEof( c : Int ) : Bool return std.StringTools.isEof( c );
-	public static inline function quoteUnixArg( argument : String ) : String return std.StringTools.quoteUnixArg( argument );
-	public static inline function quoteWinArg( argument : String, escapeMetaCharacters : Bool ) : String return std.StringTools.quoteWinArg( argument, escapeMetaCharacters );
+	public static inline function quoteUnixArg( argument : String ) : String return haxe.SysTools.quoteUnixArg( argument );
+	public static inline function quoteWinArg( argument : String, escapeMetaCharacters : Bool ) : String return haxe.SysTools.quoteWinArg( argument, escapeMetaCharacters );
 
 	//public static var SPLIT_LINES = ~/\r\n|\n\r|\n|\r/g;
 
