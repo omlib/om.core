@@ -1,10 +1,8 @@
 language: haxe
 
-os:
-  - linux
-
 haxe:
   - "3.4.7"
+  - "4.0.2"
   - development
 
 addons:
@@ -19,6 +17,7 @@ addons:
 matrix:
   allow_failures:
     - haxe: "3.4.7"
+    - haxe: "development"
 
 install:
   - haxelib install electron
