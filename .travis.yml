@@ -1,7 +1,6 @@
 language: haxe
 
 haxe:
-  - "3.4.7"
   - "4.0.2"
   - development
 
@@ -16,7 +15,6 @@ addons:
 
 matrix:
   allow_failures:
-    - haxe: "3.4.7"
     - haxe: "development"
 
 install:
