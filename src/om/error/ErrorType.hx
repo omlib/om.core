@@ -3,7 +3,7 @@ package om.error;
 import haxe.PosInfos;
 import haxe.CallStack;
 
-class ErrorType #if js extends js.Error #end {
+class ErrorType #if js extends js.lib.Error #end {
 
 	#if !js
     public var message(default,null) : String;
