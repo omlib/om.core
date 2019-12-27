@@ -9,7 +9,7 @@ class Time {
 		#if sys
 		return (Sys.time() - startTime) * 1000;
 
-		#elseif electron
+		#elseif electron_app
 		return js.Browser.window.performance.now();
 
 		#elseif nodejs
@@ -26,6 +26,9 @@ class Time {
 		#end
 	}
 
+	/**
+	 * Same as `om.Time.now()`
+	*/
 	public static inline function stamp() : Float
 		return now();
 
@@ -55,7 +58,7 @@ class Time {
 
 	#if (js&&!nodejs)
 
-	public static function nextAnimationFrame( fn : Float->Void ) : Int {
+	public static function nextAnimationFrame( fn : (time:Float)->Void ) : Int {
 		var id : Int;
 		return id = raf( function( time : Float ) {
 			caf( id );
@@ -63,9 +66,15 @@ class Time {
 		});
 	}
 
-	public static inline function raf( fn : Float->Void ) : Int
+	/**
+	 * Short for `window.requestAnimationFrame`
+	 */
+	public static inline function raf( fn : (time:Float)->Void ) : Int
 		return js.Browser.window.requestAnimationFrame( fn );
 
+	/**
+	 * Short for `window.cancelAnimationFrame`
+	 */
 	public static inline function caf( id : Int )
 		js.Browser.window.cancelAnimationFrame( id );
 
