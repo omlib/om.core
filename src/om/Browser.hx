@@ -35,6 +35,18 @@ class Browser {
 		@:privateAccess window.alert(Boot.__string_rec(v,""));
 	}
 	*/
+
+	/**
+		Opens a 'Save File' dialog.
+	*/
+	public static function saveFile( name : String, data : js.lib.ArrayBuffer, type = 'octet/stream' ) {
+		var url = URL.createObjectURL( new js.html.Blob( [new js.lib.DataView(data)], { type: type } ) );
+		var a = document.createAnchorElement();
+		a.href = url;
+		a.download = name;
+		a.click();
+		URL.revokeObjectURL( url );
+	}
 	
 }
 
