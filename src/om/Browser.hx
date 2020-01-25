@@ -8,6 +8,8 @@ typedef Browser = js.Browser;
 
 #if js
 
+import js.html.FileList;
+
 class Browser {
 
 	public static var window(get,never) : js.html.Window;
@@ -35,6 +37,18 @@ class Browser {
 		@:privateAccess window.alert(Boot.__string_rec(v,""));
 	}
 	*/
+
+	/**
+		Opens a 'Open File' dialog
+	*/
+	public static function openFile( callback : (files:FileList)->Void, ?accept : String, ?multiple : Bool ) {
+		var input = document.createInputElement();
+		input.type = 'file';
+		input.accept = accept;
+		input.multiple = multiple;
+		input.onchange = e -> callback( e.target.files );
+		input.click();
+	}
 
 	/**
 		Opens a 'Save File' dialog.
