@@ -1,16 +1,11 @@
 package om;
 
-/*
-#if (sys||macro) #else
-typedef Browser = js.Browser;
-#end
-*/
-
 #if js
 
-import js.html.FileList;
-
 class Browser {
+
+	public static var supported(get, never):Bool;
+	extern static inline function get_supported() return js.Syntax.typeof(window) != "undefined";
 
 	public static var window(get,never) : js.html.Window;
 	extern static inline function get_window() return untyped __js__("window");
@@ -26,22 +21,40 @@ class Browser {
 	
 	public static var history(get,never) : js.html.History;
 	extern static inline function get_history() return window.history;
+
+	public static var localStorage(get,never) : js.html.Storage;
+	extern static inline function get_localStorage() return window.localStorage;
+
+	public static var sessionStorage(get,never) : js.html.Storage;
+	extern static inline function get_sessionStorage() return window.sessionStorage;
+
+	public static var location(get,never) : js.html.Location;
+	extern static inline function get_location() return window.location;
+
+	public static var crypto(get,never) : js.html.Crypto;
+	extern static inline function get_crypto() return window.crypto;
+
+	public static var orientation(get,never) : Int;
+	extern static inline function get_orientation() return window.orientation;
+
+	public static var performance(get,never) : js.html.Performance;
+	extern static inline function get_performance() return window.performance;
+
+	public static var screen(get,never) : js.html.Screen;
+	extern static inline function get_screen() return window.screen;
+
+	public static var speechSynthesis(get,never) : js.html.SpeechSynthesis;
+	extern static inline function get_speechSynthesis() return window.speechSynthesis;
 	
 	public static inline function print() window.print();
 
-	//public static var supported(get, never):Bool;
-	//extern inline static function get_supported() return js.Syntax.typeof(window) != "undefined";
-
-	/*
-	public static function alert( v : Dynamic ) {
-		@:privateAccess window.alert(Boot.__string_rec(v,""));
-	}
-	*/
+	public static inline function alert( v : Dynamic )
+		window.alert( Std.string(v) );
 
 	/**
 		Opens a 'Open File' dialog
 	*/
-	public static function openFile( callback : (files:FileList)->Void, ?accept : String, ?multiple : Bool ) {
+	public static function openFile( callback : (files:js.html.FileList)->Void, ?accept : String, ?multiple : Bool ) {
 		var input = document.createInputElement();
 		input.type = 'file';
 		input.accept = accept;
