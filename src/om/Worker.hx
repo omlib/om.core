@@ -13,6 +13,8 @@ using haxe.macro.ExprTools;
 
 #if (js&&!nodejs)
 
+import js.html.WorkerOptions;
+
 /**
     The Transferable interface represents an object that can be transfered between different execution contexts, like the main thread and Web workers.
     The ArrayBuffer, MessagePort and ImageBitmap types implement this interface.
@@ -25,8 +27,8 @@ typedef Transferable  = Dynamic;
 @:forward(onerror,onmessage,postMessage,terminate)
 abstract Worker(js.html.Worker) {
 
-    public inline function new( scriptURL : String )
-        this = new js.html.Worker( scriptURL );
+    public inline function new( scriptURL : String, ?options : WorkerOptions )
+        this = new js.html.Worker( scriptURL, options );
 
     /**
         Sends a message — which can consist of any JavaScript object — to the worker's inner scope.
