@@ -59,7 +59,7 @@ class Time {
 	#if (js&&!nodejs)
 
 	public static function nextAnimationFrame( fn : (time:Float)->Void ) : Int {
-		var id : Int;
+		var id : Int = null;
 		return id = raf( function( time : Float ) {
 			caf( id );
 			fn( time );
