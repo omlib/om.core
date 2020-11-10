@@ -34,6 +34,10 @@
 -xml doc/js.xml
 
 --next
+--jvm x
+-xml doc/jvm.xml
+
+--next
 -js x
 -xml doc/node.xml
 -lib hxnodejs
