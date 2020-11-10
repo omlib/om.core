@@ -1,12 +1,14 @@
--lib om.core
--lib utest
 -main Unit
 -cp test
---each
+-lib om.core
+-lib utest
+-dce no
+-x Unit
+#--each
 
---next
--cpp test/bin/cpp
--cmd mv test/bin/cpp/Unit test/bin/unit
+#--next
+#-cpp test/bin/cpp
+#-cmd mv test/bin/cpp/Unit test/bin/unit
 
 #--next
 #-cpp test/bin/webasm
@@ -16,40 +18,44 @@
 #--next
 #-cppia test/bin/unit.cppia
 
---next
--cs test/bin/cs
--cmd mv test/bin/cs/bin/Unit.exe test/bin/unit.exe
+#--next
+#-cs test/bin/cs
+#-cmd mv test/bin/cs/bin/Unit.exe test/bin/unit.exe
 
---next
--hl test/bin/unit.hl
+#--next
+#-hl test/bin/unit.hl
 
---next
--java test/bin/java
--cmd mv test/bin/java/Unit.jar test/bin/unit.jar
+#--next
+#-java test/bin/java
+#-cmd mv test/bin/java/Unit.jar test/bin/unit.jar
 
---next
--js test/bin/unit.js
+#--next
+#-java test/bin/jvm
+#-D jvm
 
---next
--js test/bin/unit.node.js
--lib hxnodejs
+#--next
+#-js test/bin/unit.js
+
+#--next
+#-js test/bin/unit.node.js
+#-lib hxnodejs
 
 #--next
 #-js test/bin/unit.electron.js
 #-lib electron
 
---next
--lua test/bin/unit.lua
+#--next
+#-lua test/bin/unit.lua
 
---next
--neko test/bin/unit.n
+#--next
+#-neko test/bin/unit.n
 
---next
--php test/bin
--D php-front=unit.php
+#--next
+#-php test/bin
+#-D php-front=unit.php
 
---next
--python test/bin/unit.py
+#--next
+#-python test/bin/unit.py
 
 #--next
 #--interp

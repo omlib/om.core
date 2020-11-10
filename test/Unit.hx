@@ -8,6 +8,9 @@ class Unit {
 
 		var runner = new Runner();
 
+		//runner.addCase( new TestLazy() );
+		//runner.addCase( new TestURL() );
+
 		runner.addCase( new TestAbstractEnumTools() );
 		runner.addCase( new TestArrayBufferTools() );
 		runner.addCase( new TestArrayTools() );
@@ -29,7 +32,7 @@ class Unit {
 		runner.addCase( new TestSystem() );
 		runner.addCase( new TestTime() );
 		runner.addCase( new TestWorker() );
-
+ 
 		#if js
 		//runner.addCase( new TestWorker() );
 		#end
