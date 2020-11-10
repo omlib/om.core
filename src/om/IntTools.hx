@@ -16,7 +16,7 @@ class IntTools {
         #if js
         if( base == null )
             base = (s.substring( 0, 2 ) == "0x") ? 16 : 10;
-        var v : Int = untyped __js__( "parseInt" )( s, base );
+        var v : Int = js.Syntax.code( "parseInt" )( s, base );
         return Math.isNaN( v ) ? null : v;
 
         #else

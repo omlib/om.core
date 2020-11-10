@@ -128,15 +128,15 @@ class System {
 	}
 
 	public static inline function supportsCustomElements() : Bool {
-	    return untyped __js__( '"registerElement" in document' );
+	    return js.Syntax.code( '"registerElement" in document' );
 	}
 
     public static inline function supportsFile() : Bool {
-		return untyped __js__( '!! window.File && !! window.FileReader && !! window.FileList && !! window.Blob' );
+		return js.Syntax.code( '!! window.File && !! window.FileReader && !! window.FileList && !! window.Blob' );
 	}
 
 	public static inline function supportsFileSystem() : Bool {
-		return untyped __js__('!! window.File && !! window.FileReader && !! window.FileList && !! window.Blob');
+		return js.Syntax.code('!! window.File && !! window.FileReader && !! window.FileList && !! window.Blob');
 	}
 
 	public static inline function supportsGamepad() : Bool {
@@ -152,7 +152,7 @@ class System {
 	}
 
 	public static inline function supportsPerformance() : Bool {
-		return untyped __js__( '"performance" in window' );
+		return js.Syntax.code( '"performance" in window' );
 	}
 
 	public static function supportsPassive() : Bool  {
@@ -168,7 +168,7 @@ class System {
 
 	public static function supportsPointerlock() : Bool {
 		try {
-			return untyped __js__('"pointerLockElement" in document||"mozPointerLockElement" in document||"webkitPointerLockElement" in document');
+			return js.Syntax.code('"pointerLockElement" in document||"mozPointerLockElement" in document||"webkitPointerLockElement" in document');
 		} catch(e:Dynamic) {
 			return false;
 		}
@@ -176,11 +176,11 @@ class System {
 	}
 
 	public static inline function supportsRequestAnimationFrame() : Bool {
-		return untyped __js__('!!window.requestAnimationFrame||!!window.mozRequestAnimationFrame||!!window.webkitRequestAnimationFrame||!!window.oRequestAnimationFrame||!!window.msRequestAnimationFrame');
+		return js.Syntax.code('!!window.requestAnimationFrame||!!window.mozRequestAnimationFrame||!!window.webkitRequestAnimationFrame||!!window.oRequestAnimationFrame||!!window.msRequestAnimationFrame');
 	}
 
 	public static inline function supportsRequestIdleCallback() : Bool {
-		return untyped __js__('!!window.requestIdleCallback||!!window.mozRequestIdleCallback||!!window.webkitRequestIdleCallback||!!window.oRequestIdleCallback||!!window.msRequestIdleCallback');
+		return js.Syntax.code('!!window.requestIdleCallback||!!window.mozRequestIdleCallback||!!window.webkitRequestIdleCallback||!!window.oRequestIdleCallback||!!window.msRequestIdleCallback');
 	}
 
 	public static inline function supportsSessionStorage() : Bool {
@@ -192,7 +192,7 @@ class System {
 	}
 
 	public static inline function supportsTemplate() : Bool {
-		return untyped __js__( '"content" in document.createElement("template")' );
+		return js.Syntax.code( '"content" in document.createElement("template")' );
 	}
 
 	public static function supportsTouchInput() : Bool {
@@ -203,7 +203,7 @@ class System {
 	}
 
 	public static inline function supportsUserMedia() : Bool {
-		return untyped __js__('!!window.navigator.getUserMedia||!!window.navigator.webkitGetUserMedia||!!window.navigator.mozGetUserMedia||!!window.navigator.msGetUserMedia');
+		return js.Syntax.code('!!window.navigator.getUserMedia||!!window.navigator.webkitGetUserMedia||!!window.navigator.mozGetUserMedia||!!window.navigator.msGetUserMedia');
 	}
 
 	public static function supportsWebAudio() : Bool {
@@ -217,7 +217,7 @@ class System {
 	}
 
 	public static inline function supportsWebComponents() : Bool {
-		return untyped __js__("'registerElement' in document");
+		return js.Syntax.code("'registerElement' in document");
 	}
 
 	public static function supportsWebGL() : Bool {
@@ -234,11 +234,11 @@ class System {
 
 	public static inline function supportsWebVR() : Bool {
 		//return untyped navigator.getVRDisplays != null;
-		return untyped __js__( '!!navigator.getVRDisplays' );
+		return js.Syntax.code( '!!navigator.getVRDisplays' );
 	}
 
 	public static inline function supportsWorker() : Bool {
-		return untyped __js__( '!!window.Worker' );
+		return js.Syntax.code( '!!window.Worker' );
 	}
 
 	#end
