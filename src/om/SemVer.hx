@@ -39,7 +39,7 @@ abstract SemVer(String) to String {
 	static var cache = new Map();
 
 	public static function isValid( s : String ) : Bool {
-		return Std.is( s, String ) && FORMAT.match( s.toLowerCase() );
+		return Std.isOfType( s, String ) && FORMAT.match( s.toLowerCase() );
 	}
 
 	public static function ofString( s : String ) : SemVer {
