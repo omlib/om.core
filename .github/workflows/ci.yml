@@ -18,10 +18,11 @@ jobs:
         run: |
           haxelib dev om.core .
           haxelib install hxcpp
+          haxelib install hxjava
           haxelib install hxnodejs
           haxelib install format
           haxelib install utest
-      - name: Build unit tests
+      - name: Run unit tests
         run: haxe test.hxml
       - name: Build haxedocs
         run: haxe doc.hxml
