@@ -73,6 +73,14 @@ class FetchTools {
         );
     }
 
+    public static function fetchXml( input : EitherType<Request,String>, ?init : RequestInit ) : Promise<Xml> {
+        return fetch( input, init ).then( (r:Response) -> {
+            return r.text().then( text -> {
+                return Xml.parse( text );
+            });
+        });
+    }
+
 }
 
 #end
