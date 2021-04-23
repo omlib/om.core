@@ -14,20 +14,12 @@
 -xml doc/cppia.xml
 
 --next
--cs x
--xml doc/cs.xml
-
---next
 -hl x
 -xml doc/hl.xml
 
 --next
 --interp
 -xml doc/interp.xml
-
---next
--java x
--xml doc/java.xml
 
 --next
 -js x
@@ -42,10 +34,10 @@
 -xml doc/node.xml
 -lib hxnodejs
 
---next
--js x
--xml doc/electron.xml
--lib electron
+# --next
+# -js x
+# -xml doc/electron.xml
+# -lib electron
 
 --next
 -lua x
