@@ -36,7 +36,7 @@ abstract Worker(js.html.Worker) {
         @param aMessage The object to deliver to the worker; this will be in the data field in the event delivered to the DedicatedWorkerGlobalScope.onmessage handler.
         @param transferList An optional array of Transferable objects to transfer ownership of.
     */
-    public function post( message : Dynamic, ?transfer : Array<Transferable> ) {
+    public inline function post( message : Dynamic, ?transfer : Array<Transferable> ) {
         this.postMessage( message, transfer );
     }
 
