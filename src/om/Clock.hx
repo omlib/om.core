@@ -19,7 +19,7 @@ class Clock {
 	}
 
 	public function start() {
-		timeStart = Time.stamp();
+		timeStart = Time.now();
 		timeOld = timeStart;
 		timeElapsed = 0;
 		running = true;
@@ -38,7 +38,7 @@ class Clock {
 	public function getDelta() : Float {
 		var d = 0.0;
 		if( running ) {
-			var ts = Time.stamp();
+			var ts = Time.now();
 			d = (ts - timeOld) / 1000;
 			timeOld = ts;
 			timeElapsed += d;
