@@ -3,8 +3,14 @@
 -lib om.core
 -lib utest
 -dce no
-#-x Unit
 --each
+
+--next
+-x Unit
+
+# --next
+# -js test/bin/unit.js
+# -D js-es=6
 
 #--next
 #-cpp test/bin/cpp
@@ -18,8 +24,8 @@
 #--next
 #-cppia test/bin/unit.cppia
 
---next
--hl test/bin/unit.hl
+# --next
+# -hl test/bin/unit.hl
 
 #--next
 #-java test/bin/jvm
@@ -28,15 +34,16 @@
 #--next
 #-js test/bin/unit.js
 
---next
--js test/bin/unit.node.js
--lib hxnodejs
+# --next
+# -js test/bin/unit.node.js
+# -lib hxnodejs
+# -D js-es=6
 
 #--next
 #-lua test/bin/unit.lua
 
---next
--neko test/bin/unit.n
+# --next
+# -neko test/bin/unit.n
 
 #--next
 #-php test/bin
