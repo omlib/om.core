@@ -1,7 +1,7 @@
 
 class Om {
 
-	public static var console(get,never) : om.Console;
+	/* public static var console(get,never) : om.Console;
 	static inline function get_console() {
 		/*
 		#if nodejs
@@ -11,14 +11,14 @@ class Om {
 		#elseif sys
 		return om.Console.getInstance();
 		#end
-		*/
+		* /
 		return
 			#if (sys||nodejs)
 			om.Console.getInstance();
 			#elseif js
 			js.Browser.console;
 			#end
-	}
+	} */
 	
 	public static var performance(get,never) : om.Performance;
 	static inline function get_performance() return new om.Performance();
