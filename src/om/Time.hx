@@ -3,20 +3,14 @@ package om;
 class Time {
 
 	/**
-	*/
+	**/
 	public static inline function now() : Float {
 
 		#if sys
 		return (Sys.time() - startTime) * 1000;
 
-		#elseif electron_app
-		return js.Browser.window.performance.now();
-
-		#elseif nodejs
-		return getNanoSeconds() / 1e6;
-
 		#elseif js
-		return js.Browser.window.performance.now();
+		return Om.performance.now();
 
 		#elseif (doc||test)
 		return 0.0;
@@ -25,12 +19,6 @@ class Time {
 
 		#end
 	}
-
-	/**
-	 * Same as `om.Time.now()`
-	*/
-	public static inline function stamp() : Float
-		return now();
 
 	#if js
 
@@ -45,36 +33,25 @@ class Time {
 
 	#end
 
-	#if nodejs
-
-	public static var startTime(default,null) : Float = getNanoSeconds();
-
-	public static inline function getNanoSeconds() : Float {
-		var t = js.Node.process.hrtime();
-		return t[0] * 1e9 + t[1];
-	}
-
-	#end
-
 	#if (js&&!nodejs)
 
 	public static function nextAnimationFrame( fn : (time:Float)->Void ) : Int {
-		var id : Int = null;
-		return id = raf( function( time : Float ) {
-			caf( id );
-			fn( time );
+		var i : Int = null;
+		return i = raf( (t : Float) -> {
+			caf( i );
+			fn( t );
 		});
 	}
 
 	/**
-	 * Short for `window.requestAnimationFrame`
-	 */
+		Short for `window.requestAnimationFrame`
+	**/
 	public static inline function raf( fn : (time:Float)->Void ) : Int
 		return js.Browser.window.requestAnimationFrame( fn );
 
 	/**
-	 * Short for `window.cancelAnimationFrame`
-	 */
+		Short for `window.cancelAnimationFrame`
+	**/
 	public static inline function caf( id : Int )
 		js.Browser.window.cancelAnimationFrame( id );
 
