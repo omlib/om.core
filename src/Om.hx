@@ -19,5 +19,8 @@ class Om {
 			js.Browser.console;
 			#end
 	}
+	
+	public static var performance(get,never) : om.Performance;
+	static inline function get_performance() return new om.Performance();
 
 }
