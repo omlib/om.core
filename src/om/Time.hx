@@ -6,7 +6,10 @@ class Time {
 	**/
 	public static inline function now() : Float {
 
-		#if sys
+		#if kha
+		return kha.System.time;
+
+		#elseif sys
 		return (Sys.time() - startTime) * 1000;
 
 		#elseif js
@@ -65,5 +68,19 @@ class Time {
 		return haxe.Timer.delay.bind( _, ms );
 
 	#end
+
+	/* static var timestamps : Map<String,Float>;
+
+	public static function stamp( label : String ) {
+		if( timestamps == null ) timestamps = [];
+		timestamps.set( label, now() );
+	}
+	
+	public static function elapsed( label : String ) : Float {
+		if( timestamps == null ) return null;
+		var v = timestamps.get( label );
+		timestamps.remove( label );
+		return v;
+	} */
 
 }
