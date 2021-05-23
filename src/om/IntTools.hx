@@ -60,7 +60,34 @@ class IntTools {
         #end
     }
 
+	/**
+	 	Clamp a value within the specified range.
+	**/
+	public static inline function clamp( v : Int, min : Int, max : Int ) : Int
+		return v < min ? min : (v > max ? max : v);
+
+	/**
+		Returns <0 if `a` is greater then `b` >0 if `a` is lesser then `b` or zero if `a` equals `b`
+	**/
+	public static inline function compare( a : Int, b : Int ) : Int
+		return a - b;
+
+	/**
+		Returns `true` if `v` is even.
+	**/
 	public static inline function isEven( v : Int ) : Bool
     	return v % 2 == 0;
+
+	/**
+		Returns `true` if `v` is odd.
+	**/
+	public static inline function isOdd( v : Int ) : Bool
+    	return v % 2 != 0;
+
+	/**
+		Returns `-1` if `v` is a negative number, `1` otherwise.
+	**/
+	public static inline function sign( v : Int ) : Int
+		return v < 0 ? -1 : 1;
 
 }
