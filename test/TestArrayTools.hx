@@ -192,14 +192,18 @@ class TestArrayTools extends utest.Test {
 		isFalse( ArrayTools.isEmpty([0,1]) );
 	}
 
-	/*
-	function test_keyValueIterator() {
-		var arr = ["a","b","c"];
-		for( i=>v in arr ) {
-			trace( 'index=$i: value=$v' );
-		}
-	}
-	*/
+	function test_keys() {
+        var a = [3,2,1];
+        var i = 0;
+        for(k in ArrayTools.keys(a)) {
+            equals(k, i++);
+        }
+        var a = ["a","b","c"];
+        i = 0;
+        for(k in ArrayTools.keys(a)) {
+            equals(k, i++);
+        }
+    }
 
 	function test_last() {
 		equals( 5, ArrayTools.last( [1,2,3,4,5] ) );

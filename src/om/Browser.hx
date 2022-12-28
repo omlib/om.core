@@ -6,7 +6,7 @@ using om.Path;
 
 class Browser {
 
-	public static var supported(get, never):Bool;
+	public static var supported(get,never):Bool;
 	extern static inline function get_supported() return js.Syntax.typeof(window) != "undefined";
 
 	public static var console(get,never) : js.html.ConsoleInstance;
@@ -77,10 +77,10 @@ class Browser {
 		URL.revokeObjectURL( url );
 	}
 
-	public static function saveTextFile( name : String, str : String ) {
+	public static function saveTextFile( name : String, text : String ) {
 		//var url = URL.createObjectURL( new js.html.Blob( [new js.lib.DataView(data)], { type: type } ) );
 		var a = document.createAnchorElement();
-		a.href = 'data:text/plain;charset=utf-8,' + StringTools.urlEncode( str );
+		a.href = 'data:text/plain;charset=utf-8,' + StringTools.urlEncode( text );
 		//a.href = 'data:text/plain' + StringTools.urlEncode( str );
 		a.download = name;
 		a.style.display = 'none';

@@ -97,6 +97,7 @@ class ArrayTools {
 		Returns `true` if any of `elements` are found in the array.
 	*/
 	public static function containsAny<T>( a : Array<T>, elements : Array<T>, ?f : T->T->Bool ) : Bool {
+
 		for( e in elements )
 			if( contains( a, e, f ) )
 				return true;
@@ -190,6 +191,12 @@ class ArrayTools {
 		return a == null || a.length == 0;
 	}
 
+    /**
+    **/
+    public static inline function keys<T>(a: Array<T>)  {
+        return 0...a.length;
+    }
+
 	/**
 	**/
 	public static inline function keyValueIterator<T>( a : Array<T> ) {
@@ -245,7 +252,8 @@ class ArrayTools {
 		Returns the value at random index.
 	*/
 	public static inline function random<T>( a : Array<T> ) : T {
-		return a[ Math.floor( Math.random() * a.length - 1 ) ];
+		//return a[ Math.floor( Math.random() * a.length - 1 ) ];
+		return a[ Math.floor( Math.random() * a.length ) ];
 	}
 
 	/**

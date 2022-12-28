@@ -1,14 +1,12 @@
 package om;
 
 #if js
-
 import haxe.extern.EitherType;
-import js.Browser.window;
-#if (haxe_ver >= 4)
-import js.lib.ArrayBuffer;
+import js.lib.Promise;
+#if nodejs
+//#
 #else
-import js.html.ArrayBuffer;
-#end
+import js.Browser.window;
 import js.html.Blob;
 import js.html.FormData;
 import js.html.ImageBitmap;
@@ -17,6 +15,8 @@ import js.html.RequestInit;
 import js.html.Response;
 import js.html.audio.AudioBuffer;
 import js.html.audio.AudioContext;
+#end
+import js.lib.ArrayBuffer;
 
 /**
 	Interface for accessing and manipulating parts of the HTTP pipeline, such as requests and responses.
@@ -24,6 +24,34 @@ import js.html.audio.AudioContext;
     @see https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
 **/
 class FetchTools {
+
+    #if nodejs
+
+    public static function fetchString( input : String ) : Promise<String> {
+        return new Promise( (resolve,reject) -> {
+            js.node.Http.get( input, res -> {
+                switch res.statusCode {
+                case 200:
+                    var str = '';
+                    res.on('data', c -> str += c );
+                    res.on('end', c -> {
+                        resolve( str );
+                        return null;
+                    } );
+                default:
+                    reject( new js.lib.Error('fetch failed '+res.statusCode) );
+                }
+            });
+        });
+    }
+
+    public static inline function fetchJson<T>( input : String ) : Promise<T> {
+        return fetchString( input ).then( str -> {
+            return cast Json.parse( str );
+        });
+    }
+
+    #else
 
 	public static inline function fetch( input : EitherType<Request,String>, ?init : RequestInit ) : Promise<Response> {
         return window.fetch( input, init );
@@ -81,6 +109,7 @@ class FetchTools {
         });
     }
 
+    #end
 }
 
 #end

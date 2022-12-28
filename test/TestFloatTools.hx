@@ -25,13 +25,10 @@ class TestFloatTools extends utest.Test {
 		equals( 1.23456789, FloatTools.precision( 1.23456789, 8 ) );
 		equals( 1.23456789, FloatTools.precision( 1.23456789, 9 ) );
 		equals( 1.23456789, FloatTools.precision( 1.23456789, 10 ) );
-
 		equals( 1.2345, FloatTools.precision( 1.2345, 100 ) );
-
 		equals( 1234.6, FloatTools.precision( 1234.56789, 1 ) );
 		equals( 1234.57, FloatTools.precision( 1234.56789, 2 ) );
 		equals( 1234.568, FloatTools.precision( 1234.56789, 3 ) );
-		
 		equals( 1234.56789, FloatTools.precision( 1234.56789, 100 ) );
 	}
 

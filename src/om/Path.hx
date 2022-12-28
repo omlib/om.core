@@ -2,14 +2,23 @@ package om;
 
 /**
 	Abstract over `haxe.io.Path`
-*/
+**/
+
 @:forward(backslash,dir,ext,file)
 abstract Path(haxe.io.Path) {
 
 	public static inline var SEPERATOR = '/';
 
-    public inline function new( str : String )
-		this = new haxe.io.Path( str );
+    public inline function new( s : String ) this = new haxe.io.Path( s );
+
+	/**
+		Returns the last element of path.
+		TODO Trailing slashes are removed before extracting the last element.
+		TODO If the path is empty, Base returns ".".
+		TODO If the path consists entirely of slashes, Base returns "/".
+	**/
+	public inline function base() : String
+		return this.dir;
 
 	//TODO remove empty parts ?
     @:to public inline function toArray() : Array<String>
@@ -17,7 +26,7 @@ abstract Path(haxe.io.Path) {
 
     @:to public inline function toString() : String
         return this.toString();
-
+	
 	public static inline function addTrailingSlash( path : String ) : String
 		return haxe.io.Path.addTrailingSlash( path );
 
@@ -72,5 +81,4 @@ abstract Path(haxe.io.Path) {
 			default: Path.withoutExtension( path ) + '.$ext';
 		}
 	}
-
 }
