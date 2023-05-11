@@ -1,10 +1,17 @@
 package om;
 
+#if macro
+import haxe.macro.Context;
+import haxe.macro.Expr;
+import sys.FileSystem;
+import sys.io.File;
+#end
+
 @:forwardStatics
 abstract Resource(haxe.Resource) {
 
-	public static macro function all() : ExprOf<Map<String,haxe.io.Bytes>> {
-		var m = haxe.macro.Context.getResources();
+	macro public static function all() : ExprOf<Map<String,haxe.io.Bytes>> {
+		var m = Context.getResources();
 		return macro $a{ list().map( f -> {
 			var n = f;
 			var v = macro $v{m.get(f)};
@@ -12,8 +19,8 @@ abstract Resource(haxe.Resource) {
 		}) };
 	}
 
-	public static macro function set( name : String, str : String ) {
-		haxe.macro.Context.addResource( name, haxe.io.Bytes.ofString( str ) );
+	macro public static function set( name : String, str : String ) {
+		Context.addResource( name, haxe.io.Bytes.ofString( str ) );
 		return macro null;
 	}
 
@@ -32,6 +39,19 @@ abstract Resource(haxe.Resource) {
 	public static inline function count() : Int {
 		return list().length;
 	}
+
+	/*
+	macro public static function embed( path : String, id : String ) {
+		trace( path, id );
+		Context.addResource( id, File.getBytes( path ) );
+		return macro null;
+	}
+
+	macro public static function embedInline( path : String, id : String ) {
+		trace( path, id );
+		return macro null;
+	}
+	*/
 
 	/*
 	#if php

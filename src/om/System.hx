@@ -11,7 +11,6 @@ using om.StringTools;
 
 class System {
 
-	//public static var console(default,null) : om.Console;
 	public static var mobileUserAgents = ['Android','webOS','iPhone','iPad','iPod','BlackBerry','IEMobile','Opera Mini'];
 
 	/**

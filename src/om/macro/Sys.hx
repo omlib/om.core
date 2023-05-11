@@ -6,9 +6,9 @@ import haxe.macro.Expr;
 #end
 
 /**
-    std.Sys macro edition.
+    Sys api for macro context.
 
-    http://api.haxe.org/Sys.html
+    https://api.haxe.org/Sys.html
 */
 class Sys {
 
