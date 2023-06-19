@@ -1,4 +1,3 @@
+# om.core
 
-# OM.CORE
-
-[![CI](https://github.com/omlib/om.core/workflows/CI/badge.svg)](https://github.com/omlib/om.core)
+[![test](https://github.com/omlib/om.core/actions/workflows/test.yml/badge.svg)](https://github.com/omlib/om.core/actions/workflows/test.yml)
