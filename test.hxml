@@ -3,9 +3,7 @@
 -lib om.core
 -lib utest
 -dce no
---each
-
---next
+-D no-deprecation-warnings
 -x Unit
 
 # --next
