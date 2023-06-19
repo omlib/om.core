@@ -68,13 +68,13 @@ class Browser {
 	/**
 		Opens a 'Save File' dialog.
 	*/
-	public static function saveFile( name : String, data : js.lib.ArrayBuffer, type = 'octet/stream' ) {
-		var url = URL.createObjectURL( new js.html.Blob( [new js.lib.DataView(data)], { type: type } ) );
-		var a = document.createAnchorElement();
+	public static function saveFile(name:String, data:js.lib.ArrayBuffer, type='octet/stream') {
+		final url = js.html.URL.createObjectURL(new js.html.Blob( [new js.lib.DataView(data)], { type: type }));
+		final a = document.createAnchorElement();
 		a.href = url;
 		a.download = name;
 		a.click();
-		URL.revokeObjectURL( url );
+		js.html.URL.revokeObjectURL(url);
 	}
 
 	public static function saveTextFile( name : String, text : String ) {

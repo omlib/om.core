@@ -90,4 +90,15 @@ class IntTools {
 	public static inline function sign( v : Int ) : Int
 		return v < 0 ? -1 : 1;
 
+    /**
+    **/
+    public static function dec2oct(i: Int) : String {
+        var s = '';
+        while(i > 0) {
+            s = Std.string(i % 8) + s;
+            i = Std.int(i/8);
+        }
+        return s;
+    }
+
 }
