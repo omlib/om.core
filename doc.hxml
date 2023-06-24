@@ -1,7 +1,9 @@
 --no-output
 -lib om.core
---macro include('om',[])
+--macro include('om',['haxe.Rest','om.URL'])
+--macro exclude('haxe.Rest')
 -D doc-gen
+-D no-deprecation-warnings
 -dce no
 --each
 
@@ -33,11 +35,6 @@
 -js x
 -xml doc/node.xml
 -lib hxnodejs
-
-# --next
-# -js x
-# -xml doc/electron.xml
-# -lib electron
 
 --next
 -lua x
