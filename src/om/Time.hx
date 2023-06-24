@@ -5,21 +5,17 @@ class Time {
 	/**
 	**/
 	public static inline function now() : Float {
-
 		#if kha
 		return kha.System.time;
-
 		#elseif sys
 		return (Sys.time() - startTime) * 1000;
-
-		#elseif js
-		return Om.performance.now();
-
+		#elseif nodejs
+    return js.Syntax.code("performance.now()");
+    #elseif js
+		return js.Browser.window.performance.now();
 		#elseif (doc||test)
 		return 0.0;
-
 		#else #error
-
 		#end
 	}
 
