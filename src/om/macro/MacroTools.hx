@@ -98,6 +98,20 @@ class MacroTools {
 	public static function toExpr( v : Dynamic ) : Expr
 		return Context.makeExpr( v, Context.currentPos() );
 
+	public static function joinArgExprs(rest:Array<Expr>, separator = " "):ExprOf<String> {
+		final sep:Expr = {
+			expr: EConst(CString(separator)),
+			pos: PositionTools.make({min: 0, max: 0, file: ""})
+		};
+		var msg:Expr = macro '';
+		for (i in 0...rest.length) {
+			var e = rest[i];
+			msg = macro $msg + $e;
+			if (i != rest.length - 1)
+				msg = macro $msg + $sep;
+		}
+		return msg;
+	}
 }
 
 #end
