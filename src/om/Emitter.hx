@@ -8,77 +8,66 @@ typedef Emitter = atom.Emitter;
 	Utility class to be used when implementing event-based APIs that allows for handlers registered via `on` to be invoked with calls to `emit`.
 **/
 class Emitter<T> implements Disposable {
+	public var map(default, null):Map<String, Array<T->Void>> = [];
 
-    public var map(default,null) : Map<String,Array<T->Void>>;
-    public var numHandlers(default,null) : Int;
+	// public var numHandlers(default,null) : Int;
 
-    public function new() {
-        map = new Map();
-        numHandlers = 0;
-    }
+	public function new() {}
 
-    public inline function iterator() : Iterator<Array<T->Void>> {
-        return map.iterator();
-    }
+	public inline function iterator():Iterator<Array<T->Void>> {
+		return map.iterator();
+	}
 
-    /**
-        Clear out any existing subscribers.
-    */
-    public function clear() : Emitter<T> {
-        map = new Map();
-        numHandlers = 0;
-        return this;
-    }
+	/**
+		Clear out any existing subscribers.
+	**/
+	public function clear():Emitter<T> {
+		map = new Map();
+		return this;
+	}
 
-    /**
-        Unsubscribe all handlers.
-    */
-    public function dispose() {
-        clear();
-    }
+	/**
+		Unsubscribe all handlers.
+	**/
+	public function dispose() {
+		clear();
+	}
 
-    /**
-        Register the given handler function to be invoked whenever events by the given name are emitted via emit.
-    */
-    public function on( eventName : String, handler : T->Void, unshift = false ) : Emitter<T> {
-        map.exists( eventName ) ?
-            map.get( eventName ).push( handler ) :
-            map.set( eventName, [handler] );
-        numHandlers++;
-        return this;
-    }
+	/**
+		Register the given handler function to be invoked whenever events by the given name are emitted.
+	**/
+	public function on(eventName:String, handler:T->Void, unshift = false):Emitter<T> {
+		map.exists(eventName) ? map.get(eventName).push(handler) : map.set(eventName, [handler]);
+		return this;
+	}
 
-    /**
-        Register the given handler function to be invoked before all other handlers existing at the time of subscription whenever events by the given name are emitted via emit.
-    */
-    public function preempt( eventName : String, handler : T->Void ) : Emitter<T> {
-        if( map.exists( eventName ) ) {
-            map.get( eventName ).unshift( handler );
-        } else {
-            map.set( eventName, [handler] );
-        }
-        numHandlers++;
-        return this;
-    }
+	/**
+		Register the given handler function to be invoked before all other handlers existing at the time of subscription whenever events by the given name are emitted via emit.
+	**/
+	public function preempt(eventName:String, handler:T->Void):Emitter<T> {
+		if (map.exists(eventName)) {
+			map.get(eventName).unshift(handler);
+		} else {
+			map.set(eventName, [handler]);
+		}
+		return this;
+	}
 
-    /**
-        Invoke registered handlers.
-    */
-    public function emit( eventName : String, ?value : T ) : Emitter<T> {
-        if( map.exists( eventName ) )
-            for( h in map.get( eventName ) )
-                h( value );
-        return this;
-    }
+	/**
+		Invoke registered handlers.
+	**/
+	public function emit(eventName:String, ?value:T):Emitter<T> {
+		if (map.exists(eventName))
+			for (h in map.get(eventName))
+				h(value);
+		return this;
+	}
 
-    function off( eventName : String, handlerToRemove : T->Void ) : Emitter<T> {
-        if( map.exists( eventName ) ) {
-            map.get( eventName ).remove( handlerToRemove );
-            numHandlers--;
-        }
-        return this;
-    }
-
+	function off(eventName:String, handlerToRemove:T->Void):Emitter<T> {
+		if (map.exists(eventName)) {
+			map.get(eventName).remove(handlerToRemove);
+		}
+		return this;
+	}
 }
-
 #end
