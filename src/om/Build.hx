@@ -9,19 +9,18 @@ import haxe.macro.Context;
 	Compile time methods.
 **/
 class Build {
-
 	macro public static function defined(key:String):ExprOf<Bool>
 		return macro $v{Context.defined(key)};
 
 	macro public static function definedValue(key:String, ?def:String):ExprOf<String>
 		return macro $v{Context.defined(key) ? Context.definedValue(key) : def};
 
-	macro public static function error(msg:String):ExprOf<Date> {
+	macro public static function error(msg:String) {
 		Context.error(msg, Context.currentPos());
 		return macro null;
 	}
 
-	macro public static function fatalError(msg:String):ExprOf<Date> {
+	macro public static function fatalError(msg:String) {
 		Context.fatalError(msg, Context.currentPos());
 		return macro null;
 	}
@@ -40,17 +39,17 @@ class Build {
 		return macro new Date($v{d.getFullYear()}, $v{d.getMonth()}, $v{d.getDate()}, $v{d.getHours()}, $v{d.getMinutes()}, $v{d.getSeconds()});
 	}
 
-	macro public static function print(msg: String) {
+	macro public static function print(msg:String) {
 		Sys.print(msg);
 		return macro null;
 	}
 
-	macro public static function println(msg: String) {
+	macro public static function println(msg:String) {
 		Sys.println(msg);
 		return macro null;
 	}
 
-	macro public static function warning(msg: String) {
+	macro public static function warning(msg:String) {
 		Context.warning(msg, Context.currentPos());
 		return macro null;
 	}
