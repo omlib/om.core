@@ -1,18 +1,18 @@
 package om;
 
-#if js
+#if doc_gen
+typedef Performance = Dynamic;
+#elseif js
 @:forward
 abstract Performance(js.html.Performance) from js.html.Performance to js.html.Performance {
-    @:noDoc public inline function new()
-        this =
-            #if nodejs
-            js.Lib.require('perf_hooks').performance;
-            #else
-            js.Browser.window.performance;
-            #end
+	@:noDoc public inline function new()
+		this =
+			#if nodejs
+			js.Lib.require('perf_hooks').performance;
+			#else
+			js.Browser.window.performance;
+			#end
 }
-#elseif doc_gen
-typedef Performance = Dynamic;
 #else
-#error // TODO
+// #error // TODO:
 #end
