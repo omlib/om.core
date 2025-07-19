@@ -1,7 +1,6 @@
 package om;
 
 abstract Char(Int) to Int {
-
 	inline function new(i:Int)
 		this = i;
 
@@ -26,4 +25,3 @@ abstract Char(Int) to Int {
 	@:from public static inline function fromString(s:String):Char
 		return s.charCodeAt(0);
 }
-

@@ -10,7 +10,7 @@ enum StdFile {
 	StdIn;
 
 	/**
-		Standard output stream (`sttdout`).
+		Standard output stream (`stdout`).
 	**/
 	StdOut;
 

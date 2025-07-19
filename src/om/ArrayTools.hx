@@ -21,7 +21,7 @@ private class ArrayKeyValueIterator<T> {
 class ArrayTools {
 	/**
 		Push v to a and return a.
-	 */
+	**/
 	public static inline function add<T>(a:Array<T>, v:T):Array<T> {
 		a.push(v);
 		return a;
@@ -29,7 +29,7 @@ class ArrayTools {
 
 	/**
 		Returns all the items after the first occurrance of `e`.
-	 */
+	**/
 	public static inline function after<T>(a:Array<T>, e:T):Array<T> {
 		return a.slice(a.indexOf(e) + 1);
 	}

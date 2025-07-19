@@ -67,7 +67,7 @@ abstract Path(haxe.io.Path) {
 
 	// --- Extra methods
 
-	public static function hasExtension(path:String, ?ext:String):Bool {
+	public static inline function hasExtension(path:String, ?ext:String):Bool {
 		return (ext == null) ? Path.extension(path).length > 0 : Path.extension(path) == ext;
 	}
 

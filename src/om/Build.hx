@@ -5,15 +5,41 @@ import haxe.macro.Compiler;
 import haxe.macro.Context;
 #end
 
+enum abstract CompilerTarget(String) to String {
+	var cpp;
+	// var cs;
+	var hl;
+	// var hlc = 'hlc';
+	// var java;
+	var jvm;
+	var js;
+	// var nodejs;
+	var lua;
+	var neko;
+	var php;
+	var python;
+	// var swf = 'swf';
+}
+
 /**
 	Compile time methods.
 **/
 class Build {
+	macro public static function define(name:String, ?value:String) {
+		haxe.macro.Compiler.define(name, value);
+		return macro null;
+	}
+
 	macro public static function defined(key:String):ExprOf<Bool>
 		return macro $v{Context.defined(key)};
 
 	macro public static function definedValue(key:String, ?def:String):ExprOf<String>
 		return macro $v{Context.defined(key) ? Context.definedValue(key) : def};
+
+	macro public static function warning(msg:String) {
+		Context.warning(msg, Context.currentPos());
+		return macro null;
+	}
 
 	macro public static function error(msg:String) {
 		Context.error(msg, Context.currentPos());
@@ -49,8 +75,24 @@ class Build {
 		return macro null;
 	}
 
-	macro public static function warning(msg:String) {
-		Context.warning(msg, Context.currentPos());
-		return macro null;
+	macro public static function version():ExprOf<String>
+		return macro $v{Context.definedValue('haxe_ver')};
+
+	macro public static function isSys():ExprOf<Bool>
+		return macro $v{om.Compiler.isSysTarget()};
+
+	#if macro
+	public static function target():CompilerTarget {
+		return if (Context.defined("cpp")) cpp; else if (Context.defined("hl")) hl; else if (Context.defined("java")) java; else if (Context.defined("js"))
+			js; else if (Context.defined("jvm")) jvm; else if (Context.defined("lua")) lua; else if (Context.defined("neko")) neko; else
+			if (Context.defined("php")) php; else if (Context.defined("python")) python; else null;
 	}
+
+	public static function isSysTarget():Bool {
+		return switch target() {
+			case cpp, hl, java, jvm, lua, neko, php, python: true;
+			case js: false;
+		}
+	}
+	#end
 }
