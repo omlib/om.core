@@ -1,14 +1,16 @@
--main Unit
 -cp test
 -lib om.core
 -lib utest
 -dce no
 -D no-deprecation-warnings
 -x Unit
+#-main Unit
+#--each
 
-# --next
-# -js test/bin/unit.js
-# -D js-es=6
+#--next
+#-js test/bin/unit.js
+#-lib hxnodejs
+#-D js-es=6
 
 #--next
 #-cpp test/bin/cpp
