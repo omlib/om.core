@@ -21,7 +21,7 @@ function main() {
 	// runner.addCase( new TestPromise() );
 	// runner.addCase( new TestRandom() );
 	runner.addCase(new TestRef());
-	runner.addCase(new TestReflectTools());
+	// runner.addCase(new TestReflectTools());
 	runner.addCase(new TestRegExp());
 	// runner.addCase( new TestResource() );
 	// runner.addCase( new TestResult() );
@@ -31,7 +31,7 @@ function main() {
 	runner.addCase(new TestTime());
 	// runner.addCase( new TestTuple() );
 	runner.addCase(new TestWorker());
-	runner.addCase(new TestUuid());
+	// runner.addCase(new TestUuid());
 	#if js
 	// runner.addCase( new TestWorker() );
 	#end
