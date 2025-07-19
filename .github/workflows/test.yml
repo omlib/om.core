@@ -11,10 +11,10 @@ jobs:
       fail-fast: false
       matrix:
         haxe:
-        - 4.3.1
-        - latest
+          - 4.3.7
+          - latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install haxe ${{ matrix.haxe }}
         uses: krdlab/setup-haxe@master
         with:
