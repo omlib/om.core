@@ -58,7 +58,7 @@ class Build {
 		return macro $v{Sys.getCwd()};
 
 	macro public static function getOutput():ExprOf<String>
-		return macro $v{haxe.macro.Compciler.getOutput()};
+		return macro $v{haxe.macro.Compiler.getOutput()};
 
 	macro public static function now():ExprOf<Date> {
 		var d = Date.now();
@@ -90,7 +90,7 @@ class Build {
 
 	public static function isSysTarget():Bool {
 		return switch target() {
-			case cpp, hl, java, jvm, lua, neko, php, python: true;
+			case cpp, hl, jvm, lua, neko, php, python: true;
 			case js: false;
 		}
 	}
