@@ -82,7 +82,7 @@ class Build {
 		return macro $v{om.Build.isSysTarget()};
 
 	#if macro
-	public static function target():CompileraTarget {
+	public static function target():CompilerTarget {
 		return if (Context.defined("cpp")) cpp; else if (Context.defined("hl")) hl; else if (Context.defined("js")) js; else if (Context.defined("jvm"))
 			jvm; else if (Context.defined("lua")) lua; else if (Context.defined("neko")) neko; else if (Context.defined("php")) php; else
 			if (Context.defined("python")) python; else null;
