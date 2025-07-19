@@ -58,7 +58,7 @@ class Build {
 		return macro $v{Sys.getCwd()};
 
 	macro public static function getOutput():ExprOf<String>
-		return macro $v{Compiler.getOutput()};
+		return macro $v{haxe.macro.Compciler.getOutput()};
 
 	macro public static function now():ExprOf<Date> {
 		var d = Date.now();
@@ -79,13 +79,13 @@ class Build {
 		return macro $v{Context.definedValue('haxe_ver')};
 
 	macro public static function isSys():ExprOf<Bool>
-		return macro $v{om.Compiler.isSysTarget()};
+		return macro $v{om.Build.isSysTarget()};
 
 	#if macro
-	public static function target():CompilerTarget {
-		return if (Context.defined("cpp")) cpp; else if (Context.defined("hl")) hl; else if (Context.defined("java")) java; else if (Context.defined("js"))
-			js; else if (Context.defined("jvm")) jvm; else if (Context.defined("lua")) lua; else if (Context.defined("neko")) neko; else
-			if (Context.defined("php")) php; else if (Context.defined("python")) python; else null;
+	public static function target():CompileraTarget {
+		return if (Context.defined("cpp")) cpp; else if (Context.defined("hl")) hl; else if (Context.defined("js")) js; else if (Context.defined("jvm"))
+			jvm; else if (Context.defined("lua")) lua; else if (Context.defined("neko")) neko; else if (Context.defined("php")) php; else
+			if (Context.defined("python")) python; else null;
 	}
 
 	public static function isSysTarget():Bool {
