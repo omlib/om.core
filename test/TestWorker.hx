@@ -1,22 +1,17 @@
-
 import om.Worker;
 import utest.Assert;
 import utest.Assert.*;
 
 class TestWorker extends utest.Test {
-
-	#if (js&&!nodejs)
-
+	#if (js && !nodejs)
 	function test_fromScript() {
 		var done = Assert.createAsync();
-		var worker = Worker.fromScript( 'onmessage=function(e){postMessage(e.data);}' );
+		var worker = Worker.fromScript('onmessage=function(e){postMessage(e.data);}');
 		worker.onmessage = function(e) {
-			equals( 666, e.data );
+			equals(666, e.data);
 			done();
 		}
-		worker.post( 666 );
+		worker.post(666);
 	}
-
 	#end
-
 }
