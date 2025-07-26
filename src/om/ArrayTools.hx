@@ -5,8 +5,8 @@ import haxe.macro.Expr;
 #end
 
 private class ArrayKeyValueIterator<T> {
-	var index:Int = 0;
 	final array:Array<T>;
+	var index:Int = 0;
 
 	public inline function new(array:Array<T>)
 		this.array = array;
@@ -20,7 +20,7 @@ private class ArrayKeyValueIterator<T> {
 
 class ArrayTools {
 	/**
-		Push v to a and return a.
+		Push `v` to `a` and return `a`.
 	**/
 	public static inline function add<T>(a:Array<T>, v:T):Array<T> {
 		a.push(v);
@@ -31,12 +31,13 @@ class ArrayTools {
 		Returns all the items after the first occurrance of `e`.
 	**/
 	public static inline function after<T>(a:Array<T>, e:T):Array<T> {
-		return a.slice(a.indexOf(e) + 1);
+		final i = a.indexOf(e);
+		return i >= 0 ? a.slice(i + 1) : [];
 	}
 
 	/**
 		Returns `true` if predicate returns `true` for all items in the array.
-	 */
+	**/
 	public static function all<T>(a:Array<T>, predicate:T->Bool):Bool {
 		for (e in a)
 			if (!predicate(e))
@@ -46,7 +47,7 @@ class ArrayTools {
 
 	/**
 		Returns true if `f()` return true for at least one element in the array.
-	 */
+	**/
 	public static function any<T>(a:Array<T>, f:T->Bool):Bool {
 		for (e in a)
 			if (f(e))
@@ -55,30 +56,30 @@ class ArrayTools {
 	}
 
 	/**
-		Append to array in place.
-		Shortcut for `a = a.concat(b)``
-	 */
+		Append to array in place (shortcut for `a = a.concat(b)`)
+	**/
 	public static inline function append<T>(a:Array<T>, b:Array<T>):Array<T> {
 		a = a.concat(b);
 		return a;
 	}
 
 	/**
-	 */
+	**/
 	public static inline function at<T>(a:Array<T>, indexes:Array<Int>):Array<T> {
 		return indexes.map(function(i) return a[i]);
 	}
 
 	/**
 		Returns all items of array `a` before index of item `e`.
-	 */
+	**/
 	public static inline function before<T>(a:Array<T>, e:T):Array<T> {
-		return a.slice(0, a.indexOf(e));
+		final i = a.indexOf(e);
+		return i >= 0 ? a.slice(0, i) : [];
 	}
 
 	/**
 		Returns `true` if `e` is found in given array.
-	 */
+	**/
 	public static function contains<T>(a:Array<T>, e:T, ?f:T->T->Bool):Bool {
 		if (f == null)
 			return a.indexOf(e) >= 0;
@@ -90,7 +91,7 @@ class ArrayTools {
 
 	/**
 		Returns `true` if all elements are found in the array.
-	 */
+	**/
 	public static function containsAll<T>(a:Array<T>, elements:Array<T>, ?f:T->T->Bool):Bool {
 		for (e in elements)
 			if (!contains(a, e, f))
@@ -100,7 +101,7 @@ class ArrayTools {
 
 	/**
 		Returns `true` if any of `elements` are found in the array.
-	 */
+	**/
 	public static function containsAny<T>(a:Array<T>, elements:Array<T>, ?f:T->T->Bool):Bool {
 		for (e in elements)
 			if (contains(a, e, f))
@@ -109,24 +110,26 @@ class ArrayTools {
 	}
 
 	/**
-		Returns a[n-end]
-	 */
+		Returns `a[n-end]`
+	**/
 	public static inline function dropLeft<T>(a:Array<T>, n:Int):Array<T> {
 		return (n >= a.length) ? [] : a.slice(n);
 	}
 
 	/**
-	 */
+	**/
 	public static inline function dropRight<T>(a:Array<T>, n:Int):Array<T> {
 		return (n >= a.length) ? [] : a.slice(0, a.length - n);
 	}
 
 	/**
 		Returns `true` if all items match.
-	 */
-	public static function equals<T>(a:Array<T>, b:Array<T>, f:T->T->Bool):Bool {
+	**/
+	public static function equals<T>(a:Array<T>, b:Array<T>, ?f:T->T->Bool):Bool {
 		if (a == null || b == null || a.length != b.length)
 			return false;
+		if (f == null)
+			f = (a, b) -> a == b;
 		for (i in 0...a.length)
 			if (!f(a[i], b[i]))
 				return false;
@@ -135,8 +138,8 @@ class ArrayTools {
 
 	/**
 		Find, remove and return value
-	 */
-	public static function extract<T>(a:Array<T>, f:T->Bool):T {
+	**/
+	public static function extract<T>(a:Array<T>, f:T->Bool):Null<T> {
 		for (i in 0...a.length)
 			if (f(a[i]))
 				return a.splice(i, 1)[0];
@@ -163,7 +166,7 @@ class ArrayTools {
 
 	/**
 		Returns the first element that matches function `f`.
-	 */
+	**/
 	public static function find<T>(a:Array<T>, f:T->Bool):Null<T> {
 		for (e in a)
 			if (f(e))
@@ -173,7 +176,7 @@ class ArrayTools {
 
 	/**
 		Returns the index of the first element in the array that satisfies the provided testing function.
-	 */
+	**/
 	public static function findIndex<T>(a:Array<T>, f:T->Bool):Int {
 		// #if js return untyped a.findIndex( f );
 		for (i in 0...a.length)
@@ -183,16 +186,37 @@ class ArrayTools {
 	}
 
 	/**
-		public static inline function first<T>( a : Array<T> ) : T {
-			return a[0];
-		}
-	 */
+	**/
+	public static inline function first<T>(a:Array<T>):T
+		return a[0];
+
 	/**
-		public static function flatten<T>( a : Array<Array<T>> ) : Array<T> {
-	 */
+		Creates a new array with all sub-array elements concatenated into it recursively up to the specified depth
+	**/
+	public static function flat<T>(a:Array<Array<T>>, depth = 1):Array<T> {
+		var r = [];
+		for (s in a)
+			r = r.concat(s);
+		return r;
+	}
+
+	/**
+	**/
+	// TODO:
+	// public static function flatDynamic(a:Array<Dynamic>, depth = 1):Array<Dynamic> {
+	//	var r = [];
+	//	for (item in a) {
+	//		if (depth > 0 && Std.isOfType(item, Array))
+	//			r = r.concat(flat(item, depth - 1));
+	//		else
+	//			r.push(item);
+	//	}
+	//	return r;
+	// }
+
 	/**
 		Returns `true` if the array contains 0 elements.
-	 */
+	**/
 	public static inline function isEmpty<T>(a:Array<T>):Bool {
 		return a == null || a.length == 0;
 	}
@@ -210,15 +234,19 @@ class ArrayTools {
 	}
 
 	/**
-		Returns the last value of given array.
-	 */
-	public static inline function last<T>(a:Array<T>):T {
+		Returns the last value of given array (`a[a.length - 1]`)
+	**/
+	public static inline function last<T>(a:Array<T>):T
 		return a[a.length - 1];
-	}
+
+	/**
+	**/
+	public static inline function lastIndex<T>(a:Array<T>):Int
+		return a.length - 1;
 
 	/**
 		Same as `Array.map` but it adds a second argument to the `callback` function with the current index value.
-	 */
+	**/
 	public static function mapi<TIn, TOut>(a:Array<TIn>, callback:TIn->Int->TOut):Array<TOut> {
 		var r = [];
 		for (i in 0...a.length)
@@ -227,8 +255,8 @@ class ArrayTools {
 	}
 
 	/**
-	 */
-	public static inline function maxValue<T:Int>(a:Array<T>):T {
+	**/
+	public static inline function maxValue<T:Float>(a:Array<T>):T {
 		var m = a[0];
 		for (v in a)
 			if (v > m)
@@ -237,7 +265,7 @@ class ArrayTools {
 	}
 
 	/**
-	 */
+	**/
 	public static inline function maxValueIndex<T:Float>(a:Array<T>):Int {
 		var h = a[0];
 		var i = 0;
@@ -252,16 +280,15 @@ class ArrayTools {
 	}
 
 	/**
-	 */
+	**/
 	macro public static function pluck<T, TOut>(a:ExprOf<Array<T>>, expr:ExprOf<TOut>):ExprOf<Array<TOut>> {
 		return macro $e{a}.map(function(_) return ${expr});
 	}
 
 	/**
-		Returns the value at random index.
-	 */
+		Returns a random value from `a`.
+	**/
 	public static inline function random<T>(a:Array<T>):T {
-		// return a[ Math.floor( Math.random() * a.length - 1 ) ];
 		return a[Math.floor(Math.random() * a.length)];
 	}
 
@@ -269,12 +296,11 @@ class ArrayTools {
 		Resizes an array of `T` to an arbitrary length by adding more elements to its end or by removing extra elements.
 		Note that the function changes the passed array and doesn't create a copy.
 	**/
-	// TODO
-	// public static function resize<T>( array : Array<T>, length : Int, fill : T ) {
-	public static function resize(a:Array<Int>, length:Int, fill:Int = 0) {
+	public static function resize<T>(a:Array<T>, length:Int, fill:T):Array<T> {
 		while (a.length < length)
 			a.push(fill);
-		a.splice(length, a.length - length);
+		if (a.length > length)
+			a.splice(length, a.length - length);
 		return a;
 	}
 
@@ -290,7 +316,7 @@ class ArrayTools {
 	 */
 	/**
 		Returns reversed copy
-	 */
+	**/
 	public static inline function reversed<T>(a:Array<T>):Array<T> {
 		var b = a.copy();
 		b.reverse();
@@ -301,7 +327,7 @@ class ArrayTools {
 		Transforms like:
 		`[[a0,b0],[a1,b1],[a2,b2]]`
 		`[[a0,a1,a2],[b0,b1,b2]]`
-	 */
+	**/
 	public static function rotate<T>(a:Array<Array<T>>):Array<Array<T>> {
 		var r = [];
 		for (i in 0...a[0].length) {
@@ -315,7 +341,7 @@ class ArrayTools {
 
 	/**
 		Shuffles given array in place and return it.
-	 */
+	**/
 	public static function shuffle<T>(a:Array<T>):Array<T> {
 		var x:T, j:Int, i = a.length;
 		while (i > 0) {
@@ -336,17 +362,24 @@ class ArrayTools {
 	 */
 	/**
 		Tests whether at least one element in the array passes the test implemented by the provided function.
-	 */
-	#if js
-	public static inline function some<T>(a:Array<T>, f:T->Int->Array<T>->Bool) {
+	**/
+	public static #if inline #end function some<T>(a:Array<T>, f:T->Int->Array<T>->Bool):Bool {
+		#if js
 		return untyped a.some(f);
+		#else
+		for (i in 0...a.length) {
+			if (f(a[i], i, a))
+				return true;
+		}
+		return false;
+		#end
 	}
-	#end
 
 	/**
-	 */
+		Sorts and returns `a`
+	**/
 	public static function sorted<T>(a:Array<T>, f:T->T->Int):Array<T> {
-		var n = a.copy();
+		final n = a.copy();
 		n.sort(f);
 		return n;
 	}
@@ -356,7 +389,7 @@ class ArrayTools {
 	 */
 	/**
 		Returns a copy of the array with the new element added to the end.
-	 */
+	**/
 	public static inline function with<T>(a:Array<T>, e:T):Array<T> {
 		return a.concat([e]);
 	}

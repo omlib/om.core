@@ -130,18 +130,30 @@ class TestArrayTools extends utest.Test {
 		equals(2, r.length);
 		equals(1, r[0]);
 		equals(2, r[1]);
+
+		var a = [1, 2, 3, 4, 5];
+		var r = ArrayTools.dropRight(a, 10);
+		equals(0, r.length);
 	}
 
 	function test_equals() {
 		var a = [1, 2, 3, 4, 5];
 		var b = [1, 2, 3, 4, 5];
+		var c = [1, 2, 3, 4, 1];
+		var d = [1, 2, 3, 4];
 		isTrue(ArrayTools.equals(a, b, function(x, y) return x == y));
+		isFalse(ArrayTools.equals(a, c, function(x, y) return x == y));
+		isFalse(ArrayTools.equals(a, c, function(x, y) return x == y));
 	}
 
 	function test_extract() {
 		var a = [1, 2, 3, 4, 5];
 		equals(3, ArrayTools.extract(a, function(e) return e == 3));
 		equals(4, a.length);
+		equals(1, a[0]);
+		equals(2, a[1]);
+		equals(4, a[2]);
+		equals(5, a[3]);
 	}
 
 	#if js
@@ -168,14 +180,35 @@ class TestArrayTools extends utest.Test {
 	function test_find() {
 		var a = [1, 2, 3, 4, 5];
 		equals(3, ArrayTools.find(a, function(e) return e == 3));
+		equals(null, ArrayTools.find(a, function(e) return e == 100));
 		equals(5, a.length);
 	}
 
 	function test_findIndex() {
 		var a = [1, 2, 3, 4, 5];
 		equals(2, ArrayTools.findIndex(a, function(e) return e == 3));
+		equals(-1, ArrayTools.findIndex(a, function(e) return e == 100));
 		equals(5, a.length);
 	}
+
+	function test_first() {
+		equals(4, ArrayTools.first([4, 2, 8]));
+		isNull(ArrayTools.first([]));
+	}
+
+	function test_flat() {
+		final a = [[0], [1, 2], [3, 4]];
+		final f = ArrayTools.flat(a);
+		equals(0, f[0]);
+	}
+
+	// TODO:
+	// function test_flat_dynamic() {
+	//	final a:Array<Dynamic> = [0, 1, 2, [3, 4], [5, [6, 7]]];
+	//	final f = ArrayTools.flatDynamic(a, 2); // with depth = 2
+	//	// equals(0, f[0]);
+	//	trace(f); // [0, 1, 2, 3, 4, 5, 6, 7]
+	// }
 
 	function test_isEmpty() {
 		isTrue(ArrayTools.isEmpty([]));
@@ -191,7 +224,7 @@ class TestArrayTools extends utest.Test {
 		}
 		var a = ["a", "b", "c"];
 		i = 0;
-		for (k in ArrayTools.keys(a)) {
+		for (k in a.keys()) {
 			equals(k, i++);
 		}
 	}
@@ -199,15 +232,16 @@ class TestArrayTools extends utest.Test {
 	function test_last() {
 		equals(5, ArrayTools.last([1, 2, 3, 4, 5]));
 		equals(null, ArrayTools.last([]));
-		equals(null, ArrayTools.last([]));
 	}
 
 	// function test_mapi() {
 
 	function test_maxValue() {
 		equals(5, ArrayTools.maxValue([1, 2, 3, 4, 5]));
+		equals(5, ArrayTools.maxValue([1, 2, 3, 4, 5]));
 		equals(5, ArrayTools.maxValue([5, 4, 3, 2, 1]));
 		equals(5, ArrayTools.maxValue([4, 3, 5, 2, 1]));
+		equals(null, ArrayTools.maxValue([]));
 	}
 
 	function test_maxValueIndex() {
@@ -219,6 +253,11 @@ class TestArrayTools extends utest.Test {
 	// function test_pluck() {
 	// function test_resize() {
 	// function test_resizeFloatArray() {
+
+	function test_random() {
+		notNull(ArrayTools.random([0, 1, 2]));
+		isNull(ArrayTools.random([]));
+	}
 
 	function test_reversed() {
 		var a = [1, 2, 3, 4, 5];
@@ -246,9 +285,9 @@ class TestArrayTools extends utest.Test {
 	function test_shuffle() {
 		equals(5, ArrayTools.shuffle([1, 2, 3, 4, 5]).length);
 		equals(5, ArrayTools.shuffle([-1, 2, -3, 4, 5]).length);
+		equals(0, ArrayTools.shuffle([]).length);
 	}
 
-	#if js
 	function test_some() {
 		isFalse(ArrayTools.some([2, 5, 8, 1, 4], function(e, i, a) {
 			return e > 10;
@@ -256,8 +295,10 @@ class TestArrayTools extends utest.Test {
 		isTrue(ArrayTools.some([12, 5, 8, 1, 4], function(e, i, a) {
 			return e > 10;
 		}));
+		isTrue(ArrayTools.some([12, 5, 8, 1, 4], function(e, i, a) {
+			return e % 2 == 0;
+		}));
 	}
-	#end
 
 	function test_sorted() {
 		var sort = function(a:String, b:String):Int return ((a = a.toLowerCase()) < (b = b.toLowerCase())) ? -1 : (a > b) ? 1 : 0;
@@ -275,6 +316,7 @@ class TestArrayTools extends utest.Test {
 
 	function test_with() {
 		var arr = ArrayTools.with([666, 11], 7);
+		equals(3, arr.length);
 		equals(666, arr[0]);
 		equals(11, arr[1]);
 		equals(7, arr[2]);
