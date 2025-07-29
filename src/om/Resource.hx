@@ -11,45 +11,31 @@ abstract Resource(haxe.Resource) {
 		return std.haxe.Resource.getString(name);
 
 	public static inline function exists(name:String):Bool
-		return list().indexOf(name) >= 0;
+		return names().indexOf(name) >= 0;
 
-	public static inline function list():Array<String> {
+	public static inline function names():Array<String> {
 		return std.haxe.Resource.listNames();
 	}
 
 	macro public static function all():ExprOf<Map<String, haxe.io.Bytes>> {
-		var m = Context.getResources();
-		return macro $a{
-			list().map(f -> {
-				var n = f;
-				var v = macro $v{m.get(f)};
-				return macro $v{n} => $v;
-			})
-		};
+		var map:Array<Expr> = [];
+		for (name in Context.getResources().keys()) {
+			var k = macro $v{name};
+			var v = macro haxe.Resource.getBytes($v{name});
+			map.push(macro $k => $v);
+		}
+		return macro $a{map};
 	}
 
 	macro public static function set(name:String, str:String) {
 		Context.addResource(name, haxe.io.Bytes.ofString(str));
 		return macro null;
 	}
-	/*
-		macro public static function embed( path : String, id : String ) {
-			trace( path, id );
-			Context.addResource( id, File.getBytes( path ) );
-			return macro null;
-		}
 
-		macro public static function embedInline( path : String, id : String ) {
-			trace( path, id );
-			return macro null;
-		}
-	 */
-	/*
-		#if php
-		@:access(haxe.Resource.getPath)
-		public static inline function getPath( name : String ) : String {
-			return std.haxe.Resource.getPath( name );
-		}
-		#end
-	 */
+	macro public static function embed(path:String, ?name:String) {
+		if (name == null)
+			name = path;
+		Context.addResource(name, sys.io.File.getBytes(path));
+		return macro null;
+	}
 }
