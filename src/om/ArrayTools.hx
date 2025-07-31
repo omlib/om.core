@@ -56,7 +56,7 @@ class ArrayTools {
 	}
 
 	/**
-		Append to array in place (shortcut for `a = a.concat(b)`)
+		Append to array and resturns the result (shortcut for `a = a.concat(b)`)
 	**/
 	public static inline function append<T>(a:Array<T>, b:Array<T>):Array<T> {
 		a = a.concat(b);
@@ -175,6 +175,16 @@ class ArrayTools {
 	}
 
 	/**
+		Returns the index of the first element which equals to `e`
+	**/
+	public static function getIndex<T>(a:Array<T>, e:T):Int {
+		for (i in 0...a.length)
+			if (e == a[i])
+				return i;
+		return -1;
+	}
+
+	/**
 		Returns the index of the first element in the array that satisfies the provided testing function.
 	**/
 	public static function findIndex<T>(a:Array<T>, f:T->Bool):Int {
@@ -256,7 +266,7 @@ class ArrayTools {
 
 	/**
 	**/
-	public static inline function maxValue<T:Float>(a:Array<T>):T {
+	public static inline function maxValue<T:Int>(a:Array<T>):T {
 		var m = a[0];
 		for (v in a)
 			if (v > m)
@@ -266,11 +276,11 @@ class ArrayTools {
 
 	/**
 	**/
-	public static inline function maxValueIndex<T:Float>(a:Array<T>):Int {
+	public static inline function maxValueIndex<T:Int>(a:Array<T>):Int {
 		var h = a[0];
 		var i = 0;
 		for (j in 0...a.length) {
-			var v = a[j];
+			final v = a[j];
 			if (v > h) {
 				h = v;
 				i = j;

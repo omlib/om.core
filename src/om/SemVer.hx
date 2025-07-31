@@ -1,8 +1,6 @@
 package om;
 
-// Fork of haxelib implementation
 import haxe.ds.Option;
-import om.macro.Validator;
 import om.macro.Validator.Validatable;
 
 using Std;
@@ -28,97 +26,24 @@ typedef SemVerData = {
 	- MAJOR version when you make incompatible API changes,
 	- MINOR version when you add functionality in a backwards-compatible manner, and
 	- PATCH version when you make backwards-compatible bug fixes.
+
 	Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
 **/
 abstract SemVer(String) to String {
-	public static var DEFAULT(default, null) = new SemVer('0.0.0');
 	public static var FORMAT = ~/^(\d|[1-9]\d*)\.(\d|[1-9]\d*)\.(\d|[1-9]\d*)(-(alpha|beta|rc)(\.(\d|[1-9]\d*))?)?$/;
 
 	static var cache = new Map();
-
-	public static function isValid(s:String):Bool {
-		return Std.isOfType(s, String) && FORMAT.match(s.toLowerCase());
-	}
-
-	public static function ofString(s:String):SemVer {
-		var v = new SemVer(s);
-		v.getData();
-		return v;
-	}
-
-	public static function compare(a:SemVer, b:SemVer) {
-		function toArray(data:SemVerData)
-			return [
-				data.major,
-				data.minor,
-				data.patch,
-				if (data.preview == null) 100 else data.preview.getIndex(),
-				if (data.previewNum == null) -1 else data.previewNum
-			];
-		var a = toArray(a.data), b = toArray(b.data);
-		for (i in 0...a.length)
-			switch Reflect.compare(a[i], b[i]) {
-				case 0:
-				case v:
-					return v;
-			}
-		return 0;
-	}
-
-	@:from static inline function fromString(s:String):SemVer {
-		return SemVer.ofString(s);
-	}
-
-	@:from static function fromData(data:SemVerData) {
-		return new SemVer(data.major
-			+ '.'
-			+ data.minor
-			+ '.'
-			+ data.patch
-			+ if (data.preview == null) '' else '-' + data.preview.getName().toLowerCase() + if (data.previewNum == null) ''; else '.' + data.previewNum);
-	}
-
-	@:op(a > b) static inline function gt(a:SemVer, b:SemVer)
-		return compare(a, b) == 1;
-
-	@:op(a >= b) static inline function gteq(a:SemVer, b:SemVer)
-		return compare(a, b) != -1;
-
-	@:op(a < b) static inline function lt(a:SemVer, b:SemVer)
-		return compare(a, b) == -1;
-
-	@:op(a <= b) static inline function lteq(a:SemVer, b:SemVer)
-		return compare(a, b) != 1;
-
-	@:op(a == b) static inline function eq(a:SemVer, b:SemVer)
-		return compare(a, b) == 0;
-
-	@:op(a != b) static inline function neq(a:SemVer, b:SemVer)
-		return compare(a, b) != 0;
 
 	public var major(get, never):Int;
 	public var minor(get, never):Int;
 	public var patch(get, never):Int;
 	public var preview(get, never):Null<Preview>;
 	public var previewNum(get, never):Null<Int>;
-	public var data(get, never):SemVerData;
 	public var valid(get, never):Bool;
+	public var data(get, never):SemVerData;
 
 	inline function new(s)
 		this = s;
-
-	@:to public function toValidatable():Validatable {
-		return {
-			validate: function():Option<String> {
-				return try {
-					get_data();
-					None;
-				} catch (e:Dynamic) {
-					Some(Std.string(e));
-				}
-			}
-		}
-	}
 
 	inline function get_major()
 		return data.major;
@@ -144,6 +69,19 @@ abstract SemVer(String) to String {
 		return cache[this];
 	}
 
+	@:to public function toValidatable():Validatable {
+		return {
+			validate: function():Option<String> {
+				return try {
+					get_data();
+					None;
+				} catch (e:Dynamic) {
+					Some(Std.string(e));
+				}
+			}
+		}
+	}
+
 	function getData():SemVerData {
 		return if (valid) { // RAPTORS: This query will already cause the matching.
 			major: FORMAT.matched(1).parseInt(),
@@ -161,5 +99,61 @@ abstract SemVer(String) to String {
 				case v: v.parseInt();
 			}
 		} else throw '$this is not a valid version string'; // TODO: include some URL for reference
+	}
+
+	@:op(a > b) static inline function gt(a:SemVer, b:SemVer)
+		return compare(a, b) == 1;
+
+	@:op(a >= b) static inline function gteq(a:SemVer, b:SemVer)
+		return compare(a, b) != -1;
+
+	@:op(a < b) static inline function lt(a:SemVer, b:SemVer)
+		return compare(a, b) == -1;
+
+	@:op(a <= b) static inline function lteq(a:SemVer, b:SemVer)
+		return compare(a, b) != 1;
+
+	@:op(a == b) static inline function eq(a:SemVer, b:SemVer)
+		return compare(a, b) == 0;
+
+	@:op(a != b) static inline function neq(a:SemVer, b:SemVer)
+		return compare(a, b) != 0;
+
+	@:from public static inline function fromString(s:String):SemVer {
+		var v = new SemVer(s);
+		v.getData();
+		return v;
+	}
+
+	@:from public static function fromData(data:SemVerData) {
+		return new SemVer(data.major
+			+ '.'
+			+ data.minor
+			+ '.'
+			+ data.patch
+			+ if (data.preview == null) '' else '-' + data.preview.getName().toLowerCase() + if (data.previewNum == null) ''; else '.' + data.previewNum);
+	}
+
+	public static inline function isValid(s:String):Bool {
+		return Std.isOfType(s, String) && FORMAT.match(s.toLowerCase());
+	}
+
+	public static function compare(a:SemVer, b:SemVer):Int {
+		function toArray(data:SemVerData)
+			return [
+				data.major,
+				data.minor,
+				data.patch,
+				if (data.preview == null) 100 else data.preview.getIndex(),
+				if (data.previewNum == null) -1 else data.previewNum
+			];
+		var a = toArray(a.data), b = toArray(b.data);
+		for (i in 0...a.length)
+			switch Reflect.compare(a[i], b[i]) {
+				case 0:
+				case v:
+					return v;
+			}
+		return 0;
 	}
 }
