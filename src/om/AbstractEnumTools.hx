@@ -14,13 +14,33 @@ using haxe.macro.Tools;
 **/
 class AbstractEnumTools {
 	#if macro
-	public static function getFields(eAbstract:Expr):Array<ClassField> {
-		var type = Context.getType(eAbstract.toString());
-		return switch type.follow() {
+	/**
+		Retrieves all enum-style fields (FVar) of a given enum abstract (by expression).
+	**/
+	public static function getFields(expr:Expr):Array<ClassField> {
+		final typeStr = switch expr.expr {
+			case EConst(CIdent(name)): name;
+			default: Context.error("Expected identifier expression", expr.pos);
+		}
+		return getRawFields(typeStr);
+	}
+
+	/**
+		Retrieves the names of all enum-style fields (FVar) from the given abstract type path.
+	**/
+	public static function getFieldNames(typePath:String):Array<String> {
+		return [for (f in getRawFields(typePath)) if (f.kind.match(FVar(_))) f.name];
+	}
+
+	/**
+		Gets the raw static fields of the abstract's implementation, validating it's @:enum.
+	**/
+	static function getRawFields(typePath:String):Array<ClassField> {
+		return switch Context.getType(typePath).follow() {
 			case TAbstract(_.get() => ab, _) if (ab.meta.has(":enum")):
 				ab.impl.get().statics.get();
-			default:
-				throw new Error(type.toString() + " should be enum abstract", eAbstract.pos);
+			case _:
+				Context.error('$typePath is not an @:enum abstract', Context.currentPos());
 		}
 	}
 	#end
