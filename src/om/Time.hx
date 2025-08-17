@@ -19,23 +19,28 @@ class Time {
 		#end
 	}
 
-	#if js
-	public static inline function asap(f:Void->Void, ms = 0)
-		delay(f, ms);
-
-	public static inline function delay(f:Void->Void, ms:Int)
-		haxe.Timer.delay(f, ms);
-
-	public static inline function createNextTickProvider(ms = 0):(Void->Void)->Void
-		return haxe.Timer.delay.bind(_, ms);
+	#if (hl || js)
+	// public static inline function delay(f:Void->Void, ?time:Float) {
+	public static inline function after(f:Void->Void, time:Null<Float>) {
+		(time == null || time <= 0) ? f() : haxe.Timer.delay(f, Std.int(time * 1000));
+	}
 	#end
 
+	// #if js
+	// public static inline function asap(f:Void->Void, ms = 0)
+	//	delay(f, ms);
+	// public static inline function createNextTickProvider(ms = 0):(Void->Void)->Void
+	//	return haxe.Timer.delay.bind(_, ms);
+	// #end
+
 	#if (js && !nodejs)
-	public static function nextAnimationFrame(fn:(time:Float) -> Void):Int {
+	/**
+	**/
+	public static function onNextAnimationFrame(fn:(time:Float) -> Void):Int {
 		var i:Int = null;
-		return i = raf((t:Float) -> {
+		return i = raf(time -> {
 			caf(i);
-			fn(t);
+			fn(time);
 		});
 	}
 
@@ -54,8 +59,7 @@ class Time {
 
 	#if sys
 	public static var startTime(default, null):Float = Sys.time();
-
-	public static inline function createNextTickProvider(ms = 0):(Void->Void)->Void
-		return haxe.Timer.delay.bind(_, ms);
+	// public static inline function createNextTickProvider(ms = 0):(Void->Void)->Void
+	//	return haxe.Timer.delay.bind(_, ms);
 	#end
 }

@@ -137,7 +137,7 @@ class ArrayTools {
 	}
 
 	/**
-		Find, remove and return value
+		Find, remove and return the first element that matches function `f`.
 	**/
 	public static function extract<T>(a:Array<T>, f:T->Bool):Null<T> {
 		for (i in 0...a.length)

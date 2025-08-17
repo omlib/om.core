@@ -77,9 +77,12 @@ class FloatTools {
 		Rounds a float to the given number of decimal places.
 	**/
 	public static inline function precision(v:Float, digits:Int):Float {
-		final factor = Math.pow(10, Math.min(Math.max(digits, 0), 15));
+		final factor = Math.pow(10, Math.min(Math.max(digits, 0), 10));
 		return Math.round(v * factor) / factor;
 	}
+
+	public static inline function toFixed(v:Float, digits:Int):Float
+		return precision(v, digits);
 
 	/**
 		Formats a float to a string with exactly the given number of decimal places, preserving trailing zeroes.

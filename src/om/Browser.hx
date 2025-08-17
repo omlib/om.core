@@ -3,6 +3,9 @@ package om;
 #if js
 using om.Path;
 
+/**
+	Browser tools.
+**/
 class Browser {
 	public static var supported(get, never):Bool;
 
@@ -84,7 +87,7 @@ class Browser {
 		Opens a 'Open File' dialog
 	**/
 	public static function openFile(callback:(files:js.html.FileList) -> Void, ?accept:String, ?multiple:Bool) {
-		var input = document.createInputElement();
+		final input = document.createInputElement();
 		input.type = 'file';
 		input.accept = accept;
 		input.multiple = multiple;
@@ -106,7 +109,7 @@ class Browser {
 
 	public static function saveTextFile(name:String, text:String) {
 		// var url = URL.createObjectURL( new js.html.Blob( [new js.lib.DataView(data)], { type: type } ) );
-		var a = document.createAnchorElement();
+		final a = document.createAnchorElement();
 		a.href = 'data:text/plain;charset=utf-8,' + StringTools.urlEncode(text);
 		// a.href = 'data:text/plain' + StringTools.urlEncode( str );
 		a.download = name;
@@ -117,7 +120,7 @@ class Browser {
 	}
 
 	public static function doClick(href:String) {
-		var a = document.createAnchorElement();
+		final a = document.createAnchorElement();
 		a.href = href;
 		a.style.display = 'none';
 		document.body.appendChild(a);
