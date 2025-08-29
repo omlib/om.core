@@ -78,7 +78,8 @@ class FloatTools {
 	**/
 	public static inline function precision(v:Float, digits:Int):Float {
 		final factor = Math.pow(10, Math.min(Math.max(digits, 0), 10));
-		return Math.round(v * factor) / factor;
+		final n = v * factor;
+		return (if (v >= 0) Math.ffloor(n + 0.5) else Math.fceil(n - 0.5)) / factor;
 	}
 
 	public static inline function toFixed(v:Float, digits:Int):Float
