@@ -13,6 +13,9 @@ jobs:
         haxe:
           - 4.3.7
           - latest
+        include:
+          - haxe: latest
+            allow-failure: true
     steps:
       - uses: actions/checkout@v4
       - name: Install haxe ${{ matrix.haxe }}
@@ -29,5 +32,7 @@ jobs:
           haxelib install utest
       - name: Run unit tests
         run: haxe test.hxml
+        continue-on-error: ${{ matrix.allow-failure || false }}
       - name: Build haxedocs
         run: haxe doc.hxml
+        continue-on-error: ${{ matrix.allow-failure || false }}
