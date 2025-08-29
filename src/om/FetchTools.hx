@@ -1,6 +1,7 @@
 package om;
 
 #if js
+import haxe.Json;
 import haxe.extern.EitherType;
 import js.lib.Promise;
 #if nodejs
