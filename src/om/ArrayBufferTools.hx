@@ -1,19 +1,14 @@
 package om;
 
 #if js
-#if (haxe_ver >= 4)
 import js.lib.ArrayBuffer;
 import js.lib.Uint8Array;
-#else
-import js.html.ArrayBuffer;
-import js.html.Uint8Array;
-#end
 
 class ArrayBufferTools {
 	/**
 		Convert `js.lib.ArrayBuffer` to `String`.
-	 */
-	public static function ab2str(buf:ArrayBuffer):String {
+	**/
+	public static function toString(buf:ArrayBuffer):String {
 		var v = new Uint8Array(buf);
 		var s = "";
 		for (i in 0...v.length)
@@ -21,11 +16,22 @@ class ArrayBufferTools {
 		return s;
 	}
 
+	/**
+		Convert `String` to `js.html.ArrayBuffer`.
+	**/
+	public static function toArrayBuffer(str:String):ArrayBuffer {
+		var b = new ArrayBuffer(str.length);
+		var v = new Uint8Array(b);
+		for (i in 0...str.length)
+			v[i] = str.charCodeAt(i);
+		return b;
+	}
+
 	#if nodejs
 	/**
 		Convert `js.node.Buffer` to `js.html.ArrayBuffer`.
-	 */
-	public static function buf2ab(buf:js.node.Buffer):ArrayBuffer {
+	**/
+	public static function bufToArrayBuffer(buf:js.node.Buffer):ArrayBuffer {
 		var a = new ArrayBuffer(buf.length);
 		var v = new Uint8Array(a);
 		for (i in 0...buf.length)
@@ -33,16 +39,5 @@ class ArrayBufferTools {
 		return a;
 	}
 	#end
-
-	/**
-		Convert `String` to `js.html.ArrayBuffer`.
-	 */
-	public static function str2ab(str:String):ArrayBuffer {
-		var b = new ArrayBuffer(str.length);
-		var v = new Uint8Array(b);
-		for (i in 0...str.length)
-			v[i] = str.charCodeAt(i);
-		return b;
-	}
 }
 #end
