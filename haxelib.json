@@ -13,5 +13,9 @@
   ],
   "releasenote": "See CHANGELOG",
   "classPath": "src/",
-  "dependencies": {}
+  "dependencies": {},
+  "documentation": {
+    "defines": "defines.json",
+    "metadata": "metas.json"
+  }
 }
