@@ -1,16 +1,12 @@
 package om;
 
 #if macro
-import haxe.macro.Compiler;
 import haxe.macro.Context;
 #end
 
 enum abstract CompilerTarget(String) to String {
 	var cpp;
-	// var cs;
 	var hl;
-	// var hlc = 'hlc';
-	// var java;
 	var jvm;
 	var js;
 	// var nodejs;
@@ -18,13 +14,12 @@ enum abstract CompilerTarget(String) to String {
 	var neko;
 	var php;
 	var python;
-	// var swf = 'swf';
 }
 
 /**
 	Compile time methods.
 **/
-class Build {
+class Compiler {
 	macro public static function define(name:String, ?value:String) {
 		haxe.macro.Compiler.define(name, value);
 		return macro null;
@@ -35,6 +30,9 @@ class Build {
 
 	macro public static function definedValue(key:String, ?def:String):ExprOf<String>
 		return macro $v{Context.defined(key) ? Context.definedValue(key) : def};
+
+	macro public static function getDefines():ExprOf<Map<String, String>>
+		return macro $v{Context.getDefines()};
 
 	macro public static function warning(msg:String) {
 		Context.warning(msg, Context.currentPos());
@@ -79,7 +77,7 @@ class Build {
 		return macro $v{Context.definedValue('haxe_ver')};
 
 	macro public static function isSys():ExprOf<Bool>
-		return macro $v{om.Build.isSysTarget()};
+		return macro $v{om.Compiler.isSysTarget()};
 
 	#if macro
 	public static function target():CompilerTarget {
