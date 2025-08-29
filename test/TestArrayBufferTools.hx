@@ -1,12 +1,9 @@
 import om.ArrayBufferTools;
 import utest.Assert.*;
 #if js
-#if (haxe_ver >= 4)
 import js.lib.Uint8Array;
-#else
-import js.html.Uint8Array;
 #end
-#end
+
 class TestArrayBufferTools extends utest.Test {
 	#if js
 	function test_ab2str() {

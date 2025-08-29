@@ -1,15 +1,15 @@
-import om.UUID;
+import om.Uuid;
 import utest.Assert.*;
 
 class TestUuid extends utest.Test {
 	function test_create() {
-		var uuid = UUID.create();
-		isTrue(UUID.isValid(uuid));
+		var uuid = Uuid.create();
+		isTrue(Uuid.isValid(uuid));
 	}
 
 	function test_rstring() {
-		var s = UUID.rstring(128);
+		var s = Uuid.rstring(128);
 		equals(128, s.length);
-		notEquals(UUID.rstring(128), UUID.rstring(128));
+		notEquals(Uuid.rstring(128), Uuid.rstring(128));
 	}
 }

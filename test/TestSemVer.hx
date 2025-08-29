@@ -40,20 +40,20 @@ class TestSemVer extends utest.Test {
 		equals("100.200.300-rc.400", make(100, 200, 300, RC, 400));
 	}
 
-	function test_ofString() {
+	function test_fromString() {
 		// Normal
-		equals("0.1.2", (SemVer.ofString("0.1.2").data : SemVer));
-		equals("100.50.200", (SemVer.ofString("100.50.200").data : SemVer));
+		equals("0.1.2", (SemVer.fromString("0.1.2").data : SemVer));
+		equals("100.50.200", (SemVer.fromString("100.50.200").data : SemVer));
 
 		// Release tags
-		equals("0.1.2-alpha", (SemVer.ofString("0.1.2-ALPHA").data : SemVer));
-		equals("0.1.2-alpha", (SemVer.ofString("0.1.2-alpha").data : SemVer));
-		equals("0.1.2-beta", (SemVer.ofString("0.1.2-beta").data : SemVer));
-		equals("0.1.2-rc", (SemVer.ofString("0.1.2-rc").data : SemVer));
-		equals("0.1.2-rc.1", (SemVer.ofString("0.1.2-rc.1").data : SemVer));
+		equals("0.1.2-alpha", (SemVer.fromString("0.1.2-ALPHA").data : SemVer));
+		equals("0.1.2-alpha", (SemVer.fromString("0.1.2-alpha").data : SemVer));
+		equals("0.1.2-beta", (SemVer.fromString("0.1.2-beta").data : SemVer));
+		equals("0.1.2-rc", (SemVer.fromString("0.1.2-rc").data : SemVer));
+		equals("0.1.2-rc.1", (SemVer.fromString("0.1.2-rc.1").data : SemVer));
 	}
 
-	function test_ofStringInvalid() {
+	function test_fromStringInvalid() {
 		equals("invalid", parseInvalid(null));
 		equals("invalid", parseInvalid(""));
 		equals("invalid", parseInvalid("1"));
@@ -70,7 +70,7 @@ class TestSemVer extends utest.Test {
 	}
 
 	function parseInvalid(str:String) {
-		return try (SemVer.ofString(str) : String) catch (e:String) {
+		return try (SemVer.fromString(str) : String) catch (e:String) {
 			"invalid";
 		}
 	}

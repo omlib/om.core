@@ -1,4 +1,3 @@
-import utest.Assert;
 import utest.Assert.*;
 import om.ArrayTools;
 
